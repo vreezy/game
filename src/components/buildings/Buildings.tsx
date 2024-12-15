@@ -1,24 +1,17 @@
-interface IBuilding {
-  key: string;
-  type: string;
-}
+import { useShallow } from "zustand/shallow"
+import { useResourcesStore } from "../../stores/resourcesStore"
+import { Building } from "./Building"
+
 
 export function Buildings(): React.ReactElement {
-  const buildings: IBuilding[] = [
-    {
-      key: "sss",
-      type: "xxxx"
-    },
-  ]
+  const [buildings] = useResourcesStore(
+    useShallow((state) => [state.buildings]),
+  )
+
 
   return (
     <div>
-      {buildings.map(building => {
-        <div>
-          {building.key}
-        </div>
-        
-      })}
+      {buildings.map((building) => <Building key={building.key} building={building} />)}
     </div>
   )
 }
