@@ -1,7 +1,9 @@
 export interface IBuilding {
   key: string;
   type: BuildingType;
-  lastPayTick?: number;
+  createdTick: number;
 }
 
-export type BuildingType = "wheatFarm" | "nothing" | "bank" | "test"
+type SimpleResourceType = "wheatField" | "forest" | "quarry"
+
+export type BuildingType = SimpleResourceType | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"

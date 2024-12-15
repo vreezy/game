@@ -1,10 +1,10 @@
 import { useShallow } from "zustand/shallow"
-import { useResourcesStore } from "../../stores/resourcesStore"
 import { Building } from "./Building"
+import { useBuildingStore } from "../../stores/buildingsStore"
 
 
 export function Buildings(): React.ReactElement {
-  const [buildings] = useResourcesStore(
+  const [buildings] = useBuildingStore(
     useShallow((state) => [state.buildings]),
   )
 

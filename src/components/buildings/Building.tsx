@@ -1,6 +1,7 @@
 import { BuildingType, IBuilding } from "../../interfaces/IBuilding"
+import { Forest } from "./Forest";
 import { Nothing } from "./Nothing";
-import { WheatFarm } from "./WheatFarm";
+import { WheatField } from "./WheatField";
 
 export interface BuildingProps  {
   building: IBuilding;
@@ -17,8 +18,16 @@ export function Building(props: Readonly<BuildingProps>): React.ReactElement {
 
   const buildingMaps: BuildingMap[] = [
     {
-      type: "wheatFarm",
-      element: <WheatFarm />
+      type: "wheatField",
+      element: <WheatField {...props}/>
+    },
+    {
+      type: "forest",
+      element: <Forest {...props} />
+    },
+    {
+      type: "quarry",
+      element: <Nothing {...props} />
     },
     {
       type: "nothing",

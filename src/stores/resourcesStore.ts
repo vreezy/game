@@ -1,62 +1,86 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { BuildingType, IBuilding } from '../interfaces/IBuilding';
+import { IResources } from '../interfaces/IResources';
 
-interface ResourcesStore {
+export interface IBase {
+  age: number;
   tick: number;
-  buildings: IBuilding[];
+}
+
+interface ResourcesStore extends IBase, IResources{
+  increaseAge: () => void;
   increaseTick: (by: number) => void;
-  wheat: number;
   increaseWheat: (by: number) => void;
-  setBuilding: (key: string, type: BuildingType) => void;
+  decreaseWheat: (by: number) => void;
+  increaseWood: (by: number) => void;
+  decreaseWood: (by: number) => void;
+  increaseStone: (by: number) => void;
+  decreaseStone: (by: number) => void;
+  increaseFaith: (by: number) => void;
+  decreaseFaith: (by: number) => void;
+  increaseTrust: (by: number) => void;
+  decreaseTrust: (by: number) => void;
+  increaseHappiness: (by: number) => void;
+  decreaseHappiness: (by: number) => void;
+  increaseGold: (by: number) => void;
+  decreaseGold: (by: number) => void;
+  decreaseResources: (resources: Partial<IResources>)  => void
   reset: () =>void;
 }
 
-
-
-
-function initBuildings(): IBuilding[] {
-  const buildings: IBuilding[] = [];
-
-  for(let i = 0; i < 4; i++) {
-    buildings.push(
-      {
-        key: crypto.randomUUID(),
-        type: "nothing",
-      }
-    )
-  }
-
-  return buildings;
-}
-
-function getNewBuildings(state: ResourcesStore, key: string, type:BuildingType ) {
-  const index = state.buildings.findIndex((building) => building.key === key)
-  if(index > -1) {
-    const newBuildings = [...state.buildings]
-    newBuildings[index] = {
-      key,
-      type
+function getNewResources(cost: Partial<IResources>, state: ResourcesStore): Partial<IResources> {
+  
+  const newResources: Partial<IResources> = {}
+  Object.keys(cost).forEach((key) => {
+    if(cost[key as keyof IResources]) {
+      newResources[key as keyof IResources] = state[key as keyof IResources] - (cost[key as keyof IResources] ?? 0)
     }
-    return newBuildings
-  }
-  return state.buildings
+    
+  })
+    
+  return newResources
 }
 
 export const useResourcesStore = create<ResourcesStore>()(
   devtools(
     persist(
       (set) => ({
+        age: 0,
+        increaseAge: () => set((state) => ({ age: state.age + 1 })),
         tick: 0,
-        buildings: initBuildings(),
-        setBuilding: (key, type) => set((state) => ({ buildings: getNewBuildings(state, key, type)})),
         increaseTick: (by) => set((state) => ({ tick: state.tick + by })),
         wheat: 0,
         increaseWheat: (by) => set((state) => ({ wheat: state.wheat + by })),
+        decreaseWheat: (by) => set((state) => ({ wheat: state.wheat - by })),
+        wood: 0,
+        increaseWood: (by) => set((state) => ({ wood: state.wood + by })),
+        decreaseWood: (by) => set((state) => ({ wood: state.wood - by })),
+        stone: 0,
+        increaseStone: (by) => set((state) => ({ stone: state.stone + by })),
+        decreaseStone: (by) => set((state) => ({ stone: state.stone - by })),
+        faith: 0,
+        increaseFaith: (by) => set((state) => ({ faith: state.faith + by })),
+        decreaseFaith: (by) => set((state) => ({ faith: state.faith - by })),
+        trust: 0,
+        increaseTrust: (by) => set((state) => ({ trust: state.trust + by })),
+        decreaseTrust: (by) => set((state) => ({ trust: state.trust - by })),
+        happiness: 0,
+        increaseHappiness: (by) => set((state) => ({ happiness: state.happiness + by })),
+        decreaseHappiness: (by) => set((state) => ({ happiness: state.happiness - by })),
+        gold: 0,
+        increaseGold: (by) => set((state) => ({ gold: state.gold + by })),
+        decreaseGold: (by) => set((state) => ({ gold: state.gold - by })),
+        decreaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state))),
         reset: () => set(() => ({
+          age: 0,
           tick: 0,
-          buildings: initBuildings(),
-          wheat: 0
+          wheat: 0,
+          wood: 0,
+          stone: 0,
+          faith: 0,
+          trust: 0,
+          happiness: 0,
+          gold: 2
         }))
       }),
       {
