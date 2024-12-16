@@ -6,4 +6,4 @@ export interface IBuilding {
 
 type SimpleResourceType = "wheatField" | "forest" | "quarry"
 
-export type BuildingType = SimpleResourceType | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"
+export type BuildingType = SimpleResourceType | "hut" | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"

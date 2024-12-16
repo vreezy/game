@@ -20,19 +20,29 @@ const buildingCosts: BuildingCost[] = [
     displayName: "Wheat Field",
     type: "wheatField",
     cost: {
-      gold: 1
+      population: 1
     }
   },
   {
     displayName: "Forest",
     type: "forest",
     cost: {
-      gold: 1
+      population: 1
     }
   },
   { 
     displayName: "Quarry",
     type: "quarry",
+    cost: {
+      population: 4,
+      happiness: 1,
+      wheat: 20,
+      wood: 50
+    }
+  },
+  { 
+    displayName: "Hut",
+    type: "hut",
     cost: {
       wheat: 10,
       wood: 20
@@ -45,19 +55,9 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
     useShallow((state) => [state.setBuilding]),
   )
 
-  const [decreaseResources, wheat, wood, stone, faith, trust, happiness, gold] = useResourcesStore(
-    useShallow((state) => [state.decreaseResources, state.wheat, state.wood, state.stone, state.faith, state.trust, state.happiness, state.gold]),
+  const [decreaseResources, resources] = useResourcesStore(
+    useShallow((state) => [state.decreaseResources, state.resources]),
   )
-
-  const resources: IResources = {
-    wheat,
-    wood,
-    stone,
-    faith,
-    trust,
-    happiness,
-    gold
-  }
 
   const [tick] = useResourcesStore(
     useShallow((state) => [state.tick]),
@@ -65,8 +65,7 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
 
   function _handleBuilding(type: BuildingType): void {
     const cost =  buildingCosts.find(bc => bc.type === type)?.cost
-    if(cost) {
-      hasEnoughResources(resources, cost)  
+    if(cost && hasEnoughResources(resources(), cost) ) {
       setBuilding(props.building.key, type, tick)
       decreaseResources(cost)
     }
@@ -75,7 +74,7 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   function _isDisabled(type: BuildingType): boolean {
     const cost =  buildingCosts.find(bc => bc.type === type)?.cost
     if(cost) {
-      return hasEnoughResources(resources, cost)  
+      return !hasEnoughResources(resources(), cost)  
     }
     return false
   }

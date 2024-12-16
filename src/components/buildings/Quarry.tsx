@@ -25,7 +25,7 @@ export function Quarry(props: Readonly<BuildingProps>): React.ReactElement {
 
   return (
     <div>
-      Wheat-Farm <br/>
+      Quarry <br/>
       created: {props.building.createdTick}
       <button onClick={() => setBuilding(props.building.key, "nothing", tick)}>Sell</button>
       

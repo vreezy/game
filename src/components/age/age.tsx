@@ -27,25 +27,15 @@ const ageCost: AgeCost[] = [
 ]
 
 export function Age(): React.ReactElement {
-  const [age, increaseAge, decreaseResources, wheat, wood, stone, faith, trust, happiness, gold] = useResourcesStore(
-    useShallow((state) => [state.age, state.increaseAge, state.decreaseResources, state.wheat, state.wood, state.stone, state.faith, state.trust, state.happiness, state.gold]),
+  const [age, increaseAge, decreaseResources, resources] = useResourcesStore(
+    useShallow((state) => [state.age, state.increaseAge, state.decreaseResources, state.resources]),
   )
   
   const nextAge = ageCost.find(ac => ac.age === age + 1)
 
-  const resources: IResources = {
-    wheat,
-    wood,
-    stone,
-    faith,
-    trust,
-    happiness,
-    gold
-  }
-
   function isDisabled(): boolean {
     if(nextAge) {
-      return hasEnoughResources(resources, nextAge.cost)     
+      return !hasEnoughResources(resources(), nextAge.cost)     
     }
 
     return true
