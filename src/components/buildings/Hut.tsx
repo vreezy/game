@@ -3,54 +3,70 @@ import { useResourcesStore } from "../../stores/resourcesStore"
 import React from "react"
 import { BuildingProps } from "./Building"
 import { useBuildingStore } from "../../stores/buildingsStore"
+import { modulo } from "../../utils/modulo"
 
 
 
 
 export function Hut(props: Readonly<BuildingProps>): React.ReactElement {
-    const [tick, wheat, decreaseWheat, increaseHappiness, decreaseHappiness, increasePopulation] = useResourcesStore(
-      useShallow((state) => [state.tick, state.wheat, state.decreaseWheat, state.increaseHappiness, state.decreaseHappiness, state.increasePopulation]),
-    )
+  const [tick, wheat, decreaseWheat, increasePopulation, decreasePopulation] = useResourcesStore(
+    useShallow((state) => [state.tick, state.wheat, state.decreaseWheat, state.increasePopulation, state.decreasePopulation]),
+  )
 
-    const [setBuilding] = useBuildingStore(
-      useShallow((state) => [state.setBuilding]),
-    )
+  const [setBuilding] = useBuildingStore(
+    useShallow((state) => [state.setBuilding]),
+  )
 
-    const [happiness, setHappiness] = React.useState(0)
 
-    React.useEffect(() => {
-      if(tick > props.building.createdTick && tick % 10 === 0) {
-        const enoughWheat = wheat - 3;
-        const wheatCost = enoughWheat < 3 ? enoughWheat : 3
-        console.log("wheatCost", wheatCost)
-        decreaseWheat(wheatCost);
-        increasePopulation(wheatCost)
+  const [population, setPopulation] = React.useState(0)
 
-        if(wheatCost === 3) {
-          if(happiness < 3) {
-            increaseHappiness(1)
-            setHappiness((prev) => prev + 1)
-          }          
-        }
-        else {
-          if(happiness > 0) {
-            setHappiness((prev) => prev - 1)
-            decreaseHappiness(1)
+  const [lockTick, setLockTick] = React.useState(-1)
+
+  React.useEffect(() => {
+    function once() {
+      if(tick > props.building.createdTick && modulo(tick, 10) === 0) {
+        if(wheat > 0 ) {
+          // cost 1 wheat every 10 ticks
+          decreaseWheat(1);
+
+          setPopulation((prev) => prev < 1 ? prev + 1 : prev)
+          if(population < 5) {
+            console.log("Increase Pop")
+            increasePopulation(1)
           }
         }
 
+        if(wheat < 1 ) {
+          setPopulation((prev) => prev < 1 ? prev + 1 : prev)
+          if(population > 0) {
+            console.log("decrease Pop")
+            decreasePopulation(1)
+          }
+        }
+
+        
+
       }
-    }, [tick, props.building.createdTick, wheat, decreaseWheat, happiness, setHappiness, increaseHappiness, decreaseHappiness, increasePopulation])
+    }
+
+    if(lockTick < tick) {
+      setLockTick(tick)
+      once()
+    }
+  }, [population, lockTick, tick, props.building.createdTick, wheat, decreaseWheat, increasePopulation, decreasePopulation])
+
+  function _handleSell() {
+    decreasePopulation(population)
+    setBuilding(props.building.key, "nothing", tick)
+  }
 
   return (
     <div>
       Hut <br/>
-      created: {props.building.createdTick}
-      produces people every 10 ticks
-      but cost wheat.
-      happiness is increased if wheat is available.
-      happiness is deceased if wheat is not available.
-      <button onClick={() => setBuilding(props.building.key, "nothing", tick)}>Sell</button>
+      created: {props.building.createdTick}<br/>
+      population: {population} <br/>
+ 
+      <button onClick={() => _handleSell()}>Sell</button>
       
 
     </div>

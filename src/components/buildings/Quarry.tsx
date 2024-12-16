@@ -17,7 +17,7 @@ export function Quarry(props: Readonly<BuildingProps>): React.ReactElement {
     )
 
     React.useEffect(() => {
-      if(tick > props.building.createdTick && tick % 1 === 0) {
+      if(tick > props.building.createdTick && tick % 2 === 0) {
         increaseStone(1);
 
       }
