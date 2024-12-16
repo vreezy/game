@@ -44,36 +44,43 @@ function getNewResources(cost: Partial<IResources>, state: ResourcesStore): Part
   return newResources
 }
 
+function initResources(): IResources & IBase {
+  const r: IResources & IBase = {
+    age: 0,
+    tick: 0,
+    wheat: 0,
+    wood: 0,
+    stone: 0,
+    faith: 0,
+    trust: 0,
+    happiness: 0,
+    gold: 0,
+    population: 5
+  }
+  return r
+}
+
 export const useResourcesStore = create<ResourcesStore>()(
   devtools(
     persist(
       (set, get) => ({
-        age: 0,
+        ...initResources(),
         increaseAge: () => set((state) => ({ age: state.age + 1 })),
-        tick: 0,
         increaseTick: (by) => set((state) => ({ tick: state.tick + by })),
-        population: 0,
         increasePopulation: (by) => set((state) => ({ population: state.population + by })),
         decreasePopulation: (by) => set((state) => ({ population: state.population - by })),
-        wheat: 0,
         increaseWheat: (by) => set((state) => ({ wheat: state.wheat + by })),
         decreaseWheat: (by) => set((state) => ({ wheat: state.wheat - by })),
-        wood: 0,
         increaseWood: (by) => set((state) => ({ wood: state.wood + by })),
         decreaseWood: (by) => set((state) => ({ wood: state.wood - by })),
-        stone: 0,
         increaseStone: (by) => set((state) => ({ stone: state.stone + by })),
         decreaseStone: (by) => set((state) => ({ stone: state.stone - by })),
-        faith: 0,
         increaseFaith: (by) => set((state) => ({ faith: state.faith + by })),
         decreaseFaith: (by) => set((state) => ({ faith: state.faith - by })),
-        trust: 0,
         increaseTrust: (by) => set((state) => ({ trust: state.trust + by })),
         decreaseTrust: (by) => set((state) => ({ trust: state.trust - by })),
-        happiness: 0,
         increaseHappiness: (by) => set((state) => ({ happiness: state.happiness + by })),
         decreaseHappiness: (by) => set((state) => ({ happiness: state.happiness - by })),
-        gold: 0,
         increaseGold: (by) => set((state) => ({ gold: state.gold + by })),
         decreaseGold: (by) => set((state) => ({ gold: state.gold - by })),
         decreaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state))),
@@ -90,25 +97,10 @@ export const useResourcesStore = create<ResourcesStore>()(
           }
           return r
         },
-        reset: () => {
-          const r: IResources & IBase= {
-            age: 0,
-            tick: 0,
-            wheat: 0,
-            wood: 0,
-            stone: 0,
-            faith: 0,
-            trust: 0,
-            happiness: 0,
-            gold: 0,
-            population: 5
-          }
-
-          set(() => (r))
-        }
+        reset: () => { set(() => (initResources())) }
       }),
       {
-        name: 'Ressource-storage',
+        name: 'Resource-storage',
       },
     ),
   ),

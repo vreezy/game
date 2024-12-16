@@ -5,58 +5,16 @@ import { BuildingProps } from "./Building"
 import { useBuildingStore } from "../../stores/buildingsStore"
 import { useResourcesStore } from "../../stores/resourcesStore"
 import { BuildingType } from "../../interfaces/IBuilding"
-import { IResources } from "../../interfaces/IResources"
 import { hasEnoughResources } from "../../utils/hasEnoughResources"
-
-
-interface BuildingCost {
-  displayName: string,
-  type: BuildingType,
-  cost: Partial<IResources> 
-}
-
-const buildingCosts: BuildingCost[] = [
-  {
-    displayName: "Wheat Field",
-    type: "wheatField",
-    cost: {
-      population: 1
-    }
-  },
-  {
-    displayName: "Forest",
-    type: "forest",
-    cost: {
-      population: 1
-    }
-  },
-  { 
-    displayName: "Quarry",
-    type: "quarry",
-    cost: {
-      population: 4,
-      happiness: 1,
-      wheat: 20,
-      wood: 50
-    }
-  },
-  { 
-    displayName: "Hut",
-    type: "hut",
-    cost: {
-      wheat: 10,
-      wood: 20
-    }
-  }
-]
+import { BUILDINGS } from "../const/buildings"
 
 export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   const [setBuilding] = useBuildingStore(
     useShallow((state) => [state.setBuilding]),
   )
 
-  const [decreaseResources, resources] = useResourcesStore(
-    useShallow((state) => [state.decreaseResources, state.resources]),
+  const [decreaseResources, resources, age] = useResourcesStore(
+    useShallow((state) => [state.decreaseResources, state.resources, state.age]),
   )
 
   const [tick] = useResourcesStore(
@@ -64,7 +22,7 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   )
 
   function _handleBuilding(type: BuildingType): void {
-    const cost =  buildingCosts.find(bc => bc.type === type)?.cost
+    const cost =  BUILDINGS.find(b => b.type === type)?.cost
     if(cost && hasEnoughResources(resources(), cost) ) {
       setBuilding(props.building.key, type, tick)
       decreaseResources(cost)
@@ -72,7 +30,7 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   }
 
   function _isDisabled(type: BuildingType): boolean {
-    const cost =  buildingCosts.find(bc => bc.type === type)?.cost
+    const cost = BUILDINGS.find(b => b.type === type)?.cost
     if(cost) {
       return !hasEnoughResources(resources(), cost)  
     }
@@ -83,7 +41,10 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
     <div>
       Build: <br/>
       <ul>
-        {buildingCosts.map(b => {
+        {BUILDINGS
+          .filter(b => b.age >= age)
+          .filter(b => b.type !== "nothing")
+          .map(b => {
           return (
             <li key={b.type}><button disabled={_isDisabled(b.type)} onClick={() => _handleBuilding(b.type)}>{b.displayName} cost:{JSON.stringify(b.cost)}</button></li>      
           )

@@ -1,11 +1,21 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { BuildingType, IBuilding } from '../interfaces/IBuilding';
+import { BUILDINGS } from '../components/const/buildings';
 
 interface BuildingsStore {
   buildings: IBuilding[];
   setBuilding: (key: string, type: BuildingType, createdTick: number) => void;
   reset: () =>void;
+}
+
+function getBuilding(type: BuildingType): IBuilding {
+  const building = BUILDINGS.find(b => b.type === type);
+  if (!building) {
+    throw new Error(`Building of type ${type} not found`);
+  }
+  return building;
+  
 }
 
 function initBuildings(): IBuilding[] {
@@ -14,9 +24,8 @@ function initBuildings(): IBuilding[] {
   for(let i = 0; i < 4; i++) {
     buildings.push(
       {
+        ...getBuilding("nothing"),
         key: crypto.randomUUID(),
-        type: "nothing",
-        createdTick: 0
       }
     )
   }
@@ -29,8 +38,8 @@ function getNewBuildings(state: BuildingsStore, key: string, type:BuildingType, 
   if(index > -1) {
     const newBuildings = [...state.buildings]
     newBuildings[index] = {
+      ...getBuilding(type),
       key,
-      type,
       createdTick
     }
     return newBuildings
