@@ -26,18 +26,23 @@ interface ResourcesStore extends IBase, IResources{
   decreaseHappiness: (by: number) => void;
   increaseGold: (by: number) => void;
   decreaseGold: (by: number) => void;
+  increaseResources: (resources: Partial<IResources>)  => void
   decreaseResources: (resources: Partial<IResources>)  => void
   resources: () => IResources;
   reset: () =>void;
 }
 
-function getNewResources(cost: Partial<IResources>, state: ResourcesStore): Partial<IResources> {
+function getNewResources(cost: Partial<IResources>, state: ResourcesStore, operator: "increase" | "decrease"): Partial<IResources> {
   
   const newResources: Partial<IResources> = {}
   Object.keys(cost).forEach((key) => {
     const resourceKey = key as keyof IResources;
-    if(cost[resourceKey]) {
+    if(cost[resourceKey] && operator === "decrease") {
       newResources[resourceKey] = state[resourceKey] - (cost[resourceKey] ?? 0);
+    }
+
+    if(cost[resourceKey] && operator === "increase") {
+      newResources[resourceKey] = state[resourceKey] + (cost[resourceKey] ?? 0);
     }
   })
     
@@ -83,7 +88,8 @@ export const useResourcesStore = create<ResourcesStore>()(
         decreaseHappiness: (by) => set((state) => ({ happiness: state.happiness - by })),
         increaseGold: (by) => set((state) => ({ gold: state.gold + by })),
         decreaseGold: (by) => set((state) => ({ gold: state.gold - by })),
-        decreaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state))),
+        increaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state, "increase"))),
+        decreaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state, "decrease"))),
         resources: () => { 
           const r: IResources = {
             wheat: get().wheat,
@@ -97,6 +103,8 @@ export const useResourcesStore = create<ResourcesStore>()(
           }
           return r
         },
+        
+        
         reset: () => { set(() => (initResources())) }
       }),
       {

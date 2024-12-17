@@ -5,10 +5,8 @@ export const BUILDINGS: IBuilding[] = [
     key: "0",
     displayName: "Nothing",
     type: "nothing",
-    cost: {
-      
-    },
-    createdTick:0,
+    cost: {},
+    createdTick: -1,
     maxPopulation: 0,
     age: 0
   },
@@ -19,9 +17,15 @@ export const BUILDINGS: IBuilding[] = [
     cost: {
       population: 1
     },
-    createdTick:0,
+    createdTick: -1,
     maxPopulation: 0,
-    age: 0
+    age: 0,
+    income: {
+      moduloTick: 1,
+      resources: {
+        wheat: 1
+      }
+    }
   },
   {
     key: "2",
@@ -30,9 +34,15 @@ export const BUILDINGS: IBuilding[] = [
     cost: {
       population: 1
     },
-    createdTick:0,
+    createdTick: -1,
     maxPopulation: 0,
-    age: 0
+    age: 0,
+    income: {
+      moduloTick: 1,
+      resources: {
+        wood: 1
+      }
+    }
   },
   { 
     key: "3",
@@ -44,9 +54,15 @@ export const BUILDINGS: IBuilding[] = [
       wheat: 20,
       wood: 50
     },
-    createdTick:0,
+    createdTick: -1,
     maxPopulation: 0,
-    age: 0
+    age: 0,
+    income: {
+      moduloTick: 1,
+      resources: {
+        stone: 1
+      }
+    }
   },
   { 
     key: "4",
@@ -56,7 +72,13 @@ export const BUILDINGS: IBuilding[] = [
       wheat: 10,
       wood: 20
     },
-    createdTick:0,
+    lease: {
+      resources: {
+        wheat: 1
+      },
+      moduloTick: 10
+    },
+    createdTick: -1,
     maxPopulation: 5,
     age: 0
   }

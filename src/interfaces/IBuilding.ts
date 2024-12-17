@@ -1,5 +1,15 @@
 import { IResources } from "./IResources";
 
+interface ILease extends Partial<IResources> {
+  moduloTick: number;
+  resources: Partial<IResources>
+}
+
+interface IIncome extends Partial<IResources> {
+  moduloTick: number;
+  resources: Partial<IResources>
+}
+
 export interface IBuilding {
   displayName: string;
   key: string;
@@ -8,6 +18,8 @@ export interface IBuilding {
   maxPopulation: number;
   cost: Partial<IResources>;
   age: number;
+  lease?: ILease
+  income?: IIncome
 }
 
 type SimpleResourceType = "wheatField" | "forest" | "quarry"
