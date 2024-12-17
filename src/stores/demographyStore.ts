@@ -47,9 +47,7 @@ export const useDemographyStore = create<DemographyStore>()(
         decreaseDemographies: (demographies: Partial<IDemography>) => set((state) => (getNewDemographies(demographies, state, "decrease"))),
         demographies: () => { 
           const r: IDemography = {
-
             age: get().age,
-
           }
           return r
         },
