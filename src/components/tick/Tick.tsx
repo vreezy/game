@@ -1,12 +1,13 @@
 import React from "react"
-import { useResourcesStore } from "../../stores/resourcesStore"
+import { useDemographyStore } from "../../stores/demographyStore";
+
 
 export function Tick(props: Readonly<React.PropsWithChildren>): React.ReactElement {
-  const increaseTick = useResourcesStore((state) => state.increaseTick)
+  const increaseTick = useDemographyStore((state) => state.increaseTick)
 
   React.useEffect(() => {
     const intervalID = setInterval(() =>  {
-      increaseTick(1)
+      increaseTick()
   }, 1000);
 
     return () => clearInterval(intervalID);

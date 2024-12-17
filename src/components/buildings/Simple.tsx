@@ -5,12 +5,14 @@ import { BuildingProps } from "./Building";
 import { useBuildingStore } from "../../stores/buildingsStore";
 import { modulo } from "../../utils/modulo";
 import { hasEnoughResources } from "../../utils/hasEnoughResources";
+import { useDemographyStore } from "../../stores/demographyStore";
 
 export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
-  const [tick, resources, increaseResources, decreaseResources] =
+  const [tick] = useDemographyStore(useShallow((state) => [state.tick]));
+
+  const [resources, increaseResources, decreaseResources] =
     useResourcesStore(
       useShallow((state) => [
-        state.tick,
         state.resources,
         state.increaseResources,
         state.decreaseResources,

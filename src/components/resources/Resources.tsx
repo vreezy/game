@@ -1,10 +1,16 @@
 import { useShallow } from "zustand/shallow"
 import { useResourcesStore } from "../../stores/resourcesStore"
 import { useBuildingStore } from "../../stores/buildingsStore"
+import { useDemographyStore } from "../../stores/demographyStore"
 
 export function Resources(): React.ReactElement {
-  const [tick, resources] = useResourcesStore(
-    useShallow((state) => [state.tick, state.resources]),
+
+  const [demographies] = useDemographyStore(
+    useShallow((state) => [state.demographies]),
+  )
+
+  const [resources] = useResourcesStore(
+    useShallow((state) => [state.resources]),
   )
 
   const [buildings] = useBuildingStore(
@@ -15,7 +21,8 @@ export function Resources(): React.ReactElement {
 
   return (
     <ul>
-      <li>tick: {tick}</li>
+      <li>tick: {demographies().tick}</li>
+      <li>age: {demographies().age}</li>
       <li>wheat: {resources().wheat}</li>
       <li>wood: {resources().wood}</li>
       <li>stone: {resources().stone}</li>

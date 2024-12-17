@@ -7,18 +7,19 @@ import { useResourcesStore } from "../../stores/resourcesStore"
 import { BuildingType } from "../../interfaces/IBuilding"
 import { hasEnoughResources } from "../../utils/hasEnoughResources"
 import { BUILDINGS } from "../const/buildings"
+import { useDemographyStore } from "../../stores/demographyStore"
 
 export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   const [setBuilding] = useBuildingStore(
     useShallow((state) => [state.setBuilding]),
   )
 
-  const [decreaseResources, resources, age] = useResourcesStore(
-    useShallow((state) => [state.decreaseResources, state.resources, state.age]),
+  const [decreaseResources, resources] = useResourcesStore(
+    useShallow((state) => [state.decreaseResources, state.resources, ]),
   )
 
-  const [tick] = useResourcesStore(
-    useShallow((state) => [state.tick]),
+  const [tick, age] = useDemographyStore(
+    useShallow((state) => [state.tick, state.age]),
   )
 
   function _handleBuilding(type: BuildingType): void {
