@@ -8,6 +8,7 @@ import { BuildingType } from "../../interfaces/IBuilding"
 import { hasEnoughResources } from "../../utils/hasEnoughResources"
 import { BUILDINGS } from "../const/buildings"
 import { useDemographyStore } from "../../stores/demographyStore"
+import { useEngineStore } from "../../stores/engineStore"
 
 export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   const [setBuilding] = useBuildingStore(
@@ -18,8 +19,12 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
     useShallow((state) => [state.decreaseResources, state.resources, ]),
   )
 
-  const [tick, age] = useDemographyStore(
-    useShallow((state) => [state.tick, state.age]),
+  const [tick] = useEngineStore(
+    useShallow((state) => [state.tick]),
+  )
+
+  const [age] = useDemographyStore(
+    useShallow((state) => [state.age]),
   )
 
   function _handleBuilding(type: BuildingType): void {
@@ -43,7 +48,7 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
       Build: <br/>
       <ul>
         {BUILDINGS
-          .filter(b => b.age >= age)
+          .filter(b => b.age <= age)
           .filter(b => b.type !== "nothing")
           .map(b => {
           return (

@@ -43,6 +43,8 @@ export function Age(): React.ReactElement {
       return !hasEnoughResources(resources(), nextAge.cost)     
     }
 
+    console.log("no next age")
+
     return true
   }
 

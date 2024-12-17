@@ -4,11 +4,9 @@ import { devtools, persist } from 'zustand/middleware'
 
 export interface IDemography {
   age: number;
-  tick: number;
 }
 
 interface DemographyStore extends IDemography{
-  increaseTick: () => void;
   increaseDemographies: (demographies: Partial<IDemography>)  => void
   decreaseDemographies: (demographies: Partial<IDemography>)  => void
   demographies: () => IDemography;
@@ -34,7 +32,6 @@ function getNewDemographies(cost: Partial<IDemography>, state: DemographyStore, 
 
 function initDemographies(): IDemography {
   const d: IDemography = {
-    tick: 0,
     age: 0,
   }
   return d
@@ -45,13 +42,14 @@ export const useDemographyStore = create<DemographyStore>()(
     persist(
       (set, get) => ({
         ...initDemographies(),
-        increaseTick: () => set((state) => ({ tick: state.tick + 1 })),
+
         increaseDemographies: (demographies: Partial<IDemography>) => set((state) => (getNewDemographies(demographies, state, "increase"))),
         decreaseDemographies: (demographies: Partial<IDemography>) => set((state) => (getNewDemographies(demographies, state, "decrease"))),
         demographies: () => { 
           const r: IDemography = {
-            tick: get().tick,
+
             age: get().age,
+
           }
           return r
         },
