@@ -24,10 +24,12 @@ export const sharedStore: StateCreator<
     return getMaxValuesFromResources(get().buildings.map(b => b.increaseMax?.resources).filter((resource): resource is Partial<IResources> => resource !== undefined))
   },
   increaseResources: (cost) => {
-    const resources = get().resources()
-    
-    const newResources = calcNewResources(cost, resources, "increase")
+    console.log("cost", cost)
+    console.log("f", get().resources())
+    const newResources = calcNewResources(cost, get().resources(), "increase")
+    console.log("x", newResources)
     const maxResources = get().getMaxResources()
+    console.log("b", maxResources)
     Object.keys(newResources).forEach((key) => {
       const resourceKey = key as keyof IResources;
       if(newResources[resourceKey] && maxResources[resourceKey]) {
@@ -37,6 +39,7 @@ export const sharedStore: StateCreator<
       }
     })
 
+    console.log("a", newResources)
     set(() => ({...newResources}))
 
 

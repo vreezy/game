@@ -2,6 +2,7 @@ import { StateCreator } from "zustand";
 import { BuildingsStoreState } from "./buildingsStore";
 import { DemographyStoreState } from "./demographyStore";
 import { ResourcesStoreState } from "./resourcesStore";
+import { SharedStoreState } from "./shareStore";
 
 export interface IEngine {
   tick: number;
@@ -23,7 +24,7 @@ function initEngine(): IEngine {
 }
 
 export const engineStore: StateCreator<
-  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState,
+  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState& SharedStoreState,
   [],
   [],
   EngineStoreState
