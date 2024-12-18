@@ -10,25 +10,30 @@ export function Tick(props: Readonly<React.PropsWithChildren>): React.ReactEleme
 
 
   function getMilliseconds(speed: number): number {
-    if (speed <= 1) {
-      return 1000;
-    }
-
     if (speed === 2) {
       return 350;
     }
 
-    return 10;
+    if (speed === 3) {
+      return 10;
+    }
+
+    return 1000;
   }
+  
   const milliseconds = getMilliseconds(speed);
 
   React.useEffect(() => {
+    if (speed === 0) {
+      return;
+    }
+
     const intervalID = setInterval(() =>  {
       increaseTick()
     }, milliseconds);
 
     return () => clearInterval(intervalID);
-  }, [increaseTick, milliseconds])
+  }, [increaseTick, milliseconds, speed])
 
   return (
     <>
