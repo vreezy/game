@@ -1,7 +1,9 @@
 export function Cave() {
   return (
-    <div>
-      Cave
+    <div style={{border: "1px solid green"}}>
+      Cave <br />
+      Government Building
+    
     </div>
   )
 }
