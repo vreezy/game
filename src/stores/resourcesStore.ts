@@ -1,16 +1,18 @@
-import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { StateCreator } from 'zustand'
 import { IResources } from '../interfaces/IResources';
+import { BuildingsStoreState } from './buildingsStore';
+import { DemographyStoreState } from './demographyStore';
+import { EngineStoreState } from './engineStore';
 
 
-interface ResourcesStore extends IResources{
+export interface ResourcesStoreState extends IResources{
   increaseResources: (resources: Partial<IResources>)  => void
   decreaseResources: (resources: Partial<IResources>)  => void
   resources: () => IResources;
-  reset: () =>void;
+  resetResourcesStore: () =>void;
 }
 
-function getNewResources(cost: Partial<IResources>, state: ResourcesStore, operator: "increase" | "decrease"): Partial<IResources> {
+function getNewResources(cost: Partial<IResources>, state: ResourcesStoreState, operator: "increase" | "decrease"): Partial<IResources> {
   
   const newResources: Partial<IResources> = {}
   Object.keys(cost).forEach((key) => {
@@ -41,9 +43,12 @@ function initResources(): IResources {
   return r
 }
 
-export const useResourcesStore = create<ResourcesStore>()(
-  devtools(
-    persist(
+export const resourcesStore:StateCreator<
+BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState,
+[],
+[],
+ResourcesStoreState
+> =
       (set, get) => ({
         ...initResources(),
         increaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state, "increase"))),
@@ -61,13 +66,5 @@ export const useResourcesStore = create<ResourcesStore>()(
           }
           return r
         },
-        
-        
-        reset: () => { set(() => (initResources())) }
-      }),
-      {
-        name: 'Resource-storage',
-      },
-    ),
-  ),
-)
+        resetResourcesStore: () => { set(() => (initResources())) }
+      })

@@ -1,39 +1,37 @@
-import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
-
+import { StateCreator } from "zustand";
+import { BuildingsStoreState } from "./buildingsStore";
+import { DemographyStoreState } from "./demographyStore";
+import { ResourcesStoreState } from "./resourcesStore";
 
 export interface IEngine {
-
   tick: number;
   speed: number;
 }
 
-interface EngineStore extends IEngine{
+export interface EngineStoreState extends IEngine {
   increaseTick: () => void;
   setSpeed: (speed: number) => void;
-  reset: () =>void;
+  resetEngineStore: () => void;
 }
 
 function initEngine(): IEngine {
   const e: IEngine = {
     tick: 0,
-    speed: 1
-  }
-  return e
+    speed: 1,
+  };
+  return e;
 }
 
-export const useEngineStore = create<EngineStore>()(
-  devtools(
-    persist(
-      (set) => ({
-        ...initEngine(),
-        increaseTick: () => set((state) => ({ tick: state.tick + 1 })),
-        setSpeed: (speed: number) => set(() => ({ speed: speed })),
-        reset: () => { set(() => (initEngine())) }
-      }),
-      {
-        name: 'Engine-storage',
-      },
-    ),
-  ),
-)
+export const engineStore: StateCreator<
+  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState,
+  [],
+  [],
+  EngineStoreState
+> = (set) => ({
+  ...initEngine(),
+  increaseTick: () => set((state) => ({ tick: state.tick + 1 })),
+  setSpeed: (speed: number) => set(() => ({ speed: speed })),
+  resetEngineStore: () => {
+    set(() => initEngine());
+  },
+});

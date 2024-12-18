@@ -1,8 +1,8 @@
 import { useShallow } from "zustand/shallow"
-import { useResourcesStore } from "../../stores/resourcesStore"
+
 import { IResources } from "../../interfaces/IResources"
 import { hasEnoughResources } from "../../utils/hasEnoughResources"
-import { useDemographyStore } from "../../stores/demographyStore"
+import { useBoundStore } from "../../stores/boundStore"
 
 interface AgeCost {
   age: number,
@@ -28,14 +28,10 @@ const ageCost: AgeCost[] = [
 ]
 
 export function Age(): React.ReactElement {
-  const [age, increaseDemographies] = useDemographyStore(
-    useShallow((state) => [state.age, state.increaseDemographies]),
+  const [age, increaseDemographies, decreaseResources, resources] = useBoundStore(
+    useShallow((state) => [state.age, state.increaseDemographies, state.decreaseResources, state.resources]),
   )
 
-  const [decreaseResources, resources] = useResourcesStore(
-    useShallow((state) => [state.decreaseResources, state.resources]),
-  )
-  
   const nextAge = ageCost.find(ac => ac.age === age + 1)
 
   function isDisabled(): boolean {

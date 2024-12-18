@@ -1,25 +1,11 @@
 import { useShallow } from "zustand/shallow"
-import { useResourcesStore } from "../../stores/resourcesStore"
-import { useBuildingStore } from "../../stores/buildingsStore"
-import { useDemographyStore } from "../../stores/demographyStore"
-import { useEngineStore } from "../../stores/engineStore"
+
+import { useBoundStore } from "../../stores/boundStore"
 
 export function Resources(): React.ReactElement {
 
-  const [demographies] = useDemographyStore(
-    useShallow((state) => [state.demographies]),
-  )
-
-  const [tick] = useEngineStore(
-    useShallow((state) => [state.tick]),
-  )
-
-  const [resources] = useResourcesStore(
-    useShallow((state) => [state.resources]),
-  )
-
-  const [buildings] = useBuildingStore(
-    useShallow((state) => [state.buildings]),
+  const [tick, demographies, resources, buildings] = useBoundStore(
+    useShallow((state) => [state.tick, state.demographies, state.resources, state.buildings]),
   )
 
   const maxPopulation = buildings.map(b => b.maxPopulation).reduce((total, val) => total + val, 0)

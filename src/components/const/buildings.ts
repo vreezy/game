@@ -11,6 +11,15 @@ export const BUILDINGS: IBuilding[] = [
     age: 0
   },
   {
+    key: "0",
+    displayName: "Cave",
+    type: "cave",
+    cost: {},
+    createdTick: -1,
+    maxPopulation: 5,
+    age: 0
+  },
+  {
     key: "1",
     displayName: "Wheat Field",
     type: "wheatField",

@@ -1,9 +1,8 @@
+import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
 
-import { useEngineStore } from "../../stores/engineStore";
-
 export function Speed() {
-  const [speed, setSpeed] = useEngineStore(
+  const [speed, setSpeed] = useBoundStore(
     useShallow((state) => [state.speed, state.setSpeed])
   );
 

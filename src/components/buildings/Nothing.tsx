@@ -1,30 +1,18 @@
+import React from "react"
 import { useShallow } from "zustand/shallow"
 
-import React from "react"
+
 import { BuildingProps } from "./Building"
-import { useBuildingStore } from "../../stores/buildingsStore"
-import { useResourcesStore } from "../../stores/resourcesStore"
+
 import { BuildingType } from "../../interfaces/IBuilding"
 import { hasEnoughResources } from "../../utils/hasEnoughResources"
 import { BUILDINGS } from "../const/buildings"
-import { useDemographyStore } from "../../stores/demographyStore"
-import { useEngineStore } from "../../stores/engineStore"
+
+import { useBoundStore } from "../../stores/boundStore"
 
 export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
-  const [setBuilding] = useBuildingStore(
-    useShallow((state) => [state.setBuilding]),
-  )
-
-  const [decreaseResources, resources] = useResourcesStore(
-    useShallow((state) => [state.decreaseResources, state.resources, ]),
-  )
-
-  const [tick] = useEngineStore(
-    useShallow((state) => [state.tick]),
-  )
-
-  const [age] = useDemographyStore(
-    useShallow((state) => [state.age]),
+  const [tick, age, setBuilding, decreaseResources, resources] = useBoundStore(
+    useShallow((state) => [state.tick, state.age, state.setBuilding, state.decreaseResources, state.resources,]),
   )
 
   function _handleBuilding(type: BuildingType): void {

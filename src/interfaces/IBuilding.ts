@@ -1,12 +1,17 @@
 import { IResources } from "./IResources";
 
-interface ILease extends Partial<IResources> {
+interface ILease  {
   moduloTick: number;
   resources: Partial<IResources>
 }
 
-interface IIncome extends Partial<IResources> {
+interface IIncome  {
   moduloTick: number;
+  resources: Partial<IResources>
+}
+
+// increase max resources
+interface IMax {
   resources: Partial<IResources>
 }
 
@@ -18,10 +23,11 @@ export interface IBuilding {
   maxPopulation: number;
   cost: Partial<IResources>;
   age: number;
-  lease?: ILease
-  income?: IIncome
+  max?: IMax;
+  lease?: ILease;
+  income?: IIncome;
 }
 
 type SimpleResourceType = "wheatField" | "forest" | "quarry"
 
-export type BuildingType = SimpleResourceType | "hut" | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"
+export type BuildingType = "cave" | SimpleResourceType | "hut" | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"

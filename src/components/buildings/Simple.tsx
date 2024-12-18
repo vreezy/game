@@ -1,27 +1,22 @@
-import { useShallow } from "zustand/shallow";
-import { useResourcesStore } from "../../stores/resourcesStore";
 import React from "react";
+import { useBoundStore } from "../../stores/boundStore";
+import { useShallow } from "zustand/shallow";
 import { BuildingProps } from "./Building";
-import { useBuildingStore } from "../../stores/buildingsStore";
 import { modulo } from "../../utils/modulo";
 import { hasEnoughResources } from "../../utils/hasEnoughResources";
-import { useEngineStore } from "../../stores/engineStore";
 
 export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
-  const [tick] = useEngineStore(useShallow((state) => [state.tick]));
 
-  const [resources, increaseResources, decreaseResources] =
-    useResourcesStore(
+  const [tick, resources, increaseResources, decreaseResources, setBuilding] =
+    useBoundStore(
       useShallow((state) => [
+        state.tick,
         state.resources,
         state.increaseResources,
         state.decreaseResources,
+        state.setBuilding
       ])
     );
-
-  const [setBuilding] = useBuildingStore(
-    useShallow((state) => [state.setBuilding])
-  );
 
   const [lockTick, setLockTick] = React.useState(tick);
 

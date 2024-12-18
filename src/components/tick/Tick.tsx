@@ -1,10 +1,10 @@
 import React from "react"
-import { useEngineStore } from "../../stores/engineStore";
 import { useShallow } from "zustand/shallow";
+import { useBoundStore } from "../../stores/boundStore";
 
 export function Tick(props: Readonly<React.PropsWithChildren>): React.ReactElement {
 
-  const [increaseTick, speed] = useEngineStore(
+  const [increaseTick, speed] = useBoundStore(
     useShallow((state) => [state.increaseTick, state.speed])
   );
 
