@@ -22,6 +22,11 @@ function getBuilding(type: BuildingType): IBuilding {
 function initBuildings(): IBuilding[] {
   const buildings: IBuilding[] = [];
 
+  buildings.push({
+    ...getBuilding("cave"),
+    key: crypto.randomUUID(),
+  })
+
   for (let i = 0; i < 4; i++) {
     buildings.push({
       ...getBuilding("nothing"),

@@ -6,7 +6,7 @@ import { EngineStoreState } from './engineStore';
 
 
 export interface ResourcesStoreState extends IResources{
-  increaseResources: (resources: Partial<IResources>)  => void
+  // increaseResources: (resources: Partial<IResources>)  => void
   decreaseResources: (resources: Partial<IResources>)  => void
   resources: () => IResources;
   resetResourcesStore: () =>void;
@@ -51,7 +51,7 @@ ResourcesStoreState
 > =
       (set, get) => ({
         ...initResources(),
-        increaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state, "increase"))),
+        // increaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state, "increase"))),
         decreaseResources: (resources: Partial<IResources>) => set((state) => (getNewResources(resources, state, "decrease"))),
         resources: () => { 
           const r: IResources = {

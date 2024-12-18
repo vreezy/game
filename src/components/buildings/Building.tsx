@@ -2,6 +2,7 @@ import { BuildingType, IBuilding } from "../../interfaces/IBuilding"
 
 import { Simple } from "./Simple";
 import { Nothing } from "./Nothing";
+import { Cave } from "./Cave";
 
 
 export interface BuildingProps  {
@@ -18,6 +19,10 @@ interface BuildingMap {
 export function Building(props: Readonly<BuildingProps>): React.ReactElement {
 
   const buildingMaps: BuildingMap[] = [
+    {
+      type: "cave",
+      element: <Cave />
+    },
     {
       type: "wheatField",
       element: <Simple {...props}/>

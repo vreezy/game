@@ -7,7 +7,7 @@ export const BUILDINGS: IBuilding[] = [
     type: "nothing",
     cost: {},
     createdTick: -1,
-    maxPopulation: 0,
+
     age: 0
   },
   {
@@ -16,8 +16,17 @@ export const BUILDINGS: IBuilding[] = [
     type: "cave",
     cost: {},
     createdTick: -1,
-    maxPopulation: 5,
-    age: 0
+
+    age: 1000,
+    increaseMax: {
+      resources: {
+        wheat: 2000,
+        wood: 2000,
+        stone: 2000,
+        gold: 100,
+        population: 5
+      }
+    }
   },
   {
     key: "1",
@@ -27,7 +36,7 @@ export const BUILDINGS: IBuilding[] = [
       population: 1
     },
     createdTick: -1,
-    maxPopulation: 0,
+
     age: 0,
     income: {
       moduloTick: 1,
@@ -44,7 +53,7 @@ export const BUILDINGS: IBuilding[] = [
       population: 1
     },
     createdTick: -1,
-    maxPopulation: 0,
+
     age: 0,
     income: {
       moduloTick: 1,
@@ -64,7 +73,7 @@ export const BUILDINGS: IBuilding[] = [
       wood: 50
     },
     createdTick: -1,
-    maxPopulation: 0,
+
     age: 0,
     income: {
       moduloTick: 1,
@@ -88,7 +97,11 @@ export const BUILDINGS: IBuilding[] = [
       moduloTick: 10
     },
     createdTick: -1,
-    maxPopulation: 5,
+    increaseMax: {
+      resources: {
+        population: 5
+      }
+    },
     age: 0
   }
 ]

@@ -20,10 +20,9 @@ export interface IBuilding {
   key: string;
   type: BuildingType;
   createdTick: number;
-  maxPopulation: number;
   cost: Partial<IResources>;
   age: number;
-  max?: IMax;
+  increaseMax?: IMax;
   lease?: ILease;
   income?: IIncome;
 }
