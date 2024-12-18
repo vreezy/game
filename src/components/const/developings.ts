@@ -1,9 +1,48 @@
-export const DEVELOPING =[
-  {
-    age: 0,
-    
+interface IResearch {
+  displayName: string;
+  description: string;
+
+}
+
+interface IDeveloping {
+  economy: {
+    [key: string]: IResearch[]
+  },
+  infrastructure: {
+    [key: string]: IResearch[]
+  },
+}
+export const DEVELOPING: IDeveloping = {
+  economy: {
+    basicEconomy: [{
+      displayName: "Basiswirtschaft",
+      description: "Freischaltung von Landwirtschaft, Holzverarbeitung, Basis-Handwerk"
+    }],
+    industrialDevelopment: [{
+      displayName: "Industrielle Entwicklung",
+      description: "Freischaltung von Bergbau, Textilproduktion, Handel"
+    }],
+    advancedEconomy: [{
+      displayName: "Fortgeschrittene Wirtschaft",
+      description: "Freischaltung von Maschinenbau, Luxusgüter, Banken und Finanzen"
+    }]
+  },
+  infrastructure: {
+    basicSupply: {
+      displayName: "Grundversorgung",
+      description: "Freischaltung von Straßenbau, Brunnen und Wasserversorgung, Lagerhäuser"
+    },
+    urbanPlanning: {
+      displayName: "Städtebau",
+      description: "Freischaltung von Fortgeschrittenen Straßen, Wohnhäuser, Energieversorgung"
+    },
+    modernInfrastructure: {
+      displayName: "Moderne Infrastruktur",
+      description: "Freischaltung von Elektrifizierung, Transportsysteme, Hochhäuser"
+    }
   }
-]
+}
+  
 
 
 
@@ -11,7 +50,7 @@ export const DEVELOPING =[
 // Stufe 1: Basiswirtschaft
 
 // Grundlegende Landwirtschaft (Freischaltung von Feldern, Obstgärten)
-// Holzverarbeitung (Freischaltung von Holzfällerhütten)
+// Holzverarbeitung (Freischaltung von Bauwerken und Werkzeugen)
 // Basis-Handwerk (einfache Werkstätten, Herstellung grundlegender Waren)
 // Stufe 2: Industrielle Entwicklung
 
