@@ -5,7 +5,7 @@ import { Buildings } from './components/buildings/Buildings'
 import { Options } from './components/options/Options'
 import { Age } from './components/age/age'
 import { Speed } from './components/speed/Speed'
-import { Science } from './components/Science/science'
+import { TechTree } from './components/TechTree/TechTree'
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
       <Buildings />
       <Options />
       <Age />
-      <Science />
+      <TechTree />
       
     </Tick>
   )
