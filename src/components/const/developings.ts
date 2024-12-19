@@ -1,7 +1,7 @@
 import { BuildingType } from "../../interfaces/IBuilding";
 import { IResources } from "../../interfaces/IResources";
 
-interface IResearch {
+export interface IResearch {
   key: string;
   displayName: string;
   description: string;
@@ -11,14 +11,15 @@ interface IResearch {
 
 }
 
-interface IDeveloping {
+export interface IDeveloping {
   economy: IResearch[];
   infrastructure: IResearch[];
   military: IResearch[];
   science: IResearch[];
   culture: IResearch[];
 }
-export const DEVELOPING: IDeveloping = {
+export function initDeveloping(): IDeveloping {
+ return {
   economy: [
     {
       key: "a1",
@@ -259,4 +260,5 @@ export const DEVELOPING: IDeveloping = {
       description: "wirtschaftliche und kulturelle Vorteile"
     }
   ]
+}
 }

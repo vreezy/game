@@ -4,6 +4,7 @@ import { BuildingsStoreState } from './buildingsStore';
 import { DemographyStoreState } from './demographyStore';
 import { EngineStoreState } from './engineStore';
 import { SharedStoreState } from './shareStore';
+import { DevelopingStoreState } from './developingStore';
 
 
 export interface ResourcesStoreState extends IResources{
@@ -45,7 +46,7 @@ function initResources(): IResources {
 }
 
 export const resourcesStore:StateCreator<
-BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & SharedStoreState,
+BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & DevelopingStoreState & SharedStoreState,
 [],
 [],
 ResourcesStoreState
