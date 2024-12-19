@@ -1,128 +1,262 @@
+import { BuildingType } from "../../interfaces/IBuilding";
+import { IResources } from "../../interfaces/IResources";
+
 interface IResearch {
+  key: string;
   displayName: string;
   description: string;
+  cost?: Partial<IResources>;
+  allows?: BuildingType;
+  dependsOn?: string;
 
 }
 
 interface IDeveloping {
-  economy: {
-    [key: string]: IResearch[]
-  },
-  infrastructure: {
-    [key: string]: IResearch[]
-  },
+  economy: IResearch[];
+  infrastructure: IResearch[];
+  military: IResearch[];
+  science: IResearch[];
+  culture: IResearch[];
 }
 export const DEVELOPING: IDeveloping = {
-  economy: {
-    basicEconomy: [{
-      displayName: "Basiswirtschaft",
-      description: "Freischaltung von Landwirtschaft, Holzverarbeitung, Basis-Handwerk"
-    }],
-    industrialDevelopment: [{
-      displayName: "Industrielle Entwicklung",
-      description: "Freischaltung von Bergbau, Textilproduktion, Handel"
-    }],
-    advancedEconomy: [{
-      displayName: "Fortgeschrittene Wirtschaft",
-      description: "Freischaltung von Maschinenbau, Luxusgüter, Banken und Finanzen"
-    }]
-  },
-  infrastructure: {
-    basicSupply: {
-      displayName: "Grundversorgung",
-      description: "Freischaltung von Straßenbau, Brunnen und Wasserversorgung, Lagerhäuser"
+  economy: [
+    {
+      key: "a1",
+      displayName: "Landwirtschaft",
+      description: "Freischaltung von Feldern, Obstgärten",
+      cost: {
+        wood: 10,
+      },
+      allows: "wheatField"
+
     },
-    urbanPlanning: {
-      displayName: "Städtebau",
-      description: "Freischaltung von Fortgeschrittenen Straßen, Wohnhäuser, Energieversorgung"
+
+    {
+      key: "a3",
+      displayName: "Handwerk",
+      description: "einfache Lager, Werkstätten, Herstellung grundlegender Waren",
+      dependsOn: "a1"
     },
-    modernInfrastructure: {
-      displayName: "Moderne Infrastruktur",
-      description: "Freischaltung von Elektrifizierung, Transportsysteme, Hochhäuser"
+    {
+      key: "a4",
+      displayName: "Bergbau",
+      description: "Erzförderung und Verarbeitung"
+    },
+    {
+      key: "a5",
+      displayName: "Textilproduktion",
+      description: "Webereien und Kleidung"
+    },
+    {
+      key: "a6",
+      displayName: "Handel",
+      description: "Freischaltung von Handelsrouten und Marktplätzen"
+    },
+    {
+      key: "a7",
+      displayName: "Maschinenbau",
+      description: "effizientere Produktionsanlagen"
+    },
+    {
+      key: "a8",
+      displayName: "Luxusgüter",
+      description: "Wein, Schmuck"
+    },
+    {
+      key: "a9",
+      displayName: "Banken und Finanzen",
+      description: "Investitionen und Steuereinnahmen optimieren"
     }
-  }
+  ],
+
+  infrastructure: [
+    {
+      key: "b1",
+      displayName: "Straßenbau",
+      description: "Erhöhung der Transportgeschwindigkeit"
+    },
+    {
+      key: "b2",
+      displayName: "Brunnen und Wasserversorgung",
+      description: "Verbesserung der Lebensqualität"
+    },
+    {
+      key: "b3",
+      displayName: "Lagerhäuser",
+      description: "verbesserte Lagerkapazitäten"
+    },
+    {
+      key: "b4",
+      displayName: "Fortgeschrittene Straßen",
+      description: "Pflasterstraßen, Brücken"
+    },
+    {
+      key: "b5",
+      displayName: "Wohnhäuser",
+      description: "bessere Lebensqualität für Einwohner"
+    },
+    {
+      key: "b6",
+      displayName: "Energieversorgung",
+      description: "Windmühlen, erste Kraftwerke"
+    },
+    {
+      key: "b7",
+      displayName: "Elektrifizierung",
+      description: "effizientere Energiequellen, wie Wasserkraft oder Solarenergie"
+    },
+    {
+      key: "b8",
+      displayName: "Transportsysteme",
+      description: "Züge, Schiffe, Luftverkehr"
+    },
+    {
+      key: "b9",
+      displayName: "Hochhäuser",
+      description: "maximale Raumnutzung"
+    }
+
+  ],
+  military: [
+    {
+      key: crypto.randomUUID(),
+      displayName: "Wachtürme und Stadtmauern",
+      description: "Schutz vor Angriffen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Basis-Krieger",
+      description: "Schwertkämpfer, Bogenschützen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Ausbildungslager",
+      description: "Training von Kriegern"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Kavallerie",
+      description: "schnelle Angriffstruppen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Belagerungsmaschinen",
+      description: "Katapulte, Ballisten"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Spionage",
+      description: "Informationen über Gegner"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Artillerie",
+      description: "Kanonen, Geschütze"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Luft- und Seestreitkräfte",
+      description: "Kampfflugzeuge, Kriegsschiffe"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Geheimtechnologien",
+      description: "Unsichtbarkeit, Drohnen"
+    }
+
+  ],
+  science: [
+    {
+      key: crypto.randomUUID(),
+      displayName: "Schrift und Bildung",
+      description: "Schulen freischalten"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Naturforschung",
+      description: "Verbesserung von Ernten und Ressourcen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Medizin",
+      description: "Erhöhung der Lebensdauer der Bevölkerung"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Alchemie",
+      description: "Erforschung von Edelmetallen, chemischen Prozessen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Astronomie",
+      description: "Verbesserung von Navigation"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Mechanik",
+      description: "erste Maschinen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Forschungslabore",
+      description: "Erhöhung der Forschungsgeschwindigkeit"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Genetik",
+      description: "Verbesserung der Landwirtschaft oder Medizin"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Erneuerbare Energien",
+      description: "Solar, Wind"
+    }
+  ],
+  culture: [
+    {
+      key: crypto.randomUUID(),
+      displayName: "Monumente",
+      description: "Erhöhung des Ruhms"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Musik und Kunst",
+      description: "Verbesserung der Zufriedenheit"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Religiöse Gebäude",
+      description: "Kultur und Spiritualität stärken"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Bibliotheken und Universitäten",
+      description: "Wissen und Forschung"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Theater und Opernhäuser",
+      description: "Kulturelle Veranstaltungen"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Diplomatie",
+      description: "Frieden mit Nachbarn sichern"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Weltwunder",
+      description: "massive kulturelle Vorteile"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Medien",
+      description: "Verbreitung der Kultur und Beeinflussung anderer Völker"
+    },
+    {
+      key: crypto.randomUUID(),
+      displayName: "Tourismus",
+      description: "wirtschaftliche und kulturelle Vorteile"
+    }
+  ]
 }
-  
-
-
-
-// 1. Wirtschaft
-// Stufe 1: Basiswirtschaft
-
-// Grundlegende Landwirtschaft (Freischaltung von Feldern, Obstgärten)
-// Holzverarbeitung (Freischaltung von Bauwerken und Werkzeugen)
-// Basis-Handwerk (einfache Werkstätten, Herstellung grundlegender Waren)
-// Stufe 2: Industrielle Entwicklung
-
-// Bergbau (Erzförderung und Verarbeitung)
-// Textilproduktion (Webereien und Kleidung)
-// Handel (Freischaltung von Handelsrouten und Marktplätzen)
-// Stufe 3: Fortgeschrittene Wirtschaft
-
-// Maschinenbau (effizientere Produktionsanlagen)
-// Luxusgüter (Wein, Schmuck)
-// Banken und Finanzen (Investitionen und Steuereinnahmen optimieren)
-// 2. Infrastruktur
-// Stufe 1: Grundversorgung
-
-// Straßenbau (Erhöhung der Transportgeschwindigkeit)
-// Brunnen und Wasserversorgung
-// Lagerhäuser (verbesserte Lagerkapazitäten)
-// Stufe 2: Städtebau
-
-// Fortgeschrittene Straßen (Pflasterstraßen, Brücken)
-// Wohnhäuser (bessere Lebensqualität für Einwohner)
-// Energieversorgung (Windmühlen, erste Kraftwerke)
-// Stufe 3: Moderne Infrastruktur
-
-// Elektrifizierung (effizientere Energiequellen, wie Wasserkraft oder Solarenergie)
-// Transportsysteme (Züge, Schiffe, Luftverkehr)
-// Hochhäuser (maximale Raumnutzung)
-// 3. Militär
-// Stufe 1: Verteidigung
-
-// Wachtürme und Stadtmauern
-// Basis-Krieger (Schwertkämpfer, Bogenschützen)
-// Ausbildungslager
-// Stufe 2: Offensivstrategie
-
-// Kavallerie
-// Belagerungsmaschinen (Katapulte, Ballisten)
-// Spionage (Informationen über Gegner)
-// Stufe 3: Moderne Kriegsführung
-
-// Artillerie
-// Luft- und Seestreitkräfte
-// Geheimtechnologien (z. B. Unsichtbarkeit oder Drohnen)
-// 4. Wissenschaft
-// Stufe 1: Grundlagen
-
-// Schrift und Bildung (Schulen freischalten)
-// Naturforschung (Verbesserung von Ernten und Ressourcen)
-// Medizin (Erhöhung der Lebensdauer der Bevölkerung)
-// Stufe 2: Technologischer Fortschritt
-
-// Alchemie (Erforschung von Edelmetallen, chemischen Prozessen)
-// Astronomie (Verbesserung von Navigation)
-// Mechanik (erste Maschinen)
-// Stufe 3: Moderne Wissenschaft
-
-// Forschungslabore (Erhöhung der Forschungsgeschwindigkeit)
-// Genetik (Verbesserung der Landwirtschaft oder Medizin)
-// Erneuerbare Energien (Solar, Wind)
-// 5. Kultur
-// Stufe 1: Traditionen
-
-// Monumente (Erhöhung des Ruhms)
-// Musik und Kunst (Verbesserung der Zufriedenheit)
-// Religiöse Gebäude (Kultur und Spiritualität stärken)
-// Stufe 2: Gesellschaft
-
-// Bibliotheken und Universitäten
-// Theater und Opernhäuser
-// Diplomatie (Frieden mit Nachbarn sichern)
-// Stufe 3: Globale Kultur
-
-// Weltwunder (massive kulturelle Vorteile)
-// Medien (Verbreitung der Kultur und Beeinflussung anderer Völker)
-// Tourismus (wirtschaftliche und kulturelle Vorteile)
