@@ -7,7 +7,7 @@ export function Options(): React.ReactElement {
   const resetBuildingStore = useBoundStore((state) => state.resetBuildingStore);
   const resetDemographyStore = useBoundStore((state) => state.resetDemographyStore);
   const resetEngineStore = useBoundStore((state) => state.resetEngineStore);
-  const resetDevelopingStore = useBoundStore((state) => state.resetDevelopingStore);
+  const resetDevelopingStore = useBoundStore((state) => state.resetTechStore);
 
   const resetSharedStore = useBoundStore((state) => state.resetSharedStore);
 

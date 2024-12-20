@@ -5,9 +5,10 @@ import { Tech } from "./Tech";
 
 export function TechTree() {
 
-  const [ economy, infrastructure, military, science, culture] = useBoundStore(
-    useShallow((state) => [state.economy, state.infrastructure, state.military, state.science, state.culture])
+  const [tick, economy, infrastructure, military, science, culture] = useBoundStore(
+    useShallow((state) => [state.tick, state.economy, state.infrastructure, state.military, state.science, state.culture])
   );
+  console.log("render TechTree", tick)
 
   return (
     <div>

@@ -1,27 +1,57 @@
-import { useShallow } from "zustand/shallow"
+import { useShallow } from "zustand/shallow";
 
-import { useBoundStore } from "../../stores/boundStore"
+import { useBoundStore } from "../../stores/boundStore";
+import { Paper, Stack, styled } from "@mui/material";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
 
 export function Resources(): React.ReactElement {
-
   const [tick, demographies, resources, getMaxResources] = useBoundStore(
-    useShallow((state) => [state.tick, state.demographies, state.resources, state.getMaxResources]),
-  )
-
-  
+    useShallow((state) => [
+      state.tick,
+      state.demographies,
+      state.resources,
+      state.getMaxResources,
+    ])
+  );
 
   return (
-    <ul>
-      <li>tick: {tick}</li>
-      <li>age: {demographies().age}</li>
-      <li>wheat: {resources().wheat}/ {getMaxResources().wheat ?? 0}</li>
-      <li>wood: {resources().wood} / {getMaxResources().wood ?? 0}</li>
-      <li>stone: {resources().stone} / {getMaxResources().stone ?? 0}</li>
-      <li>faith: {resources().faith} / {getMaxResources().faith ?? 0}</li>
-      <li>trust: {resources().trust} / {getMaxResources().trust ?? 0}</li>
-      <li>happiness: {resources().happiness} / {getMaxResources().happiness ?? 0}</li>
-      <li>gold: {resources().gold} / {getMaxResources().gold ?? 0}</li>
-      <li>population: {resources().population}/{getMaxResources().population}</li>
-    </ul>
-  )
+    <Stack direction="row" spacing={2}>
+      <Item>tick: {tick}</Item>
+      <Item>age: {demographies().age}</Item>
+      <Item>
+        wheat: {resources().wheat}/ {getMaxResources().wheat ?? 0}
+      </Item>
+      <Item>
+        wood: {resources().wood} / {getMaxResources().wood ?? 0}
+      </Item>
+      <Item>
+        stone: {resources().stone} / {getMaxResources().stone ?? 0}
+      </Item>
+      <Item>
+        faith: {resources().faith} / {getMaxResources().faith ?? 0}
+      </Item>
+      <Item>
+        trust: {resources().trust} / {getMaxResources().trust ?? 0}
+      </Item>
+      <Item>
+        happiness: {resources().happiness} / {getMaxResources().happiness ?? 0}
+      </Item>
+      <Item>
+        gold: {resources().gold} / {getMaxResources().gold ?? 0}
+      </Item>
+      <Item>
+        population: {resources().population}/{getMaxResources().population}
+      </Item>
+    </Stack>
+  );
 }

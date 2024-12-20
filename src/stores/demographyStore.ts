@@ -3,7 +3,7 @@ import { BuildingsStoreState } from "./buildingsStore";
 import { EngineStoreState } from "./engineStore";
 import { ResourcesStoreState } from "./resourcesStore";
 import { SharedStoreState } from "./shareStore";
-import { DevelopingStoreState } from "./developingStore";
+import { TechStoreState } from "./techStore";
 
 export interface IDemography {
   age: number;
@@ -44,7 +44,7 @@ function initDemographies(): IDemography {
 }
 
 export const demographyStore: StateCreator<
-BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & DevelopingStoreState & SharedStoreState,
+BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & TechStoreState & SharedStoreState,
   [],
   [],
   DemographyStoreState

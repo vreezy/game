@@ -6,7 +6,7 @@ import { ResourcesStoreState } from "./resourcesStore";
 import { calcNewResources } from "../utils/calcNewResources";
 import { IResources } from "../interfaces/IResources";
 import { getMaxValuesFromResources } from "../utils/getMaxValuesFromResources";
-import { DevelopingStoreState } from "./developingStore";
+import { TechStoreState } from "./techStore";
 // import { IResources } from "../interfaces/IResources"
 
 export interface SharedStoreState {
@@ -20,7 +20,7 @@ export const sharedStore: StateCreator<
     DemographyStoreState &
     EngineStoreState &
     ResourcesStoreState &
-    DevelopingStoreState &
+    TechStoreState &
     SharedStoreState,
   [],
   [],

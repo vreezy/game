@@ -5,7 +5,7 @@ import { EngineStoreState } from "./engineStore";
 import { DemographyStoreState } from "./demographyStore";
 import { ResourcesStoreState } from "./resourcesStore";
 import { SharedStoreState } from "./shareStore";
-import { DevelopingStoreState } from "./developingStore";
+import { TechStoreState } from "./techStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
@@ -59,7 +59,7 @@ function getNewBuildings(
 }
 
 export const buildingStore: StateCreator<
-  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & DevelopingStoreState & SharedStoreState,
+  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & TechStoreState & SharedStoreState,
   [],
   [],
   BuildingsStoreState

@@ -3,31 +3,32 @@ import { BuildingsStoreState } from "./buildingsStore";
 import { DemographyStoreState } from "./demographyStore";
 import { ResourcesStoreState } from "./resourcesStore";
 import { SharedStoreState } from "./shareStore";
-import { ITechTree, initTechTree } from "../components/const/developings";
+import { initTechTree } from "../components/const/techs";
 import { EngineStoreState } from "./engineStore";
+import { ITechTree } from "../interfaces/ITechTree";
 
-export interface DevelopingStoreState extends ITechTree {
+export interface TechStoreState extends ITechTree {
   activeTechKey: string | undefined;
-  resetDevelopingStore: () => void;
-  getDeveloping: () => ITechTree;
+  resetTechStore: () => void;
+  getTechs: () => ITechTree;
   payTech: (treeKey: keyof ITechTree, techKey: string, amount: number) => void;
   setActiveTech: (techKey: string) => void;
 }
 
-export const developingStore: StateCreator<
+export const techStore: StateCreator<
   BuildingsStoreState &
     DemographyStoreState &
     EngineStoreState &
     ResourcesStoreState &
-    DevelopingStoreState &
+    TechStoreState &
     SharedStoreState,
   [],
   [],
-  DevelopingStoreState
+  TechStoreState
 > = (set, get) => ({
   ...initTechTree(),
   activeTechKey: undefined,
-  getDeveloping: () => {
+  getTechs: () => {
     return {
       culture: get().culture,
       economy: get().economy,
@@ -37,7 +38,7 @@ export const developingStore: StateCreator<
     }
   },
   payTech: (treeKey, techKey, amount) => {
-    const tree = { ...get().getDeveloping()} // clone;
+    const tree = { ...get().getTechs()} // clone;
     
     tree[treeKey].forEach((tech) => {
       if(tech.key === techKey) {
@@ -56,26 +57,8 @@ export const developingStore: StateCreator<
   },
   setActiveTech: (techKey) => {
     set(() => ({activeTechKey: techKey}))
-    // const tree = { ...get().getDeveloping()} // clone;
-    // const treeKeys = Object.keys(tree) as (keyof ITechTree)[];
-
-    // // set all active to false
-    // treeKeys.forEach((treeKey) => {
-    //   tree[treeKey].forEach((item) => {
-    //     item.active = false;
-    //   });
-    // });
-
-    // tree[treeKey].forEach((item) => {
-    //   if(item.key === techKey) {
-    //     item.active = true;
-    //   }
-    // });
-
-    // set(() => tree);
-
   },
-  resetDevelopingStore: () => {
+  resetTechStore: () => {
     set(() => (initTechTree()));
   },
 });
