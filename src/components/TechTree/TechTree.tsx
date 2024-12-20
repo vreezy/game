@@ -5,7 +5,7 @@ import { Tech } from "./Tech";
 
 export function TechTree() {
 
-  const [economy, infrastructure, military, science, culture] = useBoundStore(
+  const [ economy, infrastructure, military, science, culture] = useBoundStore(
     useShallow((state) => [state.economy, state.infrastructure, state.military, state.science, state.culture])
   );
 
@@ -23,10 +23,10 @@ export function TechTree() {
       }}>
 
         <div>{economy.map((tech) => <Tech key={tech.key} tech={tech} treeKey={"economy"}/>)}</div>
-        <div>{infrastructure.map((tech) => <Tech key={tech.key} tech={tech} treeKey={"infrastructure"}/>)}</div>
+        <div>{infrastructure.map((tech) => <Tech key={tech.key}  tech={tech} treeKey={"infrastructure"}/>)}</div>
         <div>{military.map((tech) => <Tech key={tech.key} tech={tech} treeKey={"military"}/>)}</div>
-        <div>{science.map((tech) => <Tech key={tech.key} tech={tech} treeKey={"science"}/>)}</div>
-        <div>{culture.map((tech) => <Tech key={tech.key} tech={tech} treeKey={"culture"}/>)}</div>
+        <div>{science.map((tech) => <Tech key={tech.key}  tech={tech} treeKey={"science"}/>)}</div>
+        <div>{culture.map((tech) => <Tech key={tech.key}  tech={tech} treeKey={"culture"}/>)}</div>
 
       </div>
     </div>
