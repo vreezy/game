@@ -13,9 +13,13 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Box component="main" sx={{ flexGrow: 1 }}>
+      <PayTick />
+      <Box component="main" sx={{
+        width: "100vw", 
+        height: "100vh",
+      }}>
         <Tick>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} >
             <Grid size={8}>
               <Resources />
             </Grid>
@@ -23,7 +27,7 @@ function App() {
               <Speed />
             </Grid>
 
-            <Grid size={12}>
+            <Grid size={8} sx={{overflow: "auto"}}>
               <Buildings />
             </Grid>
 
@@ -34,7 +38,7 @@ function App() {
           </Grid>
 
           <TechTree />
-          <PayTick />
+
         </Tick>
       </Box>
     </>

@@ -7,10 +7,10 @@ import { Box, Modal } from "@mui/material";
 
 export function TechTree() {
 
-  const [getTechTree, payTechCount, showTechTree, toggleTechTree] = useBoundStore(
-    useShallow((state) => [state.getTechTree, state.payTechCount, state.showTechTree, state.toggleTechTree])
+  const [lastPayTechTick, getTechTree, showTechTree, toggleTechTree] = useBoundStore(
+    useShallow((state) => [state.lastPayTechTick, state.getTechTree,  state.showTechTree, state.toggleTechTree])
   );
-  console.log("render TechTree", payTechCount)
+  console.log("render TechTree", lastPayTechTick)
 
   const techTree = getTechTree();
   const treeKeys = Object.keys(techTree) as (keyof ITechTree)[];

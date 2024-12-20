@@ -8,11 +8,11 @@ import { EngineStoreState } from "./engineStore";
 import { ITechTree } from "../interfaces/ITechTree";
 
 export interface TechStoreState extends ITechTree {
-  activeTechKey: string | undefined;
-  payTechCount: number;
+  activeTechKey: string;
+  lastPayTechTick: number;
   resetTechStore: () => void;
   getTechTree: () => ITechTree;
-  payTech: (treeKey: keyof ITechTree, techKey: string, amount: number) => void;
+  payTech: (treeKey: keyof ITechTree, techKey: string, amount: number, tick: number) => void;
   setActiveTech: (techKey: string) => void;
 }
 
@@ -28,8 +28,8 @@ export const techStore: StateCreator<
   TechStoreState
 > = (set, get) => ({
   ...initTechTree(),
-  payTechCount: -1,
-  activeTechKey: undefined,
+  lastPayTechTick: -1,
+  activeTechKey: "",
   getTechTree: () => {
     return {
       culture: get().culture,
@@ -39,10 +39,10 @@ export const techStore: StateCreator<
       science: get().science,
     }
   },
-  payTech: (treeKey, techKey, amount) => {
+  payTech: (treeKey, techKey, amount, tick) => {
     const tree = { ...get().getTechTree()} // clone;
     
-    let shouldCount = false;
+    let shouldSet = false;
     tree[treeKey].forEach((tech) => {
       if(tech.key === techKey) {
         const newAmount = tech.paid + amount;
@@ -52,36 +52,36 @@ export const techStore: StateCreator<
 
         if(newAmount <= tech.cost) {
           tech.paid = newAmount;
-          shouldCount = true;
+          shouldSet = true;
         }
 
         if(newAmount > tech.cost) {
           tech.paid = tech.cost;
-          shouldCount = true;
+          shouldSet = true;
         }
       }
     });
 
-    if(shouldCount) {
-      set((state) => ({
+    if(shouldSet) {
+      set(() => ({
         ...tree,
-        payTechCount: state.payTechCount + 1
+        lastPayTechTick: tick,
       }));
     }
     
   },
   setActiveTech: (techKey) => {
-    set((state) => (
+    set(() => (
       {
         activeTechKey: techKey,
-        payTechCount: state.payTechCount + 1
       }
     ))
   },
   resetTechStore: () => {
     set(() => ({
       ...initTechTree(),
-      payTechCount: -1
+      activeTechKey: "",
+      lastPayTechTick: -1,
     }));
   },
 });
