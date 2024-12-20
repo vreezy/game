@@ -2,7 +2,7 @@ import { ITechTree } from "../../interfaces/ITechTree";
 
 export function initTechTree(): ITechTree {
   return {
-    economy: [
+    economyTech: [
       {
         key: crypto.randomUUID(),
         displayName: "Landwirtschaft",

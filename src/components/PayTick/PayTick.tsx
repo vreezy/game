@@ -6,20 +6,21 @@ import { ITechTree } from "../../interfaces/ITechTree";
 
 export function PayTick(): React.ReactElement {
 
-  const [tick, activeTechKey, getDeveloping, payTech] = useBoundStore(
-    useShallow((state) => [state.tick, state.activeTechKey, state.getTechs, state.payTech])
+  const [tick, activeTechKey, getTechTree, payTech] = useBoundStore(
+    useShallow((state) => [state.tick, state.activeTechKey, state.getTechTree, state.payTech])
   );
 
   const [lockTick, setLockTick] = React.useState(tick);
 
-  const treeKeys = Object.keys(getDeveloping()) as (keyof ITechTree)[];
+  const tree = getTechTree();
+  const treeKeys = Object.keys(tree) as (keyof ITechTree)[];
 
   React.useEffect(() => {
     function payActiveTech() {
       treeKeys.forEach((treeKey) => {
-        getDeveloping()[treeKey].forEach((tech) => {
+        tree[treeKey].forEach((tech) => {
           if(tech.key === activeTechKey) {
-            console.log("paying tech", tech.displayName)
+            // console.log("paying tech", tech.displayName)
             payTech(treeKey, tech.key, 1)
           }
         })
@@ -32,7 +33,7 @@ export function PayTick(): React.ReactElement {
         payActiveTech();
       }
     }
-  }, [activeTechKey, getDeveloping, lockTick, payTech, tick, treeKeys]) 
+  }, [activeTechKey, lockTick, payTech, tick, tree, treeKeys]) 
 
 
   return (

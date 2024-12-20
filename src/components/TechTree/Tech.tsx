@@ -15,7 +15,6 @@ export function Tech(props:TechProps): React.ReactElement {
 
   const isActiveTech = props.tech.key === activeTechKey;
 
-  console.log("render tech:", props.tech.displayName)
   return (
     <button
     onClick={() => {setActiveTech(props.tech.key)}}

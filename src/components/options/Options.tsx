@@ -1,16 +1,16 @@
 import React from "react";
 
 import { useBoundStore } from "../../stores/boundStore";
+import { useShallow } from "zustand/shallow";
 
 export function Options(): React.ReactElement {
-  const resetResourcesStore = useBoundStore((state) => state.resetResourcesStore);
-  const resetBuildingStore = useBoundStore((state) => state.resetBuildingStore);
-  const resetDemographyStore = useBoundStore((state) => state.resetDemographyStore);
-  const resetEngineStore = useBoundStore((state) => state.resetEngineStore);
-  const resetDevelopingStore = useBoundStore((state) => state.resetTechStore);
+  const [resetResourcesStore, resetBuildingStore, resetDemographyStore, resetEngineStore, resetTechStore, resetSharedStore] = useBoundStore(
+    useShallow((state) => [state.resetResourcesStore, state.resetBuildingStore, state.resetDemographyStore, state.resetEngineStore, state.resetTechStore, state.resetSharedStore])
+  );
 
-  const resetSharedStore = useBoundStore((state) => state.resetSharedStore);
-
+  const [toggleTechTree] = useBoundStore(
+    useShallow((state) => [state.toggleTechTree,])
+  );
   
 
   function _handleReset(): void {
@@ -18,13 +18,14 @@ export function Options(): React.ReactElement {
     resetBuildingStore();
     resetDemographyStore();
     resetEngineStore();
-    resetDevelopingStore();
+    resetTechStore();
     resetSharedStore();
   }
 
   return (
     <ul>
       <li>
+        <button onClick={() => toggleTechTree()}>toggle tech tree</button>
         <button onClick={() => _handleReset()}>reset</button>
       </li>
     </ul>
