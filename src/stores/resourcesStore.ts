@@ -5,6 +5,7 @@ import { DemographyStoreState } from './demographyStore';
 import { EngineStoreState } from './engineStore';
 import { SharedStoreState } from './shareStore';
 import { TechStoreState } from './techStore';
+import { createResources } from '../Models/createResources';
 
 
 export interface ResourcesStoreState extends IResources{
@@ -32,16 +33,7 @@ function getNewResources(cost: Partial<IResources>, state: ResourcesStoreState, 
 }
 
 function initResources(): IResources {
-  const r: IResources = {
-    wheat: 0,
-    wood: 0,
-    stone: 0,
-    faith: 0,
-    trust: 0,
-    happiness: 0,
-    gold: 0,
-    population: 5
-  }
+  const r = createResources()
   return r
 }
 

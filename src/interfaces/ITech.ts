@@ -6,7 +6,7 @@ export interface ITech {
   description: string;
   cost: number;
   paid: number;
-  benefit?: BuildingType;
+  unlocks?: BuildingType[];
   dependsOn?: string;
   active: boolean;
 }

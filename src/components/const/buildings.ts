@@ -33,7 +33,7 @@ export const BUILDINGS: IBuilding[] = [
     displayName: "Wheat Field",
     type: "wheatField",
     cost: {
-      population: 1
+      wood: 10
     },
     createdTick: -1,
 
@@ -49,8 +49,7 @@ export const BUILDINGS: IBuilding[] = [
     key: "2",
     displayName: "Forest",
     type: "forest",
-    cost: {
-      population: 1
+    cost: {    
     },
     createdTick: -1,
 

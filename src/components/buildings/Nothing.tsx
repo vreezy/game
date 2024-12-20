@@ -11,8 +11,8 @@ import { BUILDINGS } from "../const/buildings"
 import { useBoundStore } from "../../stores/boundStore"
 
 export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
-  const [tick, age, setBuilding, decreaseResources, resources] = useBoundStore(
-    useShallow((state) => [state.tick, state.age, state.setBuilding, state.decreaseResources, state.resources,]),
+  const [tick, age, availableBuildingTypes, setBuilding, decreaseResources, resources] = useBoundStore(
+    useShallow((state) => [state.tick, state.age, state.availableBuildingTypes ,state.setBuilding, state.decreaseResources, state.resources,]),
   )
 
   function _handleBuilding(type: BuildingType): void {
@@ -38,6 +38,7 @@ export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
         {BUILDINGS
           .filter(b => b.age <= age)
           .filter(b => b.type !== "nothing")
+          .filter(b => availableBuildingTypes.includes(b.type))
           .map(b => {
           return (
             <li key={b.type}><button disabled={_isDisabled(b.type)} onClick={() => _handleBuilding(b.type)}>{b.displayName} cost:{JSON.stringify(b.cost)}</button></li>      

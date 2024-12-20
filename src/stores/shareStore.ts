@@ -5,8 +5,10 @@ import { EngineStoreState } from "./engineStore";
 import { ResourcesStoreState } from "./resourcesStore";
 import { calcNewResources } from "../utils/calcNewResources";
 import { IResources } from "../interfaces/IResources";
-import { getMaxValuesFromResources } from "../utils/getMaxValuesFromResources";
+
 import { TechStoreState } from "./techStore";
+
+import { createResources } from "../Models/createResources";
 // import { IResources } from "../interfaces/IResources"
 
 export interface SharedStoreState {
@@ -27,13 +29,18 @@ export const sharedStore: StateCreator<
   SharedStoreState
 > = (set, get) => ({
   getMaxResources: () => {
-    return getMaxValuesFromResources(
-      get()
-        .buildings.map((b) => b.increaseMax?.resources)
-        .filter(
-          (resource): resource is Partial<IResources> => resource !== undefined
-        )
-    );
+    const maxResource = createResources();
+
+    get().buildings.forEach((building) => {
+      if(building?.increaseMax?.resources) {
+        Object.keys(building.increaseMax.resources).forEach((key) => {
+          const resourceKey = key as keyof IResources;
+          maxResource[resourceKey] += building.increaseMax?.resources[resourceKey] ?? 0;
+        });
+      }
+    })
+
+    return maxResource;
   },
   increaseResources: (cost) => {
     const newResources = calcNewResources(cost, get().resources(), "increase");

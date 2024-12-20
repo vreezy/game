@@ -12,11 +12,11 @@ import { techStore, TechStoreState } from "./techStore";
 
 export const useBoundStore = create<
   BuildingsStoreState &
-    DemographyStoreState &
-    EngineStoreState &
-    ResourcesStoreState &
-    TechStoreState &
-    SharedStoreState
+  DemographyStoreState &
+  EngineStoreState &
+  ResourcesStoreState &
+  TechStoreState &
+  SharedStoreState
 >()(
   devtools(
     persist(

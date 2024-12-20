@@ -9,6 +9,7 @@ import { TechStoreState } from "./techStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
+  availableBuildingTypes: BuildingType[];
   setBuilding: (key: string, type: BuildingType, createdTick: number) => void;
   resetBuildingStore: () => void;
 }
@@ -19,6 +20,10 @@ function getBuilding(type: BuildingType): IBuilding {
     throw new Error(`Building of type ${type} not found`);
   }
   return building;
+}
+
+function initAvailableBuildingTypes(): BuildingType[] {
+  return ["forest"];
 }
 
 function initBuildings(): IBuilding[] {
@@ -65,6 +70,7 @@ export const buildingStore: StateCreator<
   BuildingsStoreState
 > = (set) => ({
   buildings: initBuildings(),
+  availableBuildingTypes: initAvailableBuildingTypes(),
   setBuilding: (key, type, createdTick) =>
     set((state) => ({
       buildings: getNewBuildings(state, key, type, createdTick),
@@ -72,5 +78,6 @@ export const buildingStore: StateCreator<
   resetBuildingStore: () =>
     set(() => ({
       buildings: initBuildings(),
+      availableBuildingTypes: initAvailableBuildingTypes(),
     })),
 });

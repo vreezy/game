@@ -6,6 +6,7 @@ import { SharedStoreState } from "./shareStore";
 import { initTechTree } from "../components/const/techs";
 import { EngineStoreState } from "./engineStore";
 import { ITechTree } from "../interfaces/ITechTree";
+import { BuildingType } from "../interfaces/IBuilding";
 
 export interface TechStoreState extends ITechTree {
   activeTechKey: string;
@@ -42,7 +43,9 @@ export const techStore: StateCreator<
   payTech: (treeKey, techKey, amount, tick) => {
     const tree = { ...get().getTechTree()} // clone;
     
+    
     let shouldSet = false;
+    const newAvailablBbuildingTypes: BuildingType[] = get().availableBuildingTypes;
     tree[treeKey].forEach((tech) => {
       if(tech.key === techKey) {
         const newAmount = tech.paid + amount;
@@ -53,11 +56,21 @@ export const techStore: StateCreator<
         if(newAmount <= tech.cost) {
           tech.paid = newAmount;
           shouldSet = true;
+          if(tech.unlocks && tech.unlocks.length > 0) {
+            if(!tech.unlocks.every((type) => get().availableBuildingTypes.includes(type))) {
+             newAvailablBbuildingTypes.concat(tech.unlocks);
+            }
+          }
         }
 
         if(newAmount > tech.cost) {
           tech.paid = tech.cost;
           shouldSet = true;
+          if(tech.unlocks && tech.unlocks.length > 0) {
+            if(!tech.unlocks.every((type) => get().availableBuildingTypes.includes(type))) {
+              newAvailablBbuildingTypes.concat(tech.unlocks);
+             }
+          }
         }
       }
     });
@@ -66,6 +79,8 @@ export const techStore: StateCreator<
       set(() => ({
         ...tree,
         lastPayTechTick: tick,
+        availableBuildingTypes: newAvailablBbuildingTypes
+
       }));
     }
     

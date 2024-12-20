@@ -9,7 +9,7 @@ export function initTechTree(): ITechTree {
         description: "Freischaltung von Feldern, Obstgärten",
         cost: 10,
         paid: 0,
-        benefit: "wheatField",
+        unlocks: ["wheatField"],
         active: false,
       },
       {
