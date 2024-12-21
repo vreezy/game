@@ -70,7 +70,7 @@ function getRoute(): Graph {
   return route
 }
 
-
+// https://www.redblobgames.com/pathfinding/tower-defense/
 
 export const mapStore: StateCreator<
   BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & TechStoreState & MapStoreState & SharedStoreState,
