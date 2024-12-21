@@ -1,10 +1,7 @@
 import { IResources } from "./IResources";
+import { IStructure } from "./IStructure";
 
-interface ILease  {
-  moduloTick: number;
-  resources: Partial<IResources>
-}
-
+// produce Income
 interface IIncome  {
   moduloTick: number;
   resources: Partial<IResources>
@@ -15,15 +12,10 @@ interface IMax {
   resources: Partial<IResources>
 }
 
-export interface IBuilding {
-  displayName: string;
-  key: string;
+export interface IBuilding extends IStructure {
+
   type: BuildingType;
-  createdTick: number;
-  cost: Partial<IResources>;
-  age: number;
   increaseMax?: IMax;
-  lease?: ILease;
   income?: IIncome;
 }
 
