@@ -10,10 +10,15 @@ import { BuildingType } from "../interfaces/IBuilding";
 
 export interface TechStoreState extends ITechTree {
   activeTechKey: string;
-  lastPayTechTick: number;
+  lastPayTechTick: number; // we use this to render changes in TechTree
   resetTechStore: () => void;
   getTechTree: () => ITechTree;
-  payTech: (treeKey: keyof ITechTree, techKey: string, amount: number, tick: number) => void;
+  payTech: (
+    treeKey: keyof ITechTree,
+    techKey: string,
+    amount: number,
+    tick: number
+  ) => void;
   setActiveTech: (techKey: string) => void;
 }
 
@@ -38,59 +43,56 @@ export const techStore: StateCreator<
       infrastructure: get().infrastructure,
       military: get().military,
       science: get().science,
-    }
+    };
   },
   payTech: (treeKey, techKey, amount, tick) => {
-    const tree = { ...get().getTechTree()} // clone;
-    
-    
+    const tree = { ...get().getTechTree() }; // clone;
+
     let shouldSet = false;
-    const newAvailablBbuildingTypes: BuildingType[] = get().availableBuildingTypes;
+    const newAvailableBuildingTypes: BuildingType[] = [
+      ...get().availableBuildingTypes,
+    ];
+
     tree[treeKey].forEach((tech) => {
-      if(tech.key === techKey) {
+      if (tech.key === techKey) {
         const newAmount = tech.paid + amount;
-        if(tech.paid === tech.cost) {
+        if (tech.paid === tech.cost) {
           return;
         }
 
-        if(newAmount <= tech.cost) {
+        if (newAmount < tech.cost) {
           tech.paid = newAmount;
           shouldSet = true;
-          if(tech.unlocks && tech.unlocks.length > 0) {
-            if(!tech.unlocks.every((type) => get().availableBuildingTypes.includes(type))) {
-             newAvailablBbuildingTypes.concat(tech.unlocks);
-            }
-          }
         }
 
-        if(newAmount > tech.cost) {
-          tech.paid = tech.cost;
+        if (newAmount >= tech.cost) {
+          tech.paid = tech.cost; // do not allow overpay
           shouldSet = true;
-          if(tech.unlocks && tech.unlocks.length > 0) {
-            if(!tech.unlocks.every((type) => get().availableBuildingTypes.includes(type))) {
-              newAvailablBbuildingTypes.concat(tech.unlocks);
-             }
+
+          // unlock new tech
+          if (tech.unlocks && tech.unlocks.length > 0) {
+            tech.unlocks.forEach((type) => {
+              if (!newAvailableBuildingTypes.includes(type)) {
+                newAvailableBuildingTypes.push(type);
+              }
+            });
           }
         }
       }
     });
 
-    if(shouldSet) {
+    if (shouldSet) {
       set(() => ({
         ...tree,
         lastPayTechTick: tick,
-        availableBuildingTypes: newAvailablBbuildingTypes
-
+        availableBuildingTypes: newAvailableBuildingTypes,
       }));
     }
-    
   },
   setActiveTech: (techKey) => {
-    set(() => (
-      {
-        activeTechKey: techKey,
-      }
-    ))
+    set(() => ({
+      activeTechKey: techKey,
+    }));
   },
   resetTechStore: () => {
     set(() => ({
