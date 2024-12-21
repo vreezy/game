@@ -7,7 +7,7 @@ export function initTechTree(): ITechTree {
         key: crypto.randomUUID(),
         techKey: "a1",
         displayName: "Landwirtschaft",
-        description: "Freischaltung von Feldern, Obstgärten",
+        description: "Freischaltung von Farmen",
         cost: 10,
         paid: 0,
         unlocks: ["wheatField"],

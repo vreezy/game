@@ -40,7 +40,8 @@ export const techStore: StateCreator<
   isTechAvailable: (treeKey, techKey) => {
     const tree = get().getTechTree();
     const techToCheck = tree[treeKey].find((tech) => tech.techKey === techKey)
-
+    
+    console.log("XX", treeKey, techToCheck?.displayName, techToCheck?.requiredTechKeys)
     if(techToCheck && techToCheck.requiredTechKeys.length === 0) {
       return true;      
     }

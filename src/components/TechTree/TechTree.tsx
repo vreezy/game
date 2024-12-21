@@ -48,7 +48,7 @@ export function TechTree() {
 
         {treeKeys.map((treeKey) => {
           return (
-            <div key={treeKey}>{techTree[treeKey].map((tech) => <Tech key={tech.key} tech={tech} treeKey={"economyTech"}/>)}</div>
+            <div key={treeKey}>{techTree[treeKey].map((tech) => <Tech key={tech.key} tech={tech} treeKey={treeKey}/>)}</div>
           )
         })}
 
