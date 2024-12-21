@@ -6,11 +6,12 @@ import { DemographyStoreState } from "./demographyStore";
 import { ResourcesStoreState } from "./resourcesStore";
 import { SharedStoreState } from "./shareStore";
 import { TechStoreState } from "./techStore";
+import { ITechTree } from "../interfaces/ITechTree";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
-  availableBuildingTypes: BuildingType[];
   setBuilding: (key: string, type: BuildingType, createdTick: number) => void;
+  isBuildingAvailable: (type: BuildingType) => boolean;
   resetBuildingStore: () => void;
 }
 
@@ -22,17 +23,13 @@ function getBuilding(type: BuildingType): IBuilding {
   return building;
 }
 
-function initAvailableBuildingTypes(): BuildingType[] {
-  return ["forest"];
-}
-
 function initBuildings(): IBuilding[] {
   const buildings: IBuilding[] = [];
 
   buildings.push({
     ...getBuilding("cave"),
     key: crypto.randomUUID(),
-  })
+  });
 
   for (let i = 0; i < 4; i++) {
     buildings.push({
@@ -64,20 +61,43 @@ function getNewBuildings(
 }
 
 export const buildingStore: StateCreator<
-  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & TechStoreState & SharedStoreState,
+  BuildingsStoreState &
+    DemographyStoreState &
+    EngineStoreState &
+    ResourcesStoreState &
+    TechStoreState &
+    SharedStoreState,
   [],
   [],
   BuildingsStoreState
-> = (set) => ({
+> = (set, get) => ({
   buildings: initBuildings(),
-  availableBuildingTypes: initAvailableBuildingTypes(),
   setBuilding: (key, type, createdTick) =>
     set((state) => ({
       buildings: getNewBuildings(state, key, type, createdTick),
     })),
+  isBuildingAvailable: (type) => {
+    if (type === "forest") {
+      return true;
+    }
+
+    const techTree = get().getTechTree();
+    const techTreeKeys = Object.keys(techTree) as (keyof ITechTree)[];
+
+    return techTreeKeys.some((treeKey) => {
+      return techTree[treeKey].some((tech) => {
+        if (
+          tech.unlocks &&
+          tech.unlocks.includes(type) &&
+          tech.paid === tech.cost
+        ) {
+          return true;
+        }
+      });
+    });
+  },
   resetBuildingStore: () =>
     set(() => ({
       buildings: initBuildings(),
-      availableBuildingTypes: initAvailableBuildingTypes(),
     })),
 });

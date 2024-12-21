@@ -6,7 +6,6 @@ import { SharedStoreState } from "./shareStore";
 import { initTechTree } from "../components/const/techs";
 import { EngineStoreState } from "./engineStore";
 import { ITechTree } from "../interfaces/ITechTree";
-import { BuildingType } from "../interfaces/IBuilding";
 
 export interface TechStoreState extends ITechTree {
   activeTechKey: string;
@@ -40,8 +39,7 @@ export const techStore: StateCreator<
   isTechAvailable: (treeKey, techKey) => {
     const tree = get().getTechTree();
     const techToCheck = tree[treeKey].find((tech) => tech.techKey === techKey)
-    
-    console.log("XX", treeKey, techToCheck?.displayName, techToCheck?.requiredTechKeys)
+
     if(techToCheck && techToCheck.requiredTechKeys.length === 0) {
       return true;      
     }
@@ -72,10 +70,6 @@ export const techStore: StateCreator<
     const tree = { ...get().getTechTree() }; // clone;
 
     let shouldSet = false;
-    const newAvailableBuildingTypes: BuildingType[] = [
-      ...get().availableBuildingTypes,
-    ];
-
     tree[treeKey].forEach((tech) => {
       if (tech.key === techKey) {
         const newAmount = tech.paid + amount;
@@ -91,15 +85,6 @@ export const techStore: StateCreator<
         if (newAmount >= tech.cost) {
           tech.paid = tech.cost; // do not allow overpay
           shouldSet = true;
-
-          // unlock new tech
-          if (tech.unlocks && tech.unlocks.length > 0) {
-            tech.unlocks.forEach((type) => {
-              if (!newAvailableBuildingTypes.includes(type)) {
-                newAvailableBuildingTypes.push(type);
-              }
-            });
-          }
         }
       }
     });
@@ -108,7 +93,7 @@ export const techStore: StateCreator<
       set(() => ({
         ...tree,
         lastPayTechTick: tick,
-        availableBuildingTypes: newAvailableBuildingTypes,
+
       }));
     }
   },
