@@ -12,7 +12,7 @@ import { createResources } from "../Models/createResources";
 // import { IResources } from "../interfaces/IResources"
 
 export interface SharedStoreState {
-  getMaxResources: () => Partial<IResources>;
+  getMaxResources: () => IResources;
   increaseResources(cost: Partial<IResources>): void;
   resetSharedStore: () => void;
 }
