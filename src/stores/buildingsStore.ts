@@ -7,6 +7,7 @@ import { ResourcesStoreState } from "./resourcesStore";
 import { SharedStoreState } from "./shareStore";
 import { TechStoreState } from "./techStore";
 import { ITechTree } from "../interfaces/ITechTree";
+import { MapStoreState } from "./mapStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
@@ -66,6 +67,7 @@ export const buildingStore: StateCreator<
     EngineStoreState &
     ResourcesStoreState &
     TechStoreState &
+    MapStoreState &
     SharedStoreState,
   [],
   [],

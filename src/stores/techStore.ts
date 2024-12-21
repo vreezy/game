@@ -6,6 +6,7 @@ import { SharedStoreState } from "./shareStore";
 import { initTechTree } from "../components/const/techs";
 import { EngineStoreState } from "./engineStore";
 import { ITechTree } from "../interfaces/ITechTree";
+import { MapStoreState } from "./mapStore";
 
 export interface TechStoreState extends ITechTree {
   activeTechKey: string;
@@ -28,6 +29,7 @@ export const techStore: StateCreator<
     EngineStoreState &
     ResourcesStoreState &
     TechStoreState &
+    MapStoreState &
     SharedStoreState,
   [],
   [],

@@ -6,6 +6,7 @@ import { resourcesStore, ResourcesStoreState } from "./resourcesStore";
 import { sharedStore, SharedStoreState } from "./shareStore";
 import { devtools, persist } from "zustand/middleware";
 import { techStore, TechStoreState } from "./techStore";
+import { mapStore, MapStoreState } from "./mapStore";
 
 // boundStore
 //https://zustand.docs.pmnd.rs/guides/typescript#slices-pattern
@@ -16,6 +17,7 @@ export const useBoundStore = create<
   EngineStoreState &
   ResourcesStoreState &
   TechStoreState &
+  MapStoreState &
   SharedStoreState
 >()(
   devtools(
@@ -26,6 +28,7 @@ export const useBoundStore = create<
         ...engineStore(...a),
         ...resourcesStore(...a),
         ...techStore(...a), 
+        ...mapStore(...a),
         ...sharedStore(...a),
       }),
       {
