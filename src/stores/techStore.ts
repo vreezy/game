@@ -13,6 +13,7 @@ export interface TechStoreState extends ITechTree {
   lastPayTechTick: number; // we use this to render changes in TechTree
   resetTechStore: () => void;
   getTechTree: () => ITechTree;
+  isTechAvailable: (treeKey: keyof ITechTree, techKey: string) => boolean;
   payTech: (
     treeKey: keyof ITechTree,
     techKey: string,
@@ -36,6 +37,27 @@ export const techStore: StateCreator<
   ...initTechTree(),
   lastPayTechTick: -1,
   activeTechKey: "",
+  isTechAvailable: (treeKey, techKey) => {
+    const tree = get().getTechTree();
+    const techToCheck = tree[treeKey].find((tech) => tech.techKey === techKey)
+
+    if(techToCheck && techToCheck.requiredTechKeys.length === 0) {
+      return true;      
+    }
+
+    if(techToCheck) {
+      return techToCheck.requiredTechKeys.every((requiredTechKey) => {
+        const requiredTech = tree[treeKey].find((tech) => tech.techKey === requiredTechKey)
+        if(requiredTech && requiredTech.paid === requiredTech.cost) {
+          return true
+        } 
+
+        return false
+      })
+    }
+    
+    return false;
+  },
   getTechTree: () => {
     return {
       cultureTech: get().cultureTech,
