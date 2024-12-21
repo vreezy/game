@@ -72,7 +72,7 @@ export function initTechTree(): ITechTree {
       },
     ],
 
-    infrastructure: [
+    infrastructureTech: [
       {
         key: crypto.randomUUID(),
         displayName: "Straßenbau",
@@ -147,7 +147,7 @@ export function initTechTree(): ITechTree {
         active: false,
       },
     ],
-    military: [
+    militaryTech: [
       {
         key: crypto.randomUUID(),
         displayName: "Wachtürme und Stadtmauern",
@@ -221,7 +221,7 @@ export function initTechTree(): ITechTree {
         active: false,
       },
     ],
-    science: [
+    scienceTech: [
       {
         key: crypto.randomUUID(),
         displayName: "Schrift und Bildung",
@@ -295,7 +295,7 @@ export function initTechTree(): ITechTree {
         active: false,
       },
     ],
-    culture: [
+    cultureTech: [
       {
         key: crypto.randomUUID(),
         displayName: "Monumente",

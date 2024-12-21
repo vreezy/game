@@ -38,11 +38,11 @@ export const techStore: StateCreator<
   activeTechKey: "",
   getTechTree: () => {
     return {
-      culture: get().culture,
+      cultureTech: get().cultureTech,
       economyTech: get().economyTech,
-      infrastructure: get().infrastructure,
-      military: get().military,
-      science: get().science,
+      infrastructureTech: get().infrastructureTech,
+      militaryTech: get().militaryTech,
+      scienceTech: get().scienceTech,
     };
   },
   payTech: (treeKey, techKey, amount, tick) => {

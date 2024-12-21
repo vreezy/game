@@ -2,8 +2,8 @@ import { ITech } from "./ITech";
 
 export interface ITechTree {
   economyTech: ITech[];
-  infrastructure: ITech[];
-  military: ITech[];
-  science: ITech[];
-  culture: ITech[];
+  infrastructureTech: ITech[];
+  militaryTech: ITech[];
+  scienceTech: ITech[];
+  cultureTech: ITech[];
 }

@@ -11,7 +11,8 @@ export interface IResources{
 
   gold: number;
 
-  population: number
+  population: number;
 
+  science: number;
 
 }

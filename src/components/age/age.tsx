@@ -29,7 +29,7 @@ const ageCost: AgeCost[] = [
 
 export function Age(): React.ReactElement {
   const [age, increaseDemographies, decreaseResources, resources] = useBoundStore(
-    useShallow((state) => [state.age, state.increaseDemographies, state.decreaseResources, state.resources]),
+    useShallow((state) => [state.age, state.increaseDemographies, state.decreaseResources, state.getResources]),
   )
 
   const nextAge = ageCost.find(ac => ac.age === age + 1)

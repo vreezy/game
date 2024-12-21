@@ -43,7 +43,7 @@ export const sharedStore: StateCreator<
     return maxResource;
   },
   increaseResources: (cost) => {
-    const newResources = calcNewResources(cost, get().resources(), "increase");
+    const newResources = calcNewResources(cost, get().getResources(), "increase");
     const maxResources = get().getMaxResources();
 
     Object.keys(newResources).forEach((key) => {

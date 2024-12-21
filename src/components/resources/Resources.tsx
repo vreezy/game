@@ -19,7 +19,7 @@ export function Resources(): React.ReactElement {
     useShallow((state) => [
       state.tick,
       state.demographies,
-      state.resources,
+      state.getResources,
       state.getMaxResources,
     ])
   );
@@ -51,6 +51,9 @@ export function Resources(): React.ReactElement {
       </Item>
       <Item>
         population: {resources().population}/{getMaxResources().population}
+      </Item>
+      <Item>
+        Science: {getMaxResources().science}
       </Item>
     </Stack>
   );

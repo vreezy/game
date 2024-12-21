@@ -12,7 +12,7 @@ import { useBoundStore } from "../../stores/boundStore"
 
 export function Nothing(props: Readonly<BuildingProps>): React.ReactElement {
   const [tick, age, availableBuildingTypes, setBuilding, decreaseResources, resources] = useBoundStore(
-    useShallow((state) => [state.tick, state.age, state.availableBuildingTypes ,state.setBuilding, state.decreaseResources, state.resources,]),
+    useShallow((state) => [state.tick, state.age, state.availableBuildingTypes ,state.setBuilding, state.decreaseResources, state.getResources,]),
   )
 
   function _handleBuilding(type: BuildingType): void {

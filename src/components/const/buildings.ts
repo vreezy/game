@@ -16,15 +16,14 @@ export const BUILDINGS: IBuilding[] = [
     type: "cave",
     cost: {},
     createdTick: -1,
-
     age: 1000,
     increaseMax: {
       resources: {
-        wheat: 2000,
-        wood: 2000,
-        stone: 2000,
-        gold: 100,
-        population: 5
+        wheat: 100,
+        wood: 100,
+        gold: 10,
+        population: 5,
+        science: 1
       }
     }
   },

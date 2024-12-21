@@ -11,7 +11,7 @@ export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
     useBoundStore(
       useShallow((state) => [
         state.tick,
-        state.resources,
+        state.getResources,
         state.increaseResources,
         state.decreaseResources,
         state.setBuilding
