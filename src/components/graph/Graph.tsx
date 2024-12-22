@@ -13,24 +13,28 @@ import { Building } from "../buildings/Building";
 // Map/Background Layer
 
 export function Graph(): React.ReactElement {
-  const [nodes, setSelectedNodeKey, buildings] = useBoundStore(useShallow((state) => [state.nodes, state.setSelectedNodeKey, state.buildings]));
+  const [nodes, setSelectedNodeKey, buildings, getRoute] = useBoundStore(useShallow((state) => [state.nodes, state.setSelectedNodeKey, state.buildings, state.getRoute]));
 
   const gridItem = {
     // margin: "8px",
     border: "1px solid red",
   };
 
+
+  const route = getRoute("X5Y1", "X5Y19");
+  console.log("route", route);
+
   return (
     <Box sx={{position: "relative", width: "100%", height: "100%"}}>
       {/* Interaction */}
-      <Layer zIndex={"100"}>
+      <Layer zIndex={"1000"}>
         {nodes.map((node) => {
           return <Box key={getNodeKey(node)} sx={gridItem} ><button onClick={() => setSelectedNodeKey(getNodeKey(node))} style={{width: "100%", height:"100%", opacity: "0"}}></button></Box>;
         })}
       </Layer>
 
       {/* Buildings */}
-      <Layer zIndex={"90"}>
+      <Layer zIndex={"900"}>
         {nodes.map((node) => {
           const building = buildings.find((b) => b.nodeKey === getNodeKey(node));
           if(building) {
@@ -43,10 +47,24 @@ export function Graph(): React.ReactElement {
         }
       </Layer>
 
-
-      <Layer zIndex={"100"}>
+      <Layer zIndex={"800"}>
         {nodes.map((node) => {
-          return <Box key={getNodeKey(node)} sx={gridItem} ><button onClick={() => setSelectedNodeKey(getNodeKey(node))} style={{width: "100%", height:"100%", opacity: "0.2"}}>{getNodeKey(node)}</button></Box>;
+          if (Array.isArray(route)) {
+            const pathItem = route.find((str) => str === (getNodeKey(node)));
+            if(pathItem) {
+              return <Box key={getNodeKey(node)} sx={{backgroundColor: "green", opacity: "0.2"}} ></Box>;
+            }
+          }
+ 
+          return <Box key={getNodeKey(node)}></Box>;
+        })}
+      </Layer>
+      
+
+      {/* Dev */}
+      <Layer zIndex={"20"}>
+        {nodes.map((node) => {
+          return <Box key={getNodeKey(node)} sx={{opacity: "0.2"}} >{getNodeKey(node)}</Box>;
         })}
       </Layer>
 

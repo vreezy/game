@@ -29,7 +29,7 @@ function initBuildings(): IBuilding[] {
 
   buildings.push({
     ...getBuilding("cave"),
-    key: "crypto.randomUUID()",
+    key: crypto.randomUUID(),
     nodeKey: "X5Y2"
   });
 

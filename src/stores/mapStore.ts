@@ -33,7 +33,7 @@ export interface IMap {
 
 export interface MapStoreState extends IMap {
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
-  getRoute: (from: string, to: string, options: PathOption) => string[] | PathResult;
+  getRoute: (from: string, to: string, options?: PathOption) => string[] | PathResult;
 
   resetMapStore: () => void;
 }
@@ -55,7 +55,11 @@ function getNeighbors(node: INode): INode[] {
     const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
     const result = []
     for (const dir of dirs) {
-        result.push([node[0] + dir[0], node[1] + dir[1]])
+        // result.push([node[0] + dir[0], node[1] + dir[1]])
+        const neighbor = [node[0] + dir[0], node[1] + dir[1]]
+        if (0 <= neighbor[0] && neighbor[0] < GRAPH_SIZE[0] && 0 <= neighbor[1] && neighbor[1] < GRAPH_SIZE[1]) {
+          result.push(neighbor)
+        }
     }
     
     return result
@@ -80,6 +84,8 @@ function getRoute(nodes: INode[]): Graph {
     graph.set(getNodeKey(node), getNodeGraphs(node))
   }
 
+  console.log("graph", graph)
+
   const route = new Graph(graph);
   return route
 }
@@ -94,7 +100,7 @@ export const mapStore: StateCreator<
 > = (set, get) => ({
     nodes: getNodes(),
     selectedNodeKey: null,
-    getRoute: (from, to, options) => {
+    getRoute: (from, to, options = undefined) => {
       const nodes = get().nodes
       const route = getRoute(nodes)
       return route.path(from, to, options)

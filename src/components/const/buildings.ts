@@ -12,7 +12,7 @@ export const BUILDINGS: IBuilding[] = [
     age: 0
   },
   {
-    key: "X5Y2",
+    key: "31231",
     nodeKey: "",
     displayName: "Cave",
     type: "cave",

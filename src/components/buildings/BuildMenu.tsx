@@ -69,7 +69,10 @@ export function BuildMenu() {
       {building && 
         <>
           <p>Building: {building.displayName}</p>
-          <button onClick={() => _handleSell()}>Sell {building.displayName}</button>
+          {building.type !== "cave" &&
+            <button onClick={() => _handleSell()}>Sell {building.displayName}</button>
+          }
+
         </>
       }
 
