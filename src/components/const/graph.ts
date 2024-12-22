@@ -1,0 +1,1 @@
+export const GRAPH_SIZE = [20, 11]

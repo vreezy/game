@@ -1,4 +1,5 @@
 import { Box} from "@mui/material";
+import { GRAPH_SIZE } from "../const/graph";
 
 interface LayerProps extends React.PropsWithChildren {
   muh?: string;
@@ -7,8 +8,8 @@ interface LayerProps extends React.PropsWithChildren {
 export function Layer(props: Readonly<LayerProps>): React.ReactElement {
   const gridContainer = {
     display: "grid",
-    gridTemplateColumns: "repeat(20, 1fr)",
-    gridTemplateRows: "repeat(10, 1fr)",
+    gridTemplateColumns: `repeat(${GRAPH_SIZE[0]}, 100px)`,
+    gridTemplateRows: `repeat(${GRAPH_SIZE[1]}, 100px)`,
     width: "100%",
   };
 

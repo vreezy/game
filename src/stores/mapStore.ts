@@ -9,6 +9,7 @@ import { EngineStoreState } from "./engineStore";
 import Graph from "node-dijkstra";
 import { INode } from "../interfaces/INode";
 import { getNodeKey } from "../utils/getNodeKey";
+import { GRAPH_SIZE } from "../components/const/graph";
 
 // @types/node-dijkstra has no export -_-
 interface PathOption {
@@ -35,7 +36,7 @@ export interface MapStoreState extends IMap {
 }
 
 // https://www.redblobgames.com/pathfinding/grids/graphs.html
-function getNodes(maxX = 10, maxY = 20): INode[] {
+function getNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
   const nodes = [];
 
   for (let x = 0; x < maxX; x++) {
