@@ -9,26 +9,35 @@ import { hasEnoughResources } from "../../utils/hasEnoughResources";
 
 export function BuildMenu() {
 
-  const [tick, age, selectedNodeKey, setSelectedNodeKey, isBuildingAvailable, getResources, setBuilding, decreaseResources] = useBoundStore(
-    useShallow((state) => [state.tick, state.age, state.selectedNodeKey, state.setSelectedNodeKey, state.isBuildingAvailable, state.getResources, state.setBuilding, state.decreaseResources])
+  const [tick, age, selectedNodeKey, buildings, setSelectedNodeKey, isBuildingAvailable, getResources, setBuilding, decreaseResources] = useBoundStore(
+    useShallow((state) => [state.tick, state.age, state.selectedNodeKey, state.buildings, state.setSelectedNodeKey, state.isBuildingAvailable, state.getResources, state.setBuilding, state.decreaseResources])
   );  
 
-    function _handleBuilding(type: BuildingType): void {
-      const cost =  BUILDINGS.find(b => b.type === type)?.cost
-      if(cost && selectedNodeKey && hasEnoughResources(getResources(), cost) ) {
-        setBuilding(selectedNodeKey, type, tick)
-        decreaseResources(cost)
-        setSelectedNodeKey(null)
-      }
+  function _handleBuilding(type: BuildingType): void {
+    const cost =  BUILDINGS.find(b => b.type === type)?.cost
+    if(cost && selectedNodeKey && hasEnoughResources(getResources(), cost) ) {
+      setBuilding(selectedNodeKey, type, tick)
+      decreaseResources(cost)
+      setSelectedNodeKey(null)
     }
-  
-    function _isDisabled(type: BuildingType): boolean {
-      const cost = BUILDINGS.find(b => b.type === type)?.cost
-      if(cost) {
-        return !hasEnoughResources(getResources(), cost)  
-      }
-      return false
+  }
+
+  function _isDisabled(type: BuildingType): boolean {
+    const cost = BUILDINGS.find(b => b.type === type)?.cost
+    if(cost) {
+      return !hasEnoughResources(getResources(), cost)  
     }
+    return false
+  }
+
+  function _handleSell() {
+    if(selectedNodeKey) {
+      setBuilding(selectedNodeKey, "nothing", tick);
+      setSelectedNodeKey(null);
+    }    
+  }
+
+  const building = buildings.find((b) => b.nodeKey === selectedNodeKey);
 
     
   const style = {
@@ -57,18 +66,26 @@ export function BuildMenu() {
 
     <h2>Bau Menu - {selectedNodeKey}</h2>
 
+      {building && 
+        <>
+          <p>Building: {building.displayName}</p>
+          <button onClick={() => _handleSell()}>Sell {building.displayName}</button>
+        </>
+      }
 
-      <ul>
-        {BUILDINGS
-          .filter(b => b.age <= age)
-          .filter(b => b.type !== "nothing")
-          .filter(b => isBuildingAvailable(b.type))
-          .map(b => {
-          return (
-            <li key={b.type}><button disabled={_isDisabled(b.type)} onClick={() => _handleBuilding(b.type)}>{b.displayName} cost:{JSON.stringify(b.cost)}</button></li>      
-          )
-        })}
-      </ul>
+      {!building &&
+        <ul>
+          {BUILDINGS
+            .filter(b => b.age <= age)
+            .filter(b => b.type !== "nothing")
+            .filter(b => isBuildingAvailable(b.type))
+            .map(b => {
+            return (
+              <li key={b.type}><button disabled={_isDisabled(b.type)} onClick={() => _handleBuilding(b.type)}>{b.displayName} cost:{JSON.stringify(b.cost)}</button></li>      
+            )
+          })}
+        </ul>
+      }
 
 
     </Box>

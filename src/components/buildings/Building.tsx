@@ -1,7 +1,6 @@
 import { BuildingType, IBuilding } from "../../interfaces/IBuilding"
 
 import { Simple } from "./Simple";
-import { Nothing } from "./Nothing";
 import { Cave } from "./Cave";
 
 
@@ -41,7 +40,7 @@ export function Building(props: Readonly<BuildingProps>): React.ReactElement {
     },
     {
       type: "nothing",
-      element: <Nothing {...props} />
+      element: <></>
     }
   ]
   
