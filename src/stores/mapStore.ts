@@ -52,7 +52,15 @@ function getNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
 }
 
 function getNeighbors(node: INode): INode[] {
-    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    const fff = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+    // const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    const dirs: number[][] = []
+    fff.forEach((i) => {
+      dirs.push([i, 0])
+      dirs.push([-i, 0])
+      dirs.push([0, i])
+      dirs.push([0, -i])
+    })
     const result = []
     for (const dir of dirs) {
         // result.push([node[0] + dir[0], node[1] + dir[1]])
@@ -71,7 +79,25 @@ function getNodeGraphs(node: INode): Map<string, number> {
   const neighbors = getNeighbors(node)
 
   for (const neighbor of neighbors) {
-    graph.set(getNodeKey(neighbor), 1)
+    let cost = 1
+
+    if (neighbor[0] > 0) {
+      cost = neighbor[0] 
+    }
+
+    if (neighbor[1] > 0) {
+      cost = neighbor[1] 
+    }
+
+    if (neighbor[0] < 0) {
+      cost = neighbor[0] * -1
+    }
+
+    if (neighbor[1] < 0) {
+      cost = neighbor[1]  * -1
+    }
+    
+    graph.set(getNodeKey(neighbor), cost)
   }
 
   return graph
