@@ -10,6 +10,7 @@ import { PayTick } from "./components/PayTick/PayTick";
 import { Box, CssBaseline } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { Graph } from "./components/graph/Graph";
+import { BuildMenu } from "./components/buildings/BuildMenu";
 function App() {
   const gridContainer = {
     display: "grid",
@@ -68,6 +69,7 @@ function App() {
       <Tick />
       <PayTick />
       <TechTree />
+      <BuildMenu />
     </>
   );
 }

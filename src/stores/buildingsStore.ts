@@ -11,7 +11,7 @@ import { MapStoreState } from "./mapStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
-  setBuilding: (key: string, type: BuildingType, createdTick: number) => void;
+  setBuilding: (nodeKey: string, type: BuildingType, createdTick: number) => void;
   isBuildingAvailable: (type: BuildingType) => boolean;
   resetBuildingStore: () => void;
 }
@@ -29,36 +29,46 @@ function initBuildings(): IBuilding[] {
 
   buildings.push({
     ...getBuilding("cave"),
-    key: crypto.randomUUID(),
+    key: "crypto.randomUUID()",
+    nodeKey: "X5Y2"
   });
 
-  for (let i = 0; i < 4; i++) {
-    buildings.push({
-      ...getBuilding("nothing"),
-      key: crypto.randomUUID(),
-    });
-  }
+  // for (let i = 0; i < 4; i++) {
+  //   buildings.push({
+  //     ...getBuilding("nothing"),
+  //     key: crypto.randomUUID(),
+  //   });
+  // }
 
   return buildings;
 }
 
 function getNewBuildings(
   state: BuildingsStoreState,
-  key: string,
+  nodeKey: string,
   type: BuildingType,
   createdTick: number
 ) {
-  const index = state.buildings.findIndex((building) => building.key === key);
+  const newBuildings = [...state.buildings];
+  const index = state.buildings.findIndex((building) => building.nodeKey === nodeKey);
+  
+  // update building if it already exists
   if (index > -1) {
-    const newBuildings = [...state.buildings];
     newBuildings[index] = {
       ...getBuilding(type),
-      key,
+      nodeKey,
       createdTick,
     };
-    return newBuildings;
   }
-  return state.buildings;
+  else { // new building
+    newBuildings.push({
+      ...getBuilding(type),
+      nodeKey,
+      createdTick,
+    });
+  }
+
+  return newBuildings;  
 }
 
 export const buildingStore: StateCreator<
@@ -74,9 +84,9 @@ export const buildingStore: StateCreator<
   BuildingsStoreState
 > = (set, get) => ({
   buildings: initBuildings(),
-  setBuilding: (key, type, createdTick) =>
+  setBuilding: (nodeKey, type, createdTick) =>
     set((state) => ({
-      buildings: getNewBuildings(state, key, type, createdTick),
+      buildings: getNewBuildings(state, nodeKey, type, createdTick),
     })),
   isBuildingAvailable: (type) => {
     if (type === "forest") {

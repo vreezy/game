@@ -27,11 +27,14 @@ interface PathResult {
 
 export interface IMap {
   nodes: INode[]
+  selectedNodeKey: string | null;
   // graph: Map<string, number>;
 }
 
 export interface MapStoreState extends IMap {
+  setSelectedNodeKey: (selectedNodeKey: string | null) => void;
   getRoute: (from: string, to: string, options: PathOption) => string[] | PathResult;
+
   resetMapStore: () => void;
 }
 
@@ -90,14 +93,19 @@ export const mapStore: StateCreator<
   MapStoreState
 > = (set, get) => ({
     nodes: getNodes(),
+    selectedNodeKey: null,
     getRoute: (from, to, options) => {
       const nodes = get().nodes
       const route = getRoute(nodes)
       return route.path(from, to, options)
     },
+    setSelectedNodeKey: (selectedNodeKey) => {
+      set(() => ({selectedNodeKey}))
+    },
     resetMapStore: () => {
       set(() => ({
-        nodes: getNodes()
+        nodes: getNodes(),
+        selectedNodeKey: null
       }));
     }
 });
