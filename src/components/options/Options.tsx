@@ -4,8 +4,8 @@ import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
 
 export function Options(): React.ReactElement {
-  const [resetResourcesStore, resetBuildingStore, resetDemographyStore, resetEngineStore, resetTechStore, resetSharedStore] = useBoundStore(
-    useShallow((state) => [state.resetResourcesStore, state.resetBuildingStore, state.resetDemographyStore, state.resetEngineStore, state.resetTechStore, state.resetSharedStore])
+  const [resetResourcesStore, resetBuildingStore, resetDemographyStore, resetEngineStore, resetTechStore, resetMapStore, resetSharedStore] = useBoundStore(
+    useShallow((state) => [state.resetResourcesStore, state.resetBuildingStore, state.resetDemographyStore, state.resetEngineStore, state.resetTechStore, state.resetMapStore, state.resetSharedStore])
   );
 
   const [toggleTechTree] = useBoundStore(
@@ -19,6 +19,7 @@ export function Options(): React.ReactElement {
     resetDemographyStore();
     resetEngineStore();
     resetTechStore();
+    resetMapStore();
     resetSharedStore();
   }
 

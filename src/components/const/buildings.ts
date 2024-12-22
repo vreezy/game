@@ -3,6 +3,7 @@ import { IBuilding } from "../../interfaces/IBuilding"
 export const BUILDINGS: IBuilding[] = [
   {
     key: "0",
+    nodeKey: "",
     displayName: "Nothing",
     type: "nothing",
     cost: {},
@@ -12,6 +13,7 @@ export const BUILDINGS: IBuilding[] = [
   },
   {
     key: "0",
+    nodeKey: "",
     displayName: "Cave",
     type: "cave",
     cost: {},
@@ -29,6 +31,7 @@ export const BUILDINGS: IBuilding[] = [
   },
   {
     key: "1",
+    nodeKey: "",
     displayName: "Wheat Field",
     type: "wheatField",
     cost: {
@@ -46,6 +49,7 @@ export const BUILDINGS: IBuilding[] = [
   },
   {
     key: "2",
+    nodeKey: "",
     displayName: "Forest",
     type: "forest",
     cost: {    
@@ -62,6 +66,7 @@ export const BUILDINGS: IBuilding[] = [
   },
   { 
     key: "3",
+    nodeKey: "",
     displayName: "Quarry",
     type: "quarry",
     cost: {
@@ -82,6 +87,7 @@ export const BUILDINGS: IBuilding[] = [
   },
   { 
     key: "4",
+    nodeKey: "",
     displayName: "Hut",
     type: "hut",
     cost: {

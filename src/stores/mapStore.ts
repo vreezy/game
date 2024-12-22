@@ -7,20 +7,35 @@ import { TechStoreState } from "./techStore";
 import { EngineStoreState } from "./engineStore";
 
 import Graph from "node-dijkstra";
+import { INode } from "../interfaces/INode";
+import { getNodeKey } from "../utils/getNodeKey";
+
+// @types/node-dijkstra has no export -_-
+interface PathOption {
+  trim?: boolean | undefined; // Exclude the origin and destination nodes from the result
+  reverse?: boolean | undefined; // Return the path in reversed order
+  cost?: boolean | undefined; // Also return the cost of the path when set to true
+  avoid?: unknown[] | undefined; // ???
+}
+
+// @types/node-dijkstra has no export -_-
+interface PathResult {
+  path: string[];
+  cost: number;
+}
 
 export interface IMap {
-  graph: Map<string, number>;
+  nodes: INode[]
+  // graph: Map<string, number>;
 }
 
 export interface MapStoreState extends IMap {
-  getRoute: (from: string, to: string) => string[];
+  getRoute: (from: string, to: string, options: PathOption) => string[] | PathResult;
   resetMapStore: () => void;
 }
 
-type INode = number[]
-
 // https://www.redblobgames.com/pathfinding/grids/graphs.html
-function getNodes(maxX = 20, maxY = 10): INode[] {
+function getNodes(maxX = 10, maxY = 20): INode[] {
   const nodes = [];
 
   for (let x = 0; x < maxX; x++) {
@@ -42,28 +57,23 @@ function getNeighbors(node: INode): INode[] {
     return result
 }
 
-function getMapName(node: INode): string {
-  return `(X${node[0]}Y${node[1]})`
-}
-
-function getGraph(node: INode): Map<string, number> {
+function getNodeGraphs(node: INode): Map<string, number> {
   
   const graph = new Map()
   const neighbors = getNeighbors(node)
 
   for (const neighbor of neighbors) {
-    graph.set(getMapName(neighbor), 1)
+    graph.set(getNodeKey(neighbor), 1)
   }
 
   return graph
 }
 
-function getRoute(): Graph {
+function getRoute(nodes: INode[]): Graph {
   const graph = new Map();
-
-  const nodes = getNodes()
+  
   for (const node of nodes) {
-    graph.set(getMapName(node), getGraph(node))
+    graph.set(getNodeKey(node), getNodeGraphs(node))
   }
 
   const route = new Graph(graph);
@@ -77,12 +87,16 @@ export const mapStore: StateCreator<
   [],
   [],
   MapStoreState
-> = (set) => ({
-    graph: getGraph(),
-    getRoute: (from, to) => {
-      const route = getRoute()
+> = (set, get) => ({
+    nodes: getNodes(),
+    getRoute: (from, to, options) => {
+      const nodes = get().nodes
+      const route = getRoute(nodes)
+      return route.path(from, to, options)
     },
     resetMapStore: () => {
-      set(() => ({graph: getGraph()}));
+      set(() => ({
+        nodes: getNodes()
+      }));
     }
 });
