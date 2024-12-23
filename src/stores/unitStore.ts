@@ -6,13 +6,17 @@ import { SharedStoreState } from "./shareStore";
 import { TechStoreState } from "./techStore";
 import { MapStoreState } from "./mapStore";
 import { EngineStoreState } from "./engineStore";
+import { IUnit } from "../interfaces/IUnit";
 
 export interface IUnitStore {
-  units: unknown[];
+  units: IUnit[];
   
 }
 
 export interface UnitStoreState extends IUnitStore {
+  addUnits: (units: IUnit[]) => void;
+  addUnit: (unit: IUnit) => void;
+  removeUnit: (key: string) => void;
   resetUnitStore: () => void;
 }
 
@@ -30,6 +34,9 @@ export const unitStore: StateCreator<
   UnitStoreState
 > = (set) => ({
   ...initUnit(),
+  addUnit: (unit: IUnit) => set((state) => ({ units: [...state.units, unit] })),
+  addUnits: (units: IUnit[]) => set((state) => ({ units: [...state.units, ...units] })),
+  removeUnit: (key: string) => set((state) => ({ units: state.units.filter((u) => u.key !== key) })),
   resetUnitStore: () => {
     set(() => ({...initUnit()}));
   },

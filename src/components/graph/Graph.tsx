@@ -17,13 +17,14 @@ import { INode } from "../../interfaces/INode";
 // Map/Background Layer
 
 export function Graph(): React.ReactElement {
-  const [nodes, setSelectedNodeKey, buildings, getPath, isBlockingRoute] = useBoundStore(
+  const [nodes, setSelectedNodeKey, buildings, getPath, isBlockingRoute, units] = useBoundStore(
     useShallow((state) => [
       state.nodes,
       state.setSelectedNodeKey,
       state.buildings,
       state.getPath,
-      state.isBlockingRoute
+      state.isBlockingRoute,
+      state.units
     ])
   );
 
@@ -53,8 +54,18 @@ export function Graph(): React.ReactElement {
         })}
       </Layer>
 
-      {/* Buildings */}
+      {/* Units */}
       <Layer zIndex={"900"}>
+        {nodes.map((node) => {
+          return units.filter(unit => unit.nodeKey === getNodeKey(node)).map(unit => {
+            return <Box key={unit.key}><Box sx={{padding: "10px", width: "100%", height: "100%", backgroundColor: "blue"}}>{unit.displayName}</Box></Box>;
+          })
+          
+        })}
+      </Layer>
+
+      {/* Buildings */}
+      <Layer zIndex={"800"}>
         {nodes.map((node) => {
           const building = buildings.find(
             (b) => b.nodeKey === getNodeKey(node)
