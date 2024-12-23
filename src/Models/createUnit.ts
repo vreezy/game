@@ -1,6 +1,6 @@
-import { IUnit, IUnitType } from "../../interfaces/IUnit";
-import { UNIT_ENTRY } from "../const/graph";
-import { UNITS } from "../const/units";
+import { UNIT_ENTRY } from "../components/const/graph";
+import { UNITS } from "../components/const/units";
+import { IUnit, IUnitType } from "../interfaces/IUnit";
 
 export function createUnit(type: IUnitType, tick: number): IUnit {
 

@@ -11,6 +11,7 @@ import { INode } from "../interfaces/INode";
 import { getNodeKey } from "../utils/getNodeKey";
 import { GRAPH_SIZE, UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
 import { UnitStoreState } from "./unitStore";
+import { PathResult } from "../interfaces/PathResult";
 
 // @types/node-dijkstra has no export -_-
 interface PathOption {
@@ -24,11 +25,7 @@ interface ExtendedPathOption extends PathOption {
   blockingNode?: INode | undefined;
 }
 
-// @types/node-dijkstra has no export -_-
-interface PathResult {
-  path: string[];
-  cost: number;
-}
+
 
 export interface IMap {
   nodes: INode[];

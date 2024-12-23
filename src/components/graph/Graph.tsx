@@ -7,6 +7,7 @@ import { getNodeKey } from "../../utils/getNodeKey";
 import { Building } from "../buildings/Building";
 import { UNIT_ENTRY, UNIT_EXIT } from "../const/graph";
 import { INode } from "../../interfaces/INode";
+import { Unit } from "./Unit";
 
 // InteractionLayer
 // Dev Layer
@@ -35,7 +36,7 @@ export function Graph(): React.ReactElement {
     
   }
 
-  const route = getPath(UNIT_ENTRY, UNIT_EXIT);
+  const path = getPath(UNIT_ENTRY, UNIT_EXIT);
 
   return (
     <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
@@ -56,10 +57,15 @@ export function Graph(): React.ReactElement {
 
       {/* Units */}
       <Layer zIndex={"900"}>
-        {nodes.map((node) => {
-          return units.filter(unit => unit.nodeKey === getNodeKey(node)).map(unit => {
-            return <Box key={unit.key}><Box sx={{padding: "10px", width: "100%", height: "100%", backgroundColor: "blue"}}>{unit.displayName}</Box></Box>;
+        {...nodes.map((node) => {
+          const filteredUnits = units.filter(unit => unit.nodeKey === getNodeKey(node)).map(unit => {
+            return <Unit key={unit.key} unit={unit} path={path as string[]} />;
           })
+          if(filteredUnits.length > 0) {
+            return filteredUnits;
+          }
+
+          return <Box key={getNodeKey(node)}></Box>;
           
         })}
       </Layer>
@@ -84,8 +90,8 @@ export function Graph(): React.ReactElement {
       {/* Route */}
       <Layer zIndex={"800"}>
         {nodes.map((node) => {
-          if (Array.isArray(route)) {
-            const pathItem = route.find((str) => str === getNodeKey(node));
+          if (Array.isArray(path)) {
+            const pathItem = path.find((str) => str === getNodeKey(node));
             if (pathItem) {
               return (
                 <Box

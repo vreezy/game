@@ -2,7 +2,8 @@ import React from "react";
 import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
 import { WAVES } from "../const/waves";
-import { createUnit } from "./createUnit";
+import { createUnit } from "../../Models/createUnit";
+
 
 export function Wave() :React.ReactElement {
   
