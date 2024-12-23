@@ -6,6 +6,7 @@ import { Layer } from "./Layer";
 import { getNodeKey } from "../../utils/getNodeKey";
 import { Building } from "../buildings/Building";
 import { UNIT_ENTRY, UNIT_EXIT } from "../const/graph";
+import { INode } from "../../interfaces/INode";
 
 // InteractionLayer
 // Dev Layer
@@ -16,14 +17,22 @@ import { UNIT_ENTRY, UNIT_EXIT } from "../const/graph";
 // Map/Background Layer
 
 export function Graph(): React.ReactElement {
-  const [nodes, setSelectedNodeKey, buildings, getRoute] = useBoundStore(
+  const [nodes, setSelectedNodeKey, buildings, getRoute, isBlockingRoute] = useBoundStore(
     useShallow((state) => [
       state.nodes,
       state.setSelectedNodeKey,
       state.buildings,
       state.getRoute,
+      state.isBlockingRoute
     ])
   );
+
+  function _handleOpenBuildMenu(node: INode): void {
+    // if(!isBlockingRoute(UNIT_ENTRY, UNIT_EXIT, node)) {
+      setSelectedNodeKey(getNodeKey(node))
+    // }
+    
+  }
 
   const route = getRoute(UNIT_ENTRY, UNIT_EXIT);
 
@@ -33,9 +42,10 @@ export function Graph(): React.ReactElement {
       <Layer zIndex={"1000"}>
         {nodes.map((node) => {
           return (
-            <Box key={getNodeKey(node)} sx={{ border: "1px solid red" }}>
+            <Box key={getNodeKey(node)} sx={{ border: `1px solid ${isBlockingRoute(UNIT_ENTRY, UNIT_EXIT, node) ? "red" : "green"}` }}>
               <button
-                onClick={() => setSelectedNodeKey(getNodeKey(node))}
+                disabled={isBlockingRoute(UNIT_ENTRY, UNIT_EXIT, node)}
+                onClick={() => _handleOpenBuildMenu(node)}
                 style={{ width: "100%", height: "100%", opacity: "0" }}
               ></button>
             </Box>

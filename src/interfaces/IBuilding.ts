@@ -21,4 +21,4 @@ export interface IBuilding extends IStructure {
 
 type SimpleResourceType = "wheatField" | "forest" | "quarry"
 
-export type BuildingType = "cave" | SimpleResourceType | "hut" | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"
+export type BuildingType = "cave" | "spawn" | SimpleResourceType | "hut" | "temple" | "governmentBuilding" | "colosseum" | "nothing" | "bank" | "test"

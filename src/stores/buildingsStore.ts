@@ -8,6 +8,7 @@ import { SharedStoreState } from "./shareStore";
 import { TechStoreState } from "./techStore";
 import { ITechTree } from "../interfaces/ITechTree";
 import { MapStoreState } from "./mapStore";
+import { UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
@@ -35,15 +36,15 @@ function initBuildings(): IBuilding[] {
   buildings.push({
     ...getBuilding("cave"),
     key: crypto.randomUUID(),
-    nodeKey: "X5Y2",
+    nodeKey: UNIT_EXIT,
   });
 
-  // for (let i = 0; i < 4; i++) {
-  //   buildings.push({
-  //     ...getBuilding("nothing"),
-  //     key: crypto.randomUUID(),
-  //   });
-  // }
+
+  buildings.push({
+    ...getBuilding("spawn"),
+    key: crypto.randomUUID(),
+    nodeKey: UNIT_ENTRY,
+  });
 
   return buildings;
 }

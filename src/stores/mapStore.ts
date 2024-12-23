@@ -16,7 +16,11 @@ interface PathOption {
   trim?: boolean | undefined; // Exclude the origin and destination nodes from the result
   reverse?: boolean | undefined; // Return the path in reversed order
   cost?: boolean | undefined; // Also return the cost of the path when set to true
-  avoid?: unknown[] | undefined; // ???
+  avoid?: INode[] | undefined; // ???
+}
+
+interface ExtendedPathOption extends PathOption {
+  blockingNode?: INode | undefined;
 }
 
 // @types/node-dijkstra has no export -_-
@@ -32,12 +36,13 @@ export interface IMap {
 
 export interface MapStoreState extends IMap {
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
+  getNodeByKey: (nodeKey: string) => INode | undefined;
   getRoute: (
     from: string,
     to: string,
-    options?: PathOption
+    options?: ExtendedPathOption
   ) => string[] | PathResult;
-
+  isBlockingRoute: (from: string, to: string, node: INode) => boolean;
   resetMapStore: () => void;
 }
 
@@ -90,7 +95,7 @@ function getNodeGraphs(node: INode): Map<string, number> {
   return graph;
 }
 
-function getRoute(nodes: INode[]): Graph {
+function getGraphRoute(nodes: INode[]): Graph {
   const graph = new Map();
 
   for (const node of nodes) {
@@ -122,13 +127,36 @@ export const mapStore: StateCreator<
       if (getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
         return true;
       }
+
+      if(options?.blockingNode && getNodeKey(node) === getNodeKey(options.blockingNode)) {
+        return false;
+      }
+
       return !nodeKeys.includes(getNodeKey(node));
     });
-    const route = getRoute(filteredNodes);
+    const route = getGraphRoute(filteredNodes);
     return route.path(from, to, options);
+  },
+  getNodeByKey: (nodeKey) => {
+    return get().nodes.find((node) => getNodeKey(node) === nodeKey);
   },
   setSelectedNodeKey: (selectedNodeKey) => {
     set(() => ({ selectedNodeKey }));
+  },
+  isBlockingRoute: (from, to, node) => {
+    
+    
+    const route = get().getRoute(from, to, { blockingNode: node });
+    console.log("blocking",node, route);
+    if (Array.isArray(route)) {
+      
+      return false;
+    }
+ 
+
+    return true;
+    
+    
   },
   resetMapStore: () => {
     set(() => ({

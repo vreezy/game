@@ -30,6 +30,15 @@ export const BUILDINGS: IBuilding[] = [
     }
   },
   {
+    key: "222dqd",
+    nodeKey: "",
+    displayName: "Spawn",
+    type: "spawn",
+    cost: {},
+    createdTick: -1,
+    age: 1000,
+  },
+  {
     key: "1",
     nodeKey: "",
     displayName: "Wheat Field",

@@ -2,6 +2,7 @@ import { BuildingType, IBuilding } from "../../interfaces/IBuilding"
 
 import { Simple } from "./Simple";
 import { Cave } from "./Cave";
+import { Spawn } from "./Spawn";
 
 
 export interface BuildingProps  {
@@ -21,6 +22,10 @@ export function Building(props: Readonly<BuildingProps>): React.ReactElement {
     {
       type: "cave",
       element: <Cave />
+    },
+    {
+      type: "spawn",
+      element: <Spawn />
     },
     {
       type: "wheatField",

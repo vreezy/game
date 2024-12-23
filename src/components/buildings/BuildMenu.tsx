@@ -86,7 +86,7 @@ export function BuildMenu() {
         {building && (
           <>
             <p>Building: {building.displayName}</p>
-            {building.type !== "cave" && (
+            {(building.type !== "cave" && building.type !== "spawn") && (
               <button onClick={() => _handleSell()}>
                 Sell {building.displayName}
               </button>
