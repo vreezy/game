@@ -11,7 +11,11 @@ import { MapStoreState } from "./mapStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
-  setBuilding: (nodeKey: string, type: BuildingType, createdTick: number) => void;
+  setBuilding: (
+    nodeKey: string,
+    type: BuildingType,
+    createdTick: number
+  ) => void;
   removeBuilding: (nodeKey: string) => void;
   isBuildingAvailable: (type: BuildingType) => boolean;
   resetBuildingStore: () => void;
@@ -31,7 +35,7 @@ function initBuildings(): IBuilding[] {
   buildings.push({
     ...getBuilding("cave"),
     key: crypto.randomUUID(),
-    nodeKey: "X5Y2"
+    nodeKey: "X5Y2",
   });
 
   // for (let i = 0; i < 4; i++) {
@@ -51,8 +55,10 @@ function getNewBuildings(
   createdTick: number
 ) {
   const newBuildings = [...state.buildings];
-  const index = state.buildings.findIndex((building) => building.nodeKey === nodeKey);
-  
+  const index = state.buildings.findIndex(
+    (building) => building.nodeKey === nodeKey
+  );
+
   // update building if it already exists
   if (index > -1) {
     newBuildings[index] = {
@@ -60,8 +66,8 @@ function getNewBuildings(
       nodeKey,
       createdTick,
     };
-  }
-  else { // new building
+  } else {
+    // new building
     newBuildings.push({
       ...getBuilding(type),
       nodeKey,
@@ -69,7 +75,7 @@ function getNewBuildings(
     });
   }
 
-  return newBuildings;  
+  return newBuildings;
 }
 
 export const buildingStore: StateCreator<

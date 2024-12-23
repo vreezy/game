@@ -26,18 +26,22 @@ interface PathResult {
 }
 
 export interface IMap {
-  nodes: INode[]
+  nodes: INode[];
   selectedNodeKey: string | null;
-  // graph: Map<string, number>;
 }
 
 export interface MapStoreState extends IMap {
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
-  getRoute: (from: string, to: string, options?: PathOption) => string[] | PathResult;
+  getRoute: (
+    from: string,
+    to: string,
+    options?: PathOption
+  ) => string[] | PathResult;
 
   resetMapStore: () => void;
 }
 
+// https://www.redblobgames.com/pathfinding/tower-defense/
 // https://www.redblobgames.com/pathfinding/grids/graphs.html
 function getNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
   const nodes = [];
@@ -48,80 +52,88 @@ function getNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
     }
   }
 
-  return nodes
+  return nodes;
 }
 
 function getNeighbors(node: INode): INode[] {
-    
-    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
-       
-    const result = []
-    for (const dir of dirs) {
-        // result.push([node[0] + dir[0], node[1] + dir[1]])
-        const neighbor = [node[0] + dir[0], node[1] + dir[1]]
-        // GRAPH_SIZE = [20, 11]
-        if (0 <= neighbor[0] && neighbor[0] < GRAPH_SIZE[1] && 0 <= neighbor[1] && neighbor[1] < GRAPH_SIZE[0]) {
-          result.push(neighbor)
-        }
+  const dirs = [
+    [1, 0],
+    [0, 1],
+    [-1, 0],
+    [0, -1],
+  ];
+
+  const result = [];
+  for (const dir of dirs) {
+    const neighbor = [node[0] + dir[0], node[1] + dir[1]];
+    if (
+      0 <= neighbor[0] &&
+      neighbor[0] < GRAPH_SIZE[1] &&
+      0 <= neighbor[1] &&
+      neighbor[1] < GRAPH_SIZE[0]
+    ) {
+      result.push(neighbor);
     }
-    
-    return result
+  }
+
+  return result;
 }
 
 function getNodeGraphs(node: INode): Map<string, number> {
-  
-  const graph = new Map()
-  const neighbors = getNeighbors(node)
+  const graph = new Map();
+  const neighbors = getNeighbors(node);
 
   for (const neighbor of neighbors) {
-    graph.set(getNodeKey(neighbor), 1)
+    graph.set(getNodeKey(neighbor), 1);
   }
 
-  return graph
+  return graph;
 }
 
 function getRoute(nodes: INode[]): Graph {
   const graph = new Map();
-  
+
   for (const node of nodes) {
-    graph.set(getNodeKey(node), getNodeGraphs(node))
+    graph.set(getNodeKey(node), getNodeGraphs(node));
   }
 
-  console.log("graph", graph)
-
   const route = new Graph(graph);
-  return route
+  return route;
 }
 
-// https://www.redblobgames.com/pathfinding/tower-defense/
-
 export const mapStore: StateCreator<
-  BuildingsStoreState & DemographyStoreState & EngineStoreState & ResourcesStoreState & TechStoreState & MapStoreState & SharedStoreState,
+  BuildingsStoreState &
+    DemographyStoreState &
+    EngineStoreState &
+    ResourcesStoreState &
+    TechStoreState &
+    MapStoreState &
+    SharedStoreState,
   [],
   [],
   MapStoreState
 > = (set, get) => ({
-    nodes: getNodes(),
-    selectedNodeKey: null,
-    getRoute: (from, to, options = undefined) => {
-      const nodes = get().nodes
-      const nodeKeys = get().buildings.map(b => b.nodeKey)
-      const filteredNodes = nodes.filter(node => {
-        if(getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
-          return true
-        }
-        return !nodeKeys.includes(getNodeKey(node))
-      })
-      const route = getRoute(filteredNodes)
-      return route.path(from, to, options)
-    },
-    setSelectedNodeKey: (selectedNodeKey) => {
-      set(() => ({selectedNodeKey}))
-    },
-    resetMapStore: () => {
-      set(() => ({
-        nodes: getNodes(),
-        selectedNodeKey: null
-      }));
-    }
+  nodes: getNodes(),
+  selectedNodeKey: null,
+  getRoute: (from, to, options = undefined) => {
+    const nodes = get().nodes;
+    const nodeKeys = get().buildings.map((b) => b.nodeKey);
+    const filteredNodes = nodes.filter((node) => {
+      if (getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
+        return true;
+      }
+      return !nodeKeys.includes(getNodeKey(node));
+    });
+    const route = getRoute(filteredNodes);
+    return route.path(from, to, options);
+  },
+  setSelectedNodeKey: (selectedNodeKey) => {
+    set(() => ({ selectedNodeKey }));
+  },
+  resetMapStore: () => {
+    set(() => ({
+      nodes: getNodes(),
+      selectedNodeKey: null,
+    }));
+  },
 });
