@@ -5,6 +5,7 @@ import { EngineStoreState } from "./engineStore";
 import { ResourcesStoreState } from "./resourcesStore";
 import { TechStoreState } from "./techStore";
 import { MapStoreState } from "./mapStore";
+import { UnitStoreState } from "./unitStore";
 
 export interface SharedStoreState {
   resetSharedStore: () => void;
@@ -17,6 +18,7 @@ export const sharedStore: StateCreator<
     ResourcesStoreState &
     TechStoreState &
     MapStoreState &
+    UnitStoreState &
     SharedStoreState,
   [],
   [],

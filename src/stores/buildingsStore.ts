@@ -9,6 +9,7 @@ import { TechStoreState } from "./techStore";
 import { ITechTree } from "../interfaces/ITechTree";
 import { MapStoreState } from "./mapStore";
 import { UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
+import { UnitStoreState } from "./unitStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
@@ -86,6 +87,7 @@ export const buildingStore: StateCreator<
     ResourcesStoreState &
     TechStoreState &
     MapStoreState &
+    UnitStoreState &
     SharedStoreState,
   [],
   [],

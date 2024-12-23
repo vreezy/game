@@ -1,14 +1,12 @@
 import { BuildingType } from "./IBuilding";
 import { DefenseType } from "./IDefense";
+import { IGameObject } from "./IGameObject";
 import { ILease } from "./ILease";
 import { IResources } from "./IResources";
 
-export interface IStructure {
-  displayName: string;
-  key: string;
-  nodeKey: string;
+
+export interface IStructure extends IGameObject {
   type: BuildingType | DefenseType;
-  createdTick: number;
   cost: Partial<IResources>;
   lease?: ILease;
   age: number;

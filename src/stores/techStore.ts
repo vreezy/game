@@ -7,6 +7,7 @@ import { initTechTree } from "../components/const/techs";
 import { EngineStoreState } from "./engineStore";
 import { ITechTree } from "../interfaces/ITechTree";
 import { MapStoreState } from "./mapStore";
+import { UnitStoreState } from "./unitStore";
 
 export interface TechStoreState extends ITechTree {
   activeTechKey: string;
@@ -30,6 +31,7 @@ export const techStore: StateCreator<
     ResourcesStoreState &
     TechStoreState &
     MapStoreState &
+    UnitStoreState &
     SharedStoreState,
   [],
   [],
@@ -40,23 +42,25 @@ export const techStore: StateCreator<
   activeTechKey: "",
   isTechAvailable: (treeKey, techKey) => {
     const tree = get().getTechTree();
-    const techToCheck = tree[treeKey].find((tech) => tech.techKey === techKey)
+    const techToCheck = tree[treeKey].find((tech) => tech.techKey === techKey);
 
-    if(techToCheck && techToCheck.requiredTechKeys.length === 0) {
-      return true;      
+    if (techToCheck && techToCheck.requiredTechKeys.length === 0) {
+      return true;
     }
 
-    if(techToCheck) {
+    if (techToCheck) {
       return techToCheck.requiredTechKeys.every((requiredTechKey) => {
-        const requiredTech = tree[treeKey].find((tech) => tech.techKey === requiredTechKey)
-        if(requiredTech && requiredTech.paid === requiredTech.cost) {
-          return true
-        } 
+        const requiredTech = tree[treeKey].find(
+          (tech) => tech.techKey === requiredTechKey
+        );
+        if (requiredTech && requiredTech.paid === requiredTech.cost) {
+          return true;
+        }
 
-        return false
-      })
+        return false;
+      });
     }
-    
+
     return false;
   },
   getTechTree: () => {
@@ -95,7 +99,6 @@ export const techStore: StateCreator<
       set(() => ({
         ...tree,
         lastPayTechTick: tick,
-
       }));
     }
   },

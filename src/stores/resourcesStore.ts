@@ -8,6 +8,7 @@ import { TechStoreState } from "./techStore";
 import { createResources } from "../Models/createResources";
 import { calcNewResources } from "../utils/calcNewResources";
 import { MapStoreState } from "./mapStore";
+import { UnitStoreState } from "./unitStore";
 
 export interface ResourcesStoreState extends IResources {
   // increaseResources: (resources: Partial<IResources>)  => void
@@ -50,6 +51,7 @@ export const resourcesStore: StateCreator<
     ResourcesStoreState &
     TechStoreState &
     MapStoreState &
+    UnitStoreState &
     SharedStoreState,
   [],
   [],

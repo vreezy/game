@@ -10,6 +10,7 @@ import Graph from "node-dijkstra";
 import { INode } from "../interfaces/INode";
 import { getNodeKey } from "../utils/getNodeKey";
 import { GRAPH_SIZE, UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
+import { UnitStoreState } from "./unitStore";
 
 // @types/node-dijkstra has no export -_-
 interface PathOption {
@@ -37,7 +38,7 @@ export interface IMap {
 export interface MapStoreState extends IMap {
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
   getNodeByKey: (nodeKey: string) => INode | undefined;
-  getRoute: (
+  getPath: (
     from: string,
     to: string,
     options?: ExtendedPathOption
@@ -113,6 +114,7 @@ export const mapStore: StateCreator<
     ResourcesStoreState &
     TechStoreState &
     MapStoreState &
+    UnitStoreState &
     SharedStoreState,
   [],
   [],
@@ -120,7 +122,7 @@ export const mapStore: StateCreator<
 > = (set, get) => ({
   nodes: getNodes(),
   selectedNodeKey: null,
-  getRoute: (from, to, options = undefined) => {
+  getPath: (from, to, options = undefined) => {
     const nodes = get().nodes;
     const nodeKeys = get().buildings.map((b) => b.nodeKey);
     const filteredNodes = nodes.filter((node) => {
@@ -128,7 +130,10 @@ export const mapStore: StateCreator<
         return true;
       }
 
-      if(options?.blockingNode && getNodeKey(node) === getNodeKey(options.blockingNode)) {
+      if (
+        options?.blockingNode &&
+        getNodeKey(node) === getNodeKey(options.blockingNode)
+      ) {
         return false;
       }
 
@@ -144,19 +149,11 @@ export const mapStore: StateCreator<
     set(() => ({ selectedNodeKey }));
   },
   isBlockingRoute: (from, to, node) => {
-    
-    
-    const route = get().getRoute(from, to, { blockingNode: node });
-    console.log("blocking",node, route);
+    const route = get().getPath(from, to, { blockingNode: node });
     if (Array.isArray(route)) {
-      
       return false;
     }
- 
-
     return true;
-    
-    
   },
   resetMapStore: () => {
     set(() => ({

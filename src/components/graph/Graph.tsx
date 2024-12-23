@@ -17,12 +17,12 @@ import { INode } from "../../interfaces/INode";
 // Map/Background Layer
 
 export function Graph(): React.ReactElement {
-  const [nodes, setSelectedNodeKey, buildings, getRoute, isBlockingRoute] = useBoundStore(
+  const [nodes, setSelectedNodeKey, buildings, getPath, isBlockingRoute] = useBoundStore(
     useShallow((state) => [
       state.nodes,
       state.setSelectedNodeKey,
       state.buildings,
-      state.getRoute,
+      state.getPath,
       state.isBlockingRoute
     ])
   );
@@ -34,7 +34,7 @@ export function Graph(): React.ReactElement {
     
   }
 
-  const route = getRoute(UNIT_ENTRY, UNIT_EXIT);
+  const route = getPath(UNIT_ENTRY, UNIT_EXIT);
 
   return (
     <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
