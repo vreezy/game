@@ -9,8 +9,8 @@ import { hasEnoughResources } from "../../utils/hasEnoughResources";
 
 export function BuildMenu() {
 
-  const [tick, age, selectedNodeKey, buildings, setSelectedNodeKey, isBuildingAvailable, getResources, setBuilding, decreaseResources] = useBoundStore(
-    useShallow((state) => [state.tick, state.age, state.selectedNodeKey, state.buildings, state.setSelectedNodeKey, state.isBuildingAvailable, state.getResources, state.setBuilding, state.decreaseResources])
+  const [tick, age, selectedNodeKey, buildings, setSelectedNodeKey, isBuildingAvailable, getResources, setBuilding, decreaseResources, removeBuilding] = useBoundStore(
+    useShallow((state) => [state.tick, state.age, state.selectedNodeKey, state.buildings, state.setSelectedNodeKey, state.isBuildingAvailable, state.getResources, state.setBuilding, state.decreaseResources, state.removeBuilding])
   );  
 
   function _handleBuilding(type: BuildingType): void {
@@ -32,7 +32,7 @@ export function BuildMenu() {
 
   function _handleSell() {
     if(selectedNodeKey) {
-      setBuilding(selectedNodeKey, "nothing", tick);
+      removeBuilding(selectedNodeKey);
       setSelectedNodeKey(null);
     }    
   }

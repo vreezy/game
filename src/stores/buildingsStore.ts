@@ -12,6 +12,7 @@ import { MapStoreState } from "./mapStore";
 export interface BuildingsStoreState {
   buildings: IBuilding[];
   setBuilding: (nodeKey: string, type: BuildingType, createdTick: number) => void;
+  removeBuilding: (nodeKey: string) => void;
   isBuildingAvailable: (type: BuildingType) => boolean;
   resetBuildingStore: () => void;
 }
@@ -84,6 +85,11 @@ export const buildingStore: StateCreator<
   BuildingsStoreState
 > = (set, get) => ({
   buildings: initBuildings(),
+  removeBuilding: (nodeKey) => {
+    set((state) => ({
+      buildings: state.buildings.filter((b) => b.nodeKey !== nodeKey),
+    }));
+  },
   setBuilding: (nodeKey, type, createdTick) =>
     set((state) => ({
       buildings: getNewBuildings(state, nodeKey, type, createdTick),

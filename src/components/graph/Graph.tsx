@@ -5,6 +5,7 @@ import { useShallow } from "zustand/shallow";
 import { Layer } from "./Layer";
 import { getNodeKey } from "../../utils/getNodeKey";
 import { Building } from "../buildings/Building";
+import { UNIT_ENTRY, UNIT_EXIT } from "../const/graph";
 
 // InteractionLayer
 // Dev Layer
@@ -21,7 +22,7 @@ export function Graph(): React.ReactElement {
   };
 
 
-  const route = getRoute("X5Y1", "X5Y19");
+  const route = getRoute(UNIT_ENTRY, UNIT_EXIT);
   console.log("route", route);
 
   return (
@@ -41,7 +42,6 @@ export function Graph(): React.ReactElement {
             return <Box key={getNodeKey(node)}><Building building={building} /></Box>;
           }
           return <Box key={getNodeKey(node)}></Box>;
-          // {buildings.map((building) => <Box key={building.key} sx={gridItem}><Building key={building.key} building={building} /></Box>)}
         })
         
         }

@@ -9,7 +9,7 @@ import { EngineStoreState } from "./engineStore";
 import Graph from "node-dijkstra";
 import { INode } from "../interfaces/INode";
 import { getNodeKey } from "../utils/getNodeKey";
-import { GRAPH_SIZE } from "../components/const/graph";
+import { GRAPH_SIZE, UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
 
 // @types/node-dijkstra has no export -_-
 interface PathOption {
@@ -52,20 +52,15 @@ function getNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
 }
 
 function getNeighbors(node: INode): INode[] {
-    const fff = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
-    // const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
-    const dirs: number[][] = []
-    fff.forEach((i) => {
-      dirs.push([i, 0])
-      dirs.push([-i, 0])
-      dirs.push([0, i])
-      dirs.push([0, -i])
-    })
+    
+    const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+       
     const result = []
     for (const dir of dirs) {
         // result.push([node[0] + dir[0], node[1] + dir[1]])
         const neighbor = [node[0] + dir[0], node[1] + dir[1]]
-        if (0 <= neighbor[0] && neighbor[0] < GRAPH_SIZE[0] && 0 <= neighbor[1] && neighbor[1] < GRAPH_SIZE[1]) {
+        // GRAPH_SIZE = [20, 11]
+        if (0 <= neighbor[0] && neighbor[0] < GRAPH_SIZE[1] && 0 <= neighbor[1] && neighbor[1] < GRAPH_SIZE[0]) {
           result.push(neighbor)
         }
     }
@@ -79,25 +74,7 @@ function getNodeGraphs(node: INode): Map<string, number> {
   const neighbors = getNeighbors(node)
 
   for (const neighbor of neighbors) {
-    let cost = 1
-
-    if (neighbor[0] > 0) {
-      cost = neighbor[0] 
-    }
-
-    if (neighbor[1] > 0) {
-      cost = neighbor[1] 
-    }
-
-    if (neighbor[0] < 0) {
-      cost = neighbor[0] * -1
-    }
-
-    if (neighbor[1] < 0) {
-      cost = neighbor[1]  * -1
-    }
-    
-    graph.set(getNodeKey(neighbor), cost)
+    graph.set(getNodeKey(neighbor), 1)
   }
 
   return graph
@@ -128,7 +105,14 @@ export const mapStore: StateCreator<
     selectedNodeKey: null,
     getRoute: (from, to, options = undefined) => {
       const nodes = get().nodes
-      const route = getRoute(nodes)
+      const nodeKeys = get().buildings.map(b => b.nodeKey)
+      const filteredNodes = nodes.filter(node => {
+        if(getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
+          return true
+        }
+        return !nodeKeys.includes(getNodeKey(node))
+      })
+      const route = getRoute(filteredNodes)
       return route.path(from, to, options)
     },
     setSelectedNodeKey: (selectedNodeKey) => {
