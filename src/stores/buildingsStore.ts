@@ -13,6 +13,7 @@ import { UnitStoreState } from "./unitStore";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
+  getBuildings: () => IBuilding[];
   setBuilding: (
     nodeKey: string,
     type: BuildingType,
@@ -94,6 +95,7 @@ export const buildingStore: StateCreator<
   BuildingsStoreState
 > = (set, get) => ({
   buildings: initBuildings(),
+  getBuildings: () => get().buildings,
   removeBuilding: (nodeKey) => {
     set((state) => ({
       buildings: state.buildings.filter((b) => b.nodeKey !== nodeKey),
