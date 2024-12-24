@@ -31,7 +31,7 @@ export function Unit(props: IUnitProps): React.ReactElement {
     
     const nextMoveTick = props.unit.createdTick + props.unit.speed;
 
-    console.log("Unit", props.unit.key, "currentNodeIndex", currentNodeIndex, "nextNodeIndex", nextNodeIndex, "nextMoveTick", nextMoveTick, "tick", tick);
+    // console.log("Unit", props.unit.key, "currentNodeIndex", currentNodeIndex, "nextNodeIndex", nextNodeIndex, "nextMoveTick", nextMoveTick, "tick", tick);
     
     if(nextMoveTick === tick) {
       if(nextNodeIndex >= props.path.length) {

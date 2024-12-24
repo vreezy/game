@@ -57,6 +57,21 @@ export const BUILDINGS: IBuilding[] = [
     }
   },
   {
+    key: "AAA",
+    nodeKey: "",
+    displayName: "Tower",
+    type: "tower",
+    cost: {    
+    },
+    createdTick: -1,
+    age: 0,
+    weapons: {
+      damage: 1,
+      range: 2
+    }
+
+  },
+  {
     key: "2",
     nodeKey: "",
     displayName: "Forest",

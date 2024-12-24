@@ -3,10 +3,12 @@ import { BuildingType, IBuilding } from "../../interfaces/IBuilding"
 import { Simple } from "./Simple";
 import { Cave } from "./Cave";
 import { Spawn } from "./Spawn";
+import { INode } from "../../interfaces/INode";
 
 
 export interface BuildingProps  {
   building: IBuilding;
+  node: INode;
 }
 
 interface BuildingMap {
@@ -41,6 +43,10 @@ export function Building(props: Readonly<BuildingProps>): React.ReactElement {
     },
     {
       type: "hut",
+      element: <Simple {...props} />
+    },
+    {
+      type: "tower",
       element: <Simple {...props} />
     },
     {

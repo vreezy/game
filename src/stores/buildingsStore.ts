@@ -104,7 +104,7 @@ export const buildingStore: StateCreator<
       buildings: getNewBuildings(state, nodeKey, type, createdTick),
     })),
   isBuildingAvailable: (type) => {
-    if (type === "forest") {
+    if (type === "forest" || type === "tower") {
       return true;
     }
 

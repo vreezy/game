@@ -79,7 +79,7 @@ export function Graph(): React.ReactElement {
           if (building) {
             return (
               <Box key={getNodeKey(node)}>
-                <Building building={building} />
+                <Building building={building} node={node}/>
               </Box>
             );
           }
