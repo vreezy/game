@@ -1,5 +1,6 @@
 import { IUnit } from "../../interfaces/IUnit";
 
+// speed = ticks to move ONE node
 export const UNITS: IUnit[] = [
   {
     key: "unit1",
@@ -7,7 +8,9 @@ export const UNITS: IUnit[] = [
     displayName: "Worker",
     type: "worker",
     createdTick: 0,
-    speed: 0.1
+    speed: 10,
+    lastPathIndex: 0,
+    live: 10
   },
   {
     key: "unit2",
@@ -15,7 +18,10 @@ export const UNITS: IUnit[] = [
     displayName: "Soldier",
     type: "soldier",
     createdTick: 0,
-    speed: 0.1
+    speed: 10,
+    lastPathIndex: 0,
+    live: 10
+
   },
   {
     key: "unit3",
@@ -23,7 +29,10 @@ export const UNITS: IUnit[] = [
     displayName: "Nothing",
     type: "nothing",
     createdTick: 0,
-    speed: 0.1
+    speed: 10,
+    lastPathIndex: 0,
+    live: 10
+
   },
   {
     key: "unit4",
@@ -31,6 +40,9 @@ export const UNITS: IUnit[] = [
     displayName: "Test",
     type: "test",
     createdTick: 0,
-    speed: 0.1
+    speed: 10,
+    lastPathIndex: 0,
+    live: 10
+
   }
 ]
