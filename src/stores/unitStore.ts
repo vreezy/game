@@ -14,6 +14,7 @@ export interface IUnitStore {
 }
 
 export interface UnitStoreState extends IUnitStore {
+  getUnits: () => IUnit[];
   addUnits: (units: IUnit[]) => void;
   addUnit: (unit: IUnit) => void;
   removeUnit: (key: string) => void;
@@ -33,8 +34,9 @@ export const unitStore: StateCreator<
   [],
   [],
   UnitStoreState
-> = (set) => ({
+> = (set, get) => ({
   ...initUnit(),
+  getUnits: () => get().units,
   addUnit: (unit: IUnit) => set((state) => ({ units: [...state.units, unit] })),
   addUnits: (units: IUnit[]) => set((state) => ({ units: [...state.units, ...units] })),
   removeUnit: (key: string) => set((state) => ({ units: state.units.filter((u) => u.key !== key) })),

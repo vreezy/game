@@ -33,6 +33,7 @@ export interface IMap {
 }
 
 export interface MapStoreState extends IMap {
+  getNodes: () => INode[];
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
   getNodeByKey: (nodeKey: string) => INode | undefined;
   getPath: (
@@ -46,7 +47,7 @@ export interface MapStoreState extends IMap {
 
 // https://www.redblobgames.com/pathfinding/tower-defense/
 // https://www.redblobgames.com/pathfinding/grids/graphs.html
-function getNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
+function initNodes(maxX = GRAPH_SIZE[1], maxY = GRAPH_SIZE[0]): INode[] {
   const nodes = [];
 
   for (let x = 0; x < maxX; x++) {
@@ -117,7 +118,8 @@ export const mapStore: StateCreator<
   [],
   MapStoreState
 > = (set, get) => ({
-  nodes: getNodes(),
+  getNodes: () => get().nodes,
+  nodes: initNodes(),
   selectedNodeKey: null,
   getPath: (from, to, options = undefined) => {
     const nodes = get().nodes;
@@ -154,7 +156,7 @@ export const mapStore: StateCreator<
   },
   resetMapStore: () => {
     set(() => ({
-      nodes: getNodes(),
+      nodes: initNodes(),
       selectedNodeKey: null,
     }));
   },

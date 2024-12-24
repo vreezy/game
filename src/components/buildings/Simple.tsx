@@ -11,14 +11,14 @@ import { getNodeKey } from "../../utils/getNodeKey";
 
 
 export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
-  const [tick, resources, increaseResources, decreaseResources, units, nodes, updateUnit, removeUnit] = useBoundStore(
+  const [tick, resources, increaseResources, decreaseResources, getUnits, getNodes, updateUnit, removeUnit] = useBoundStore(
     useShallow((state) => [
       state.tick,
       state.getResources,
       state.increaseResources,
       state.decreaseResources,
-      state.units,
-      state.nodes,
+      state.getUnits,
+      state.getNodes,
       state.updateUnit,
       state.removeUnit
     ])
@@ -80,8 +80,8 @@ export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
         props.building?.weapons
         
       ) {
-        units.forEach((unit) => {
-          const node = nodes.find((n) => getNodeKey(n) === unit.nodeKey);
+        getUnits().forEach((unit) => {
+          const node = getNodes().find((n) => getNodeKey(n) === unit.nodeKey);
           if(node) {
             if(inside_circle(props.node, node, props.building?.weapons?.range ?? 1)) {
               console.log("Unit in range", unit.key);
@@ -115,7 +115,7 @@ export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
         weapons()
       }
     }
-  }, [props, lockTick, tick, resources, increaseResources, decreaseResources, units, nodes, updateUnit, removeUnit]);
+  }, [props, lockTick, tick, resources, increaseResources, decreaseResources, updateUnit, removeUnit, getUnits, getNodes]);
 
   // function _handleSell() {
   //   setBuilding(props.building.key, "nothing", tick);

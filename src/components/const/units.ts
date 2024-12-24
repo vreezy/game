@@ -8,9 +8,9 @@ export const UNITS: IUnit[] = [
     displayName: "Worker",
     type: "worker",
     createdTick: 0,
-    speed: 10,
+    speed: 40,
     lastPathIndex: 0,
-    live: 10
+    live: 100
   },
   {
     key: "unit2",

@@ -18,8 +18,9 @@ import { Unit } from "./Unit";
 // Map/Background Layer
 
 export function Graph(): React.ReactElement {
-  const [nodes, setSelectedNodeKey, buildings, getPath, isBlockingRoute, units] = useBoundStore(
+  const [, nodes, setSelectedNodeKey, buildings, getPath, isBlockingRoute, units] = useBoundStore(
     useShallow((state) => [
+
       state.nodes,
       state.setSelectedNodeKey,
       state.buildings,
