@@ -15,7 +15,7 @@ export function Tick(props: Readonly<React.PropsWithChildren>): React.ReactEleme
     }
 
     if (speed === 3) {
-      return 10;
+      return 200;
     }
 
     return 1000;

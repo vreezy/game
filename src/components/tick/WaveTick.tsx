@@ -5,7 +5,7 @@ import { WAVES } from "../const/waves";
 import { createUnit } from "../../Models/createUnit";
 
 
-export function Wave() :React.ReactElement {
+export function WaveTick() :React.ReactElement {
   
     const [tick, addUnit] = useBoundStore(
       useShallow((state) => [state.tick, state.addUnit])

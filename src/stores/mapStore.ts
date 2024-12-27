@@ -25,22 +25,23 @@ interface ExtendedPathOption extends PathOption {
   blockingNode?: INode | undefined;
 }
 
-
-
 export interface IMap {
   nodes: INode[];
   selectedNodeKey: string | null;
+  path: string[];
 }
 
 export interface MapStoreState extends IMap {
   getNodes: () => INode[];
+  getPath: () => string[];
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
   getNodeByKey: (nodeKey: string) => INode | undefined;
-  getPath: (
+  calcPath: (
     from: string,
     to: string,
     options?: ExtendedPathOption
   ) => string[] | PathResult;
+  updatePath(): void;
   isBlockingRoute: (from: string, to: string, node: INode) => boolean;
   resetMapStore: () => void;
 }
@@ -118,10 +119,16 @@ export const mapStore: StateCreator<
   [],
   MapStoreState
 > = (set, get) => ({
-  getNodes: () => get().nodes,
   nodes: initNodes(),
+  path: [],
   selectedNodeKey: null,
-  getPath: (from, to, options = undefined) => {
+  getNodes: () => get().nodes,
+  getPath: () => get().path,
+  updatePath: () => {
+    const path = get().calcPath(UNIT_ENTRY, UNIT_EXIT) as string[];
+    set(() => ({ path }));
+  },
+  calcPath: (from, to, options = undefined) => {
     const nodes = get().nodes;
     const nodeKeys = get().buildings.map((b) => b.nodeKey);
     const filteredNodes = nodes.filter((node) => {
@@ -148,7 +155,7 @@ export const mapStore: StateCreator<
     set(() => ({ selectedNodeKey }));
   },
   isBlockingRoute: (from, to, node) => {
-    const route = get().getPath(from, to, { blockingNode: node });
+    const route = get().calcPath(from, to, { blockingNode: node });
     if (Array.isArray(route)) {
       return false;
     }
@@ -157,6 +164,7 @@ export const mapStore: StateCreator<
   resetMapStore: () => {
     set(() => ({
       nodes: initNodes(),
+      path: [],
       selectedNodeKey: null,
     }));
   },

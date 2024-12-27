@@ -18,13 +18,12 @@ import { Unit } from "./Unit";
 // Map/Background Layer
 
 export function Graph(): React.ReactElement {
-  const [nodes, setSelectedNodeKey, buildings, getPath, isBlockingRoute, units] = useBoundStore(
+  const [nodes, setSelectedNodeKey, buildings, path, isBlockingRoute, units] = useBoundStore(
     useShallow((state) => [
-
       state.nodes,
       state.setSelectedNodeKey,
       state.buildings,
-      state.getPath,
+      state.path,
       state.isBlockingRoute,
       state.units
     ])
@@ -36,8 +35,6 @@ export function Graph(): React.ReactElement {
     // }
     
   }
-
-  const path = getPath(UNIT_ENTRY, UNIT_EXIT);
 
   return (
     <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
