@@ -8,7 +8,8 @@ export const UNITS: IUnit[] = [
     displayName: "Worker",
     type: "worker",
     createdTick: 0,
-    speed: 40,
+    modifiedTick: 0,
+    speed: 10,
     lastPathIndex: 0,
     live: 100
   },
@@ -18,6 +19,7 @@ export const UNITS: IUnit[] = [
     displayName: "Soldier",
     type: "soldier",
     createdTick: 0,
+    modifiedTick: 0,
     speed: 10,
     lastPathIndex: 0,
     live: 10
@@ -29,6 +31,7 @@ export const UNITS: IUnit[] = [
     displayName: "Nothing",
     type: "nothing",
     createdTick: 0,
+    modifiedTick: 0,
     speed: 10,
     lastPathIndex: 0,
     live: 10
@@ -40,6 +43,7 @@ export const UNITS: IUnit[] = [
     displayName: "Test",
     type: "test",
     createdTick: 0,
+    modifiedTick: 0,
     speed: 10,
     lastPathIndex: 0,
     live: 10

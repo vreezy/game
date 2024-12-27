@@ -66,7 +66,8 @@ export const BUILDINGS: IBuilding[] = [
     createdTick: -1,
     age: 0,
     weapons: {
-      damage: 1,
+      damage: 5,
+      targets: 2,
       range: 2
     }
 

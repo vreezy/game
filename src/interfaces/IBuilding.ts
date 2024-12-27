@@ -15,6 +15,7 @@ interface IMax {
 interface IWeapons {
   damage: number;
   range: number;
+  targets: number;
 }
 
 export interface IBuilding extends IStructure {

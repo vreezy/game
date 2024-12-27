@@ -6,8 +6,8 @@ import { modulo } from "../../utils/modulo";
 import { hasEnoughResources } from "../../utils/hasEnoughResources";
 import { Box } from "@mui/material";
 import { TILE_SIZE } from "../const/graph";
-import { INode } from "../../interfaces/INode";
-import { getNodeKey } from "../../utils/getNodeKey";
+// import { INode } from "../../interfaces/INode";
+// import { getNodeKey } from "../../utils/getNodeKey";
 
 
 export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
@@ -26,12 +26,12 @@ export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
 
   const [lockTick, setLockTick] = React.useState(tick);
 
-  function inside_circle(node:INode, nodeToCheck: INode, radius: number) {
-    const dx = node[1] - nodeToCheck[1],
-          dy = node[0] - nodeToCheck[0];
-    const distance_squared = dx*dx + dy*dy;
-    return distance_squared <= radius*radius;
-}
+//   function inside_circle(node:INode, nodeToCheck: INode, radius: number) {
+//     const dx = node[1] - nodeToCheck[1],
+//           dy = node[0] - nodeToCheck[0];
+//     const distance_squared = dx*dx + dy*dy;
+//     return distance_squared <= radius*radius;
+// }
 
   // function boundingBox() {
   //   const radius = (props.building?.weapons?.range ?? 1)
@@ -74,34 +74,34 @@ export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
       }
     }
 
-    function weapons() {
-      if (
-        tick > props.building.createdTick &&
-        props.building?.weapons
+    // function weapons() {
+    //   if (
+    //     tick > props.building.createdTick &&
+    //     props.building?.weapons
         
-      ) {
-        getUnits().forEach((unit) => {
-          const node = getNodes().find((n) => getNodeKey(n) === unit.nodeKey);
-          if(node) {
-            if(inside_circle(props.node, node, props.building?.weapons?.range ?? 1)) {
-              console.log("Unit in range", unit.key);
-              const newLive = unit.live - (props.building?.weapons?.damage ?? 1);
-              if(newLive > 0) {
-                updateUnit({
-                  ...unit,
-                  live: newLive
-                })
-              }
-              else{
-                removeUnit(unit.key);
-              }
+    //   ) {
+    //     getUnits().forEach((unit) => {
+    //       const node = getNodes().find((n) => getNodeKey(n) === unit.nodeKey);
+    //       if(node) {
+    //         if(inside_circle(props.node, node, props.building?.weapons?.range ?? 1)) {
+    //           console.log("Unit in range", unit.key);
+    //           const newLive = unit.live - (props.building?.weapons?.damage ?? 1);
+    //           if(newLive > 0) {
+    //             updateUnit({
+    //               ...unit,
+    //               live: newLive
+    //             })
+    //           }
+    //           else{
+    //             removeUnit(unit.key);
+    //           }
               
-            }
-          }
+    //         }
+    //       }
           
-        });
-      }
-    }
+    //     });
+    //   }
+    // }
 
     if (lockTick < tick) {
       setLockTick(tick);
@@ -111,9 +111,7 @@ export function Simple(props: Readonly<BuildingProps>): React.ReactElement {
       if (props.building?.income) {
         income();
       }
-      if (props.building?.weapons) {
-        weapons()
-      }
+
     }
   }, [props, lockTick, tick, resources, increaseResources, decreaseResources, updateUnit, removeUnit, getUnits, getNodes]);
 

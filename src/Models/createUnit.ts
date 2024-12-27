@@ -10,16 +10,11 @@ export function createUnit(type: IUnitType, tick: number): IUnit {
     return {
       ...unit,
       createdTick: tick,
+      modifiedTick: tick,
       nodeKey: UNIT_ENTRY,
       key: crypto.randomUUID()
     };
   }
-
-  return {
-    ...UNITS[0],
-    createdTick: tick,
-    nodeKey: UNIT_ENTRY,
-    key: crypto.randomUUID()
-  };
   
+  throw new Error("Unit not found");  
 }

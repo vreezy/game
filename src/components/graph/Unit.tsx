@@ -29,7 +29,7 @@ export function Unit(props: IUnitProps): React.ReactElement {
 
     const nextNodeIndex = currentNodeIndex + 1;
     
-    const nextMoveTick = props.unit.createdTick + props.unit.speed;
+    const nextMoveTick = props.unit.modifiedTick + props.unit.speed;
 
     // console.log("Unit", props.unit.key, "currentNodeIndex", currentNodeIndex, "nextNodeIndex", nextNodeIndex, "nextMoveTick", nextMoveTick, "tick", tick);
     
@@ -42,7 +42,7 @@ export function Unit(props: IUnitProps): React.ReactElement {
         updateUnit({
           ...props.unit,
           nodeKey: props.path[nextNodeIndex],
-          createdTick: tick,
+          modifiedTick: tick,
           lastPathIndex: currentNodeIndex
         })
         
@@ -71,7 +71,7 @@ export function Unit(props: IUnitProps): React.ReactElement {
   };
   return (
     <Box sx={container}>
-      <Box sx={item}>{props.unit.displayName} <br/> {props.unit.live}</Box>
+      <Box sx={item}>{props.unit.displayName} <br/> {props.unit.live} <br/> {props.unit.modifiedTick} X {props.unit.createdTick}</Box>
     </Box>
   );
 }

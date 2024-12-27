@@ -12,6 +12,8 @@ import Grid from "@mui/material/Grid2";
 import { Graph } from "./components/graph/Graph";
 import { BuildMenu } from "./components/buildings/BuildMenu";
 import { Wave } from "./components/wave/Wave";
+import { FightTick } from "./components/tick/FightTick";
+
 function App() {
   const gridContainer = {
     display: "grid",
@@ -69,6 +71,7 @@ function App() {
 
       <Tick />
       <PayTick />
+      <FightTick />
       <Wave />
       <TechTree />
       <BuildMenu />
