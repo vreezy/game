@@ -41,7 +41,6 @@ function initBuildings(): IBuilding[] {
     nodeKey: UNIT_EXIT,
   });
 
-
   buildings.push({
     ...getBuilding("spawn"),
     key: crypto.randomUUID(),
@@ -100,11 +99,16 @@ export const buildingStore: StateCreator<
     set((state) => ({
       buildings: state.buildings.filter((b) => b.nodeKey !== nodeKey),
     }));
+
+    get().updatePath();
   },
-  setBuilding: (nodeKey, type, createdTick) =>
+  setBuilding: (nodeKey, type, createdTick) => {
     set((state) => ({
       buildings: getNewBuildings(state, nodeKey, type, createdTick),
-    })),
+    }));
+
+    get().updatePath();
+  },
   isBuildingAvailable: (type) => {
     if (type === "forest" || type === "tower") {
       return true;

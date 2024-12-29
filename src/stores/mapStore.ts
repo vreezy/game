@@ -106,6 +106,17 @@ function getGraphRoute(nodes: INode[]): Graph {
   return route;
 }
 
+  function initPath(): string[] {
+    const nodes = initNodes()
+    const filteredNodes = nodes.filter((node) => {
+      if (getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
+        return true;
+      }
+    });
+    const route = getGraphRoute(filteredNodes);
+    return route.path(UNIT_ENTRY, UNIT_EXIT) as string[];
+  }
+
 export const mapStore: StateCreator<
   BuildingsStoreState &
     DemographyStoreState &
@@ -120,7 +131,7 @@ export const mapStore: StateCreator<
   MapStoreState
 > = (set, get) => ({
   nodes: initNodes(),
-  path: [],
+  path: initPath(),
   selectedNodeKey: null,
   getNodes: () => get().nodes,
   getPath: () => get().path,
@@ -164,7 +175,7 @@ export const mapStore: StateCreator<
   resetMapStore: () => {
     set(() => ({
       nodes: initNodes(),
-      path: [],
+      path: initPath(),
       selectedNodeKey: null,
     }));
   },

@@ -1,13 +1,14 @@
 import React from "react"
 import { useShallow } from "zustand/shallow";
 import { useBoundStore } from "../../stores/boundStore";
+import { useInterval } from "react-use";
+// import { useFrame } from "@react-three/fiber";
 
 export function Tick(props: Readonly<React.PropsWithChildren>): React.ReactElement {
 
   const [increaseTick, speed] = useBoundStore(
     useShallow((state) => [state.increaseTick, state.speed])
   );
-
 
   function getMilliseconds(speed: number): number {
     if (speed === 2) {
@@ -23,17 +24,11 @@ export function Tick(props: Readonly<React.PropsWithChildren>): React.ReactEleme
   
   const milliseconds = getMilliseconds(speed);
 
-  React.useEffect(() => {
-    if (speed === 0) {
-      return;
-    }
-
-    const intervalID = setInterval(() =>  {
+  useInterval(() => {
+    if (speed > 0) {
       increaseTick()
-    }, milliseconds);
-
-    return () => clearInterval(intervalID);
-  }, [increaseTick, milliseconds, speed])
+    }
+  }, milliseconds);
 
   return (
     <>

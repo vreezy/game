@@ -9,12 +9,12 @@ import { TechTree } from "./components/TechTree/TechTree";
 import { PayTick } from "./components/tick/PayTick";
 import { Box, CssBaseline } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Graph } from "./components/graph/Graph";
+// import { Graph } from "./components/graph/Graph";
 import { BuildMenu } from "./components/buildings/BuildMenu";
 import { WaveTick } from "./components/tick/WaveTick";
 import { FightTick } from "./components/tick/FightTick";
 import { MoveTick } from "./components/tick/MoveTick";
-import { UpdatePath } from "./components/tick/UpdatePath";
+import Canvas from "./components/Canvas/Canvas";
 
 function App() {
   const gridContainer = {
@@ -52,7 +52,8 @@ function App() {
           sx={{ overflow: "auto", flex: 1, border: "2px solid green" }}
         >
           {/* <Buildings /> */}
-          <Graph />
+          {/* <Graph /> */}
+          <Canvas />
         </Grid>
 
         <Grid
@@ -76,7 +77,6 @@ function App() {
       <MoveTick />
       <FightTick />
       <WaveTick />
-      <UpdatePath />
       
       <TechTree />
       <BuildMenu />
