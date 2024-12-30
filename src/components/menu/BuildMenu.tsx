@@ -3,31 +3,35 @@ import { useBoundStore } from "../../stores/boundStore";
 
 import { Box, Modal } from "@mui/material";
 import { BUILDINGS } from "../const/buildings";
-import { BuildingType } from "../../interfaces/IBuilding";
+import { BuildingType, IBuilding } from "../../interfaces/IBuilding";
 import { hasEnoughResources } from "../../utils/hasEnoughResources";
 
 export function BuildMenu() {
   const [
     tick,
     age,
-    selectedNodeKey,
+    
+    selectedPosition,
     buildings,
-    setSelectedNodeKey,
+    
+    setSelectedPosition,
     isBuildingAvailable,
     getResources,
-    setBuilding,
+    addBuilding,
     decreaseResources,
     removeBuilding,
   ] = useBoundStore(
     useShallow((state) => [
       state.tick,
       state.age,
-      state.selectedNodeKey,
+      
+      state.selectedPosition,
       state.buildings,
-      state.setSelectedNodeKey,
+      
+      state.setSelectedPosition,
       state.isBuildingAvailable,
       state.getResources,
-      state.setBuilding,
+      state.addBuilding,
       state.decreaseResources,
       state.removeBuilding,
     ])
@@ -35,11 +39,11 @@ export function BuildMenu() {
 
   function _handleBuilding(type: BuildingType): void {
     const cost = BUILDINGS.find((b) => b.type === type)?.cost;
-    if (cost && selectedNodeKey && hasEnoughResources(getResources(), cost)) {
-      // WE NEED TO UPDATE setBUILDING!!!
-      setBuilding(selectedNodeKey, type, tick);
+    if (cost && selectedPosition && hasEnoughResources(getResources(), cost)) {
+     
+      addBuilding(selectedPosition, type, tick);
       decreaseResources(cost);
-      setSelectedNodeKey(null);
+      setSelectedPosition(null);
     }
   }
 
@@ -51,14 +55,12 @@ export function BuildMenu() {
     return false;
   }
 
-  function _handleSell() {
-    if (selectedNodeKey) {
-      removeBuilding(selectedNodeKey);
-      setSelectedNodeKey(null);
-    }
+  function _handleSell(building: IBuilding): void {
+    removeBuilding(building.key);
+    setSelectedPosition(null);
   }
 
-  const building = buildings.find((b) => b.nodeKey === selectedNodeKey);
+  const building = buildings.find((b) => JSON.stringify(b.position) === JSON.stringify(selectedPosition));
 
   const style = {
     position: "absolute",
@@ -76,19 +78,19 @@ export function BuildMenu() {
 
   return (
     <Modal
-      open={selectedNodeKey !== null}
-      onClose={() => setSelectedNodeKey(null)}
+      open={selectedPosition !== null}
+      onClose={() => setSelectedPosition(null)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h2>Bau Menu - {selectedNodeKey}</h2>
+        <h2>Bau Menu - {JSON.stringify(selectedPosition)}</h2>
 
         {building && (
           <>
             <p>Building: {building.displayName}</p>
             {(building.type !== "cave" && building.type !== "spawn") && (
-              <button onClick={() => _handleSell()}>
+              <button onClick={() => _handleSell(building)}>
                 Sell {building.displayName}
               </button>
             )}

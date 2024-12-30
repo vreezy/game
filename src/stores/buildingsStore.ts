@@ -11,11 +11,12 @@ import { MapStoreState } from "./mapStore";
 import { UNIT_ENTRY_POSITION, UNIT_EXIT_POSITION } from "../components/const/graph";
 import { UnitStoreState } from "./unitStore";
 import { createBuilding } from "../Models/createBuilding";
+import { IPosition } from "../interfaces/IPosition";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
   getBuildings: () => IBuilding[];
-  // TODO addBUidling
+  addBuilding (position: IPosition, type: BuildingType, tick: number): void
   // TODO updateBuilding 
   // TODO Remvoe setBuilding
   setBuilding: (
@@ -23,7 +24,7 @@ export interface BuildingsStoreState {
     type: BuildingType,
     createdTick: number
   ) => void;
-  removeBuilding: (nodeKey: string) => void;
+  removeBuilding: (key: string) => void;
   isBuildingAvailable: (type: BuildingType) => boolean;
   resetBuildingStore: () => void;
 }
@@ -84,11 +85,15 @@ export const buildingStore: StateCreator<
 > = (set, get) => ({
   buildings: initBuildings(),
   getBuildings: () => get().buildings,
-  removeBuilding: (nodeKey) => {
+  removeBuilding: (key) => {
     set((state) => ({
-      buildings: state.buildings.filter((b) => b.nodeKey !== nodeKey),
+      buildings: state.buildings.filter((b) => b.key !== key),
     }));
 
+    get().updatePath();
+  },
+  addBuilding: (position, type, tick) => {
+    set((state) => ({buildings: [...state.buildings, createBuilding(type, position, tick)]}));
     get().updatePath();
   },
   setBuilding: (nodeKey, type, createdTick) => {

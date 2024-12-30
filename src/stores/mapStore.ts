@@ -12,6 +12,8 @@ import { getNodeKey } from "../utils/getNodeKey";
 import { GRAPH_SIZE, UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
 import { UnitStoreState } from "./unitStore";
 import { PathResult } from "../interfaces/PathResult";
+import { IPosition } from "../interfaces/IPosition";
+import { position2node } from "../utils/postion2node";
 
 // @types/node-dijkstra has no export -_-
 interface PathOption {
@@ -28,6 +30,7 @@ interface ExtendedPathOption extends PathOption {
 export interface IMap {
   nodes: INode[];
   selectedNodeKey: string | null;
+  selectedPosition: IPosition | null;
   path: string[];
 }
 
@@ -35,6 +38,7 @@ export interface MapStoreState extends IMap {
   getNodes: () => INode[];
   getPath: () => string[];
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
+  setSelectedPosition: (selectedPosition: IPosition | null) => void;
   getNodeByKey: (nodeKey: string) => INode | undefined;
   calcPath: (
     from: string,
@@ -127,6 +131,7 @@ export const mapStore: StateCreator<
   nodes: initNodes(),
   path: initPath(),
   selectedNodeKey: null,
+  selectedPosition: null,
   getNodes: () => get().nodes,
   getPath: () => get().path,
   updatePath: () => {
@@ -135,7 +140,7 @@ export const mapStore: StateCreator<
   },
   calcPath: (from, to, options = undefined) => {
     const nodes = get().nodes;
-    const nodeKeys = get().buildings.map((b) => b.nodeKey);
+    const nodeKeys = get().buildings.map((b) => getNodeKey(position2node(b.position)));
     const filteredNodes = nodes.filter((node) => {
       if (getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
         return true;
@@ -160,6 +165,9 @@ export const mapStore: StateCreator<
     console.log("setSelectedNodeKey", selectedNodeKey);
     set(() => ({ selectedNodeKey }));
   },
+  setSelectedPosition: (selectedPosition) => {
+    set(() => ({ selectedPosition }));
+  },
   isBlockingRoute: (from, to, node) => {
     const route = get().calcPath(from, to, { blockingNode: node });
     if (Array.isArray(route)) {
@@ -172,6 +180,7 @@ export const mapStore: StateCreator<
       nodes: initNodes(),
       path: initPath(),
       selectedNodeKey: null,
+      selectedPosition: null,
     }));
   },
 });
