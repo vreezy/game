@@ -5,6 +5,8 @@ import { Canvas } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { GRAPH_SIZE } from "../const/graph";
 import HandleBuildings from "./HandleBuildings";
+import HandleUnits from "./HandleUnits";
+import HandlePath from "./HandlePath";
 // import { Grid } from "@/game/types";
 // import { Tile } from "./Tile";
 // import EnemyHandler from "./EnemyHandler";
@@ -53,12 +55,12 @@ export default function GameCanvas() {
       <Environment preset="apartment" />
       <color attach="background" args={["#5eabe6"]} />
       <OrbitControls
-        enablePan={false}
+        enablePan={true}
         target={[centerColX, 0, centerRowZ]}
         // maxPolarAngle={Math.PI / 2 - Math.PI / 20} // Prevent the camera from going below the ground
         maxPolarAngle={Math.PI / 2} // Prevent the camera from going below the ground
         minDistance={5} // Minimum zoom distance
-        maxDistance={20} // Maximum zoom distance
+        maxDistance={50} // Maximum zoom distance
       />
       {/* {iterateGrid(grid, (rowIndex, colIndex) => (
         <Tile
@@ -70,6 +72,8 @@ export default function GameCanvas() {
       <EnemyHandler />
       <WeaponHandler /> */}
       <HandleBuildings />
+      {/* <HandleUnits /> */}
+      <HandlePath />
     </Canvas>
   );
 }

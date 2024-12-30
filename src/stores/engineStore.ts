@@ -14,6 +14,7 @@ export interface IEngine {
 }
 
 export interface EngineStoreState extends IEngine {
+  getTick: () => number;
   increaseTick: () => void;
   setSpeed: (speed: number) => void;
   toggleTechTree: () => void;
@@ -34,8 +35,9 @@ export const engineStore: StateCreator<
   [],
   [],
   EngineStoreState
-> = (set) => ({
+> = (set, get) => ({
   ...initEngine(),
+  getTick: () => get().tick,
   increaseTick: () => set((state) => ({ tick: state.tick + 1 })),
   setSpeed: (speed: number) => set(() => ({ speed: speed })),
   toggleTechTree: () => set((state) => ({ showTechTree: !state.showTechTree })),

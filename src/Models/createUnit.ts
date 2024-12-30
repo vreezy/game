@@ -1,4 +1,4 @@
-import { UNIT_ENTRY } from "../components/const/graph";
+import { UNIT_ENTRY, UNIT_ENTRY_POSITION } from "../components/const/graph";
 import { UNITS } from "../components/const/units";
 import { IUnit, IUnitType } from "../interfaces/IUnit";
 
@@ -12,9 +12,10 @@ export function createUnit(type: IUnitType, tick: number): IUnit {
       createdTick: tick,
       modifiedTick: tick,
       nodeKey: UNIT_ENTRY,
+      position: [...UNIT_ENTRY_POSITION],
       key: crypto.randomUUID()
     };
   }
   
-  throw new Error("Unit not found");  
+  throw new Error(`Unit of type ${type} not found`);;  
 }

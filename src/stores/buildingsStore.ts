@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 import { BuildingType, IBuilding } from "../interfaces/IBuilding";
-import { BUILDINGS } from "../components/const/buildings";
+
 import { EngineStoreState } from "./engineStore";
 import { DemographyStoreState } from "./demographyStore";
 import { ResourcesStoreState } from "./resourcesStore";
@@ -8,12 +8,16 @@ import { SharedStoreState } from "./shareStore";
 import { TechStoreState } from "./techStore";
 import { ITechTree } from "../interfaces/ITechTree";
 import { MapStoreState } from "./mapStore";
-import { UNIT_ENTRY, UNIT_EXIT } from "../components/const/graph";
+import { UNIT_ENTRY_POSITION, UNIT_EXIT_POSITION } from "../components/const/graph";
 import { UnitStoreState } from "./unitStore";
+import { createBuilding } from "../Models/createBuilding";
 
 export interface BuildingsStoreState {
   buildings: IBuilding[];
   getBuildings: () => IBuilding[];
+  // TODO addBUidling
+  // TODO updateBuilding 
+  // TODO Remvoe setBuilding
   setBuilding: (
     nodeKey: string,
     type: BuildingType,
@@ -24,28 +28,11 @@ export interface BuildingsStoreState {
   resetBuildingStore: () => void;
 }
 
-function getBuilding(type: BuildingType): IBuilding {
-  const building = BUILDINGS.find((b) => b.type === type);
-  if (!building) {
-    throw new Error(`Building of type ${type} not found`);
-  }
-  return building;
-}
-
 function initBuildings(): IBuilding[] {
   const buildings: IBuilding[] = [];
 
-  buildings.push({
-    ...getBuilding("cave"),
-    key: crypto.randomUUID(),
-    nodeKey: UNIT_EXIT,
-  });
-
-  buildings.push({
-    ...getBuilding("spawn"),
-    key: crypto.randomUUID(),
-    nodeKey: UNIT_ENTRY,
-  });
+  buildings.push(createBuilding("cave", [...UNIT_EXIT_POSITION], 0));
+  buildings.push(createBuilding("spawn", [...UNIT_ENTRY_POSITION], 0));
 
   return buildings;
 }
@@ -64,14 +51,16 @@ function getNewBuildings(
   // update building if it already exists
   if (index > -1) {
     newBuildings[index] = {
-      ...getBuilding(type),
+      // this is wrong need to remove setBuilding
+      ...createBuilding(type, [0,0,0], createdTick),
       nodeKey,
       createdTick,
     };
   } else {
     // new building
     newBuildings.push({
-      ...getBuilding(type),
+      // this is wrong need to remove setBuilding
+      ...createBuilding(type, [0,0,0], createdTick),
       nodeKey,
       createdTick,
     });
@@ -129,8 +118,12 @@ export const buildingStore: StateCreator<
       });
     });
   },
-  resetBuildingStore: () =>
+  resetBuildingStore: () => {
     set(() => ({
       buildings: initBuildings(),
-    })),
+    }))
+
+    get().updatePath();
+  },
+    
 });

@@ -107,14 +107,8 @@ function getGraphRoute(nodes: INode[]): Graph {
 }
 
   function initPath(): string[] {
-    const nodes = initNodes()
-    const filteredNodes = nodes.filter((node) => {
-      if (getNodeKey(node) === UNIT_EXIT || getNodeKey(node) === UNIT_ENTRY) {
-        return true;
-      }
-    });
-    const route = getGraphRoute(filteredNodes);
-    return route.path(UNIT_ENTRY, UNIT_EXIT) as string[];
+    return [UNIT_ENTRY, "X5Y18", "X5Y17", "X5Y16", UNIT_EXIT];
+
   }
 
 export const mapStore: StateCreator<

@@ -11,9 +11,9 @@ import { Box, CssBaseline } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 // import { Graph } from "./components/graph/Graph";
 import { BuildMenu } from "./components/buildings/BuildMenu";
-import { WaveTick } from "./components/tick/WaveTick";
-import { FightTick } from "./components/tick/FightTick";
-import { MoveTick } from "./components/tick/MoveTick";
+// import { WaveTick } from "./components/tick/WaveTick";
+// import { FightTick } from "./components/tick/FightTick";
+// import { MoveTick } from "./components/tick/MoveTick";
 import Canvas from "./components/Canvas/Canvas";
 
 function App() {
@@ -74,9 +74,9 @@ function App() {
 
       <Tick />
       <PayTick />
-      <MoveTick />
-      <FightTick />
-      <WaveTick />
+      {/* <MoveTick /> */}
+      {/* <FightTick /> */}
+      {/* <WaveTick /> */}
       
       <TechTree />
       <BuildMenu />

@@ -4,6 +4,7 @@ export const BUILDINGS: IBuilding[] = [
   {
     key: "0",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Nothing",
     type: "nothing",
     cost: {},
@@ -14,6 +15,7 @@ export const BUILDINGS: IBuilding[] = [
   {
     key: "31231",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Cave",
     type: "cave",
     cost: {},
@@ -32,6 +34,7 @@ export const BUILDINGS: IBuilding[] = [
   {
     key: "222dqd",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Spawn",
     type: "spawn",
     cost: {},
@@ -41,6 +44,7 @@ export const BUILDINGS: IBuilding[] = [
   {
     key: "1",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Wheat Field",
     type: "wheatField",
     cost: {
@@ -59,6 +63,7 @@ export const BUILDINGS: IBuilding[] = [
   {
     key: "AAA",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Tower",
     type: "tower",
     cost: {    
@@ -75,6 +80,7 @@ export const BUILDINGS: IBuilding[] = [
   {
     key: "2",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Forest",
     type: "forest",
     cost: {    
@@ -92,6 +98,7 @@ export const BUILDINGS: IBuilding[] = [
   { 
     key: "3",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Quarry",
     type: "quarry",
     cost: {
@@ -113,6 +120,7 @@ export const BUILDINGS: IBuilding[] = [
   { 
     key: "4",
     nodeKey: "",
+    position: [0,0,0],
     displayName: "Hut",
     type: "hut",
     cost: {

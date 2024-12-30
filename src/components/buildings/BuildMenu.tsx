@@ -36,6 +36,7 @@ export function BuildMenu() {
   function _handleBuilding(type: BuildingType): void {
     const cost = BUILDINGS.find((b) => b.type === type)?.cost;
     if (cost && selectedNodeKey && hasEnoughResources(getResources(), cost)) {
+      // WE NEED TO UPDATE setBUILDING!!!
       setBuilding(selectedNodeKey, type, tick);
       decreaseResources(cost);
       setSelectedNodeKey(null);

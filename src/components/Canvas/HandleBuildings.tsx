@@ -1,20 +1,11 @@
 import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
-import { Tile } from "./Tile";
-import { getNodeKey } from "../../utils/getNodeKey";
+import { Building } from "./Building";
 
 export default function HandleBuildings() {
-  const [buildings, getNodes] = useBoundStore(
-    useShallow((state) => [state.buildings, state.getNodes])
+  const [buildings] = useBoundStore(
+    useShallow((state) => [state.buildings])
   );
 
-  return buildings.map((building) => {
-    const node = getNodes().find(
-      (node) => getNodeKey(node) === building.nodeKey
-    );
-    if (node) {
-      return <Tile key={building.key} node={node} color={"red"} />;
-    }
-    return null;
-  });
+  return buildings.map((building) => <Building key={building.key} building={building} color={building.type === "cave" ? "red" : "green"} />);
 }
