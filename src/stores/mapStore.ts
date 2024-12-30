@@ -157,6 +157,7 @@ export const mapStore: StateCreator<
     return get().nodes.find((node) => getNodeKey(node) === nodeKey);
   },
   setSelectedNodeKey: (selectedNodeKey) => {
+    console.log("setSelectedNodeKey", selectedNodeKey);
     set(() => ({ selectedNodeKey }));
   },
   isBlockingRoute: (from, to, node) => {

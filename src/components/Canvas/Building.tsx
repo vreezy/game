@@ -10,7 +10,7 @@ export interface IBuildingProps {
 export function Building(props: IBuildingProps) {
   return (
     <Box
-      args={[0.8, 0.8, 1]}
+      args={[0.9, 0.9, 1]}
       position={props.building.position}
     >
       <meshBasicMaterial color={props.color} />

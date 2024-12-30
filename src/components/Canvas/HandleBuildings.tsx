@@ -7,5 +7,5 @@ export default function HandleBuildings() {
     useShallow((state) => [state.buildings])
   );
 
-  return buildings.map((building) => <Building key={building.key} building={building} color={building.type === "cave" ? "red" : "green"} />);
+  return buildings.map((building) => <Building key={building.key} building={building} color={building.type === "cave" ? "red" : building.type === "spawn" ? "green" : "blue"} />);
 }

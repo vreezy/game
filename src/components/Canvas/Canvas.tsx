@@ -7,6 +7,7 @@ import { GRAPH_SIZE } from "../const/graph";
 import HandleBuildings from "./HandleBuildings";
 import HandleUnits from "./HandleUnits";
 import HandlePath from "./HandlePath";
+import HandleSelector from "./HandleSelector";
 // import { Grid } from "@/game/types";
 // import { Tile } from "./Tile";
 // import EnemyHandler from "./EnemyHandler";
@@ -74,6 +75,8 @@ export default function GameCanvas() {
       <HandleBuildings />
       {/* <HandleUnits /> */}
       <HandlePath />
+      <HandleSelector />
+      
     </Canvas>
   );
 }

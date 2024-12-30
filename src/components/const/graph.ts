@@ -10,5 +10,8 @@ export const UNIT_EXIT = "X5Y2";
 
 export const TILE_SIZE = 100;
 
-export const UNIT_EXIT_POSITION: IPosition = [5, 10, 2];
-export const UNIT_ENTRY_POSITION: IPosition = [5, 10, 2];
+export const BUILDING_Y = 2
+export const UNIT_EXIT_POSITION: IPosition = [5, BUILDING_Y, 2];
+export const UNIT_ENTRY_POSITION: IPosition = [5, BUILDING_Y, 19];
+
+

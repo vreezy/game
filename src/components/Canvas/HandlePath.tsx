@@ -18,7 +18,7 @@ export default function HandlePath() {
 
     const position: IPosition = [position2d[0], 2, position2d[1]];
 
-    return <Tile key={tile} position={position}  />
+    return <Tile key={tile} position={position} mesh={{ color: "yellow" }} />
   
   });
 }
