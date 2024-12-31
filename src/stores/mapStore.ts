@@ -14,6 +14,7 @@ import { UnitStoreState } from "./unitStore";
 import { PathResult } from "../interfaces/PathResult";
 import { IPosition } from "../interfaces/IPosition";
 import { position2node } from "../utils/postion2node";
+import { node2Position } from "../utils/node2Position";
 
 // @types/node-dijkstra has no export -_-
 interface PathOption {
@@ -37,6 +38,7 @@ export interface IMap {
 export interface MapStoreState extends IMap {
   getNodes: () => INode[];
   getPath: () => string[];
+  getPathPositions: () => IPosition[];
   setSelectedNodeKey: (selectedNodeKey: string | null) => void;
   setSelectedPosition: (selectedPosition: IPosition | null) => void;
   getNodeByKey: (nodeKey: string) => INode | undefined;
@@ -134,6 +136,12 @@ export const mapStore: StateCreator<
   selectedPosition: null,
   getNodes: () => get().nodes,
   getPath: () => get().path,
+  getPathPositions: () => {
+    return get().path.map((nodeKey) => {
+      const node = get().nodes.find((node) => getNodeKey(node) === nodeKey) as INode;
+      return node2Position(node);
+    })
+  },
   updatePath: () => {
     const path = get().calcPath(UNIT_ENTRY, UNIT_EXIT) as string[];
     set(() => ({ path }));

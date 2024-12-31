@@ -2,70 +2,111 @@ import React from "react";
 import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
 
-import { getNodeKey } from "../../utils/getNodeKey";
-import { Unit } from "./Unit";
+// import { getNodeKey } from "../../utils/getNodeKey";
+
 import { useFrame } from "@react-three/fiber";
 import { IUnit } from "../../interfaces/IUnit";
-import { IPosition } from "../../interfaces/IPosition";
+// import { IPosition } from "../../interfaces/IPosition";
 import { useInterval } from "react-use";
+import { Tile } from "./Tile";
+import { IPosition } from "../../interfaces/IPosition";
 
-function positionToNodeKey(position: IPosition) {
-  return `${position[0].toFixed(0)}${position[2].toFixed(0)}`;
-}
+// function positionToNodeKey(position: IPosition) {
+//   return `${position[0].toFixed(0)}${position[2].toFixed(0)}`;
+// }
 
 export default function HandleUnits() {
-  const [units, updateUnit, removeUnit, path, getTick, nodes, spawnUnit] = useBoundStore(
-    useShallow((state) => [
-      state.units,
-      state.updateUnit,
-      state.removeUnit,
-      state.path,
-      state.getTick,
-      state.nodes,
-      state.spawnUnit
-    ])
-  );
+  const [units, updateUnit, getTick, spawnUnit, removeUnit, getPathPositions] =
+    useBoundStore(
+      useShallow((state) => [
+        state.units,
+        state.updateUnit,
+
+        
+        state.getTick,
+
+        state.spawnUnit,
+        state.removeUnit,
+
+        state.getPathPositions
+
+      ])
+    );
 
   useInterval(() => {
-    spawnUnit("worker", getTick());
+    spawnUnit("worker", getPathPositions(), getTick());
   }, 10000);
 
-  const handleUnitUpdate = React.useCallback(
-    (unit: IUnit, delta: number) => {
-      let currentNodeIndex = path.findIndex(
-        (nodeKey) => nodeKey === positionToNodeKey(unit.position)
-      );
+  function positionEquals(
+    position1: IPosition,
+    position2: IPosition,
+    tolerance: number = 0.1
+  ) {
+    return (
+      Math.abs(position1[0] - position2[0]) < tolerance &&
+      Math.abs(position1[2] - position2[2]) < tolerance
+    );
+  }
 
-      if (currentNodeIndex < 0) {
-        // find next neighbor node
-        currentNodeIndex = unit.lastPathIndex;
+  function getAngle(from: IPosition, to: IPosition): number {
+    const dx = to[0] - from[0];
+    const dy = to[2] - from[2];
+    return Math.atan2(dy, dx);
+  }
+
+  function handleUnitUpdate(unit: IUnit, delta: number) {
+      if(Math.floor(unit.position[0]) > 30 || Math.floor(unit.position[2]) > 30 ) { 
+        console.log("remove unit" , unit.key) 
+        removeUnit(unit.key);
+        return;
+      }
+      // const path = getPathPositions();
+      // if(JSON.stringify(path) !== JSON.stringify(unit.path)) {
+      //   return
+      // }
+
+      // let currentNodeIndex = path.findIndex(
+      //   (nodeKey) => nodeKey === positionToNodeKey(unit.position)
+      // );
+
+      // if (currentNodeIndex < 0) {
+      //   // find next neighbor node
+      //   currentNodeIndex = unit.lastPathIndex;
+      // }
+
+
+      if(unit.pathIndex + 1 >= unit.path.length) {
+        console.log("unit is at end of path");
+        removeUnit(unit.key);
+        return;
+        
       }
 
-      const nextNodeIndex = currentNodeIndex + 1;
+      const arrived = positionEquals(unit.position, unit.path[unit.pathIndex + 1]);
+      const nextPosition = unit.path[unit.pathIndex + 1]
 
-      const node = nodes.find((node) => getNodeKey(node) === unit.nodeKey);
-
-      if (node) {
+      // if (node) {
         const speed = unit.speed * delta * 100;
-        const nextX = node[0] + Math.cos(nodes[nextNodeIndex][0]) * speed;
-        const nextZ = node[2] + Math.sin(nodes[nextNodeIndex][1]) * speed;
+        const angle = getAngle(unit.position, nextPosition)
+        const nextX = unit.position[0] + Math.cos(angle) * speed;
+        const nextZ = unit.position[2] + Math.sin(angle) * speed;
+        // const nextState = positionEquals([nextX, nextZ], grid.end)
 
-        if (nextNodeIndex >= path.length) {
+        // if (nextNodeIndex >= getPathPositions().length) {
           // remove the unit dies
-          removeUnit(unit.key);
-        } else {
+          // removeUnit(unit.key);
+        // } else {
           // move
           updateUnit({
             ...unit,
             position: [nextX, unit.position[1], nextZ],
             modifiedTick: getTick(),
-            lastPathIndex: currentNodeIndex,
+            pathIndex: arrived ? unit.pathIndex + 1 : unit.pathIndex,
+            // lastPathIndex: currentNodeIndex,
           });
         }
-      }
-    },
-    [path, nodes, removeUnit, updateUnit, getTick]
-  );
+      // }
+
 
   useFrame((_state, delta) => {
     units.forEach((unit) => {
@@ -73,5 +114,12 @@ export default function HandleUnits() {
     });
   });
 
-  return units.map((unit) => <Unit key={unit.key} unit={unit} />);
+  return units.map((unit) => (
+    <Tile
+      key={unit.key}
+      position={unit.position}
+      boxArgs={[1.1, 1.1, 1]}
+      mesh={{ color: "Magenta" }}
+    />
+  ));
 }

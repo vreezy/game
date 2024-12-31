@@ -1,8 +1,9 @@
-import { UNIT_ENTRY, UNIT_ENTRY_POSITION } from "../components/const/graph";
+import { UNIT_ENTRY_POSITION } from "../components/const/graph";
 import { UNITS } from "../components/const/units";
+import { IPosition } from "../interfaces/IPosition";
 import { IUnit, IUnitType } from "../interfaces/IUnit";
 
-export function createUnit(type: IUnitType, tick: number): IUnit {
+export function createUnit(type: IUnitType, path: IPosition[], tick: number): IUnit {
 
   const unit = UNITS.find((unit) => unit.type === type);
   
@@ -11,8 +12,8 @@ export function createUnit(type: IUnitType, tick: number): IUnit {
       ...unit,
       createdTick: tick,
       modifiedTick: tick,
-      nodeKey: UNIT_ENTRY,
       position: [...UNIT_ENTRY_POSITION],
+      path,
       key: crypto.randomUUID()
     };
   }

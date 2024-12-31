@@ -23,7 +23,7 @@ export function MoveTick(): React.ReactElement {
       console.log("currentNodeIndex", currentNodeIndex);
       if(currentNodeIndex < 0) {
         // find next neighbor node
-        currentNodeIndex = unit.lastPathIndex;
+        currentNodeIndex = unit.pathIndex;
       }      
   
       console.log("currentNodeIndex u", currentNodeIndex);
@@ -45,7 +45,7 @@ export function MoveTick(): React.ReactElement {
             ...unit,
             nodeKey: path[nextNodeIndex],
             modifiedTick: tick,
-            lastPathIndex: currentNodeIndex
+            pathIndex: currentNodeIndex
           })          
         }  
       }

@@ -8,6 +8,7 @@ import { MapStoreState } from "./mapStore";
 import { EngineStoreState } from "./engineStore";
 import { IUnit, IUnitType } from "../interfaces/IUnit";
 import { createUnit } from "../Models/createUnit";
+import { IPosition } from "../interfaces/IPosition";
 
 export interface IUnitStore {
   units: IUnit[];
@@ -16,19 +17,12 @@ export interface IUnitStore {
 
 export interface UnitStoreState extends IUnitStore {
   getUnits: () => IUnit[];
-  spawnUnit: (unitType: IUnitType, createdTick: number) => void;
+  spawnUnit: (unitType: IUnitType, path: IPosition[], createdTick: number) => void;
   addUnits: (units: IUnit[]) => void;
   addUnit: (unit: IUnit) => void;
   removeUnit: (key: string) => void;
   updateUnit: (unit: IUnit) => void;
   resetUnitStore: () => void;
-}
-
-function initUnit(): IUnitStore {
-  const u: IUnitStore = {
-    units: [],
-  };
-  return u;
 }
 
 export const unitStore: StateCreator<
@@ -37,9 +31,9 @@ export const unitStore: StateCreator<
   [],
   UnitStoreState
 > = (set, get) => ({
-  ...initUnit(),
+  units: [],
   getUnits: () => get().units,
-  spawnUnit: (unitType: IUnitType, createdTick: number) =>  set((state) => ({ units: [...state.units, createUnit(unitType, createdTick)] })),
+  spawnUnit: (unitType: IUnitType, path: IPosition[], createdTick: number) =>  set((state) => ({ units: [...state.units, createUnit(unitType, path, createdTick)] })),
   addUnit: (unit: IUnit) => set((state) => ({ units: [...state.units, unit] })),
   addUnits: (units: IUnit[]) => set((state) => ({ units: [...state.units, ...units] })),
   removeUnit: (key: string) => set((state) => ({ units: state.units.filter((u) => u.key !== key) })),
@@ -49,6 +43,6 @@ export const unitStore: StateCreator<
     }))
   },
   resetUnitStore: () => {
-    set(() => ({...initUnit()}));
+    set(() => ({units: []}));
   },
 });

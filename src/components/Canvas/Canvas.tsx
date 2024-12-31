@@ -73,7 +73,7 @@ export default function GameCanvas() {
       <EnemyHandler />
       <WeaponHandler /> */}
       <HandleBuildings />
-      {/* <HandleUnits /> */}
+      <HandleUnits />
       <HandlePath />
       <HandleSelector />
       

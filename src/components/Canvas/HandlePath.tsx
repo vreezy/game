@@ -4,6 +4,7 @@ import { Tile } from "./Tile";
 import { getNodeKey } from "../../utils/getNodeKey";
 import { IPosition } from "../../interfaces/IPosition";
 
+
 export default function HandlePath() {
   const [path, nodes] = useBoundStore(
     useShallow((state) => [state.path, state.nodes])
