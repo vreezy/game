@@ -136,7 +136,6 @@ export default function HandleUnits() {
   function getOpacity(unit: IUnit): number {
     const percent = (100 / unit.maxHealth) * unit.health
     const opacity = 0.01 * percent;
-    console.log("opacity", unit.health, opacity);
     return opacity
   }
 
