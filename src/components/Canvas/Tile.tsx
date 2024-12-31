@@ -20,7 +20,7 @@ export function Tile(props: ITileProps) {
   return (
     <group {...props} >
       <Box
-         args={props.args ? props.args : [0.8, 0.2, 0.8]}
+         args={props.boxArgs ? props.boxArgs : [0.8, 0.2, 0.8]}
         // position={props.position}
         {...props.box}
         
