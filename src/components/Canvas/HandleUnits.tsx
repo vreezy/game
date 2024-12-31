@@ -10,28 +10,41 @@ import { IUnit } from "../../interfaces/IUnit";
 import { useInterval } from "react-use";
 import { Tile } from "./Tile";
 import { IPosition } from "../../interfaces/IPosition";
+import { position2node } from "../../utils/postion2node";
+import { getNodeKey } from "../../utils/getNodeKey";
+import { UNIT_EXIT_POSITION } from "../const/graph";
+import { node2Position } from "../../utils/node2Position";
+import { INode } from "../../interfaces/INode";
 
 // function positionToNodeKey(position: IPosition) {
 //   return `${position[0].toFixed(0)}${position[2].toFixed(0)}`;
 // }
 
 export default function HandleUnits() {
-  const [units, updateUnit, getTick, spawnUnit, removeUnit, getPathPositions] =
-    useBoundStore(
-      useShallow((state) => [
-        state.units,
-        state.updateUnit,
+  const [
+    units,
+    updateUnit,
+    getTick,
+    spawnUnit,
+    removeUnit,
+    getPathPositions,
+    calcPath,
+    getNodeByKey,
+  ] = useBoundStore(
+    useShallow((state) => [
+      state.units,
+      state.updateUnit,
 
-        
-        state.getTick,
+      state.getTick,
 
-        state.spawnUnit,
-        state.removeUnit,
+      state.spawnUnit,
+      state.removeUnit,
 
-        state.getPathPositions
-
-      ])
-    );
+      state.getPathPositions,
+      state.calcPath,
+      state.getNodeByKey,
+    ])
+  );
 
   useInterval(() => {
     spawnUnit("worker", getPathPositions(), getTick());
@@ -55,58 +68,67 @@ export default function HandleUnits() {
   }
 
   function handleUnitUpdate(unit: IUnit, delta: number) {
-      if(Math.floor(unit.position[0]) > 30 || Math.floor(unit.position[2]) > 30 ) { 
-        console.log("remove unit" , unit.key) 
-        removeUnit(unit.key);
-        return;
-      }
-      // const path = getPathPositions();
-      // if(JSON.stringify(path) !== JSON.stringify(unit.path)) {
-      //   return
-      // }
+    if (
+      Math.floor(unit.position[0]) > 30 ||
+      Math.floor(unit.position[2]) > 30
+    ) {
+      console.log("remove unit", unit.key);
+      removeUnit(unit.key);
+      return;
+    }
 
-      // let currentNodeIndex = path.findIndex(
-      //   (nodeKey) => nodeKey === positionToNodeKey(unit.position)
-      // );
-
-      // if (currentNodeIndex < 0) {
-      //   // find next neighbor node
-      //   currentNodeIndex = unit.lastPathIndex;
-      // }
+    // const path = getPathPositions();
+    // if(path.length > 0 && JSON.stringify(path) !== JSON.stringify(unit.path)) {
+      
+    //   const from = getNodeKey(position2node(unit.path[unit.pathIndex]))
+    //   const to = getNodeKey(position2node(UNIT_EXIT_POSITION))
 
 
-      if(unit.pathIndex + 1 >= unit.path.length) {
-        console.log("unit is at end of path");
-        removeUnit(unit.key);
-        return;
+    //   const newPath = calcPath(from, to) as string[]
+      
+
+    //   console.log("path changed", unit.key, from, to, newPath);
+    //   if(newPath && Array.isArray(newPath) && newPath.length > 0) {
+    //     const pathPositions = newPath.map((nodeKey) => node2Position(getNodeByKey(nodeKey) as INode));
         
-      }
+        
+        
+    //     updateUnit({
+    //       ...unit,
+    //       path: pathPositions,
+    //       modifiedTick: getTick(),
+    //       pathIndex: 0,
+    //       // lastPathIndex: currentNodeIndex,
+    //     });
+    //     return
+    //   }
+    // }
 
-      const arrived = positionEquals(unit.position, unit.path[unit.pathIndex + 1]);
-      const nextPosition = unit.path[unit.pathIndex + 1]
+    if (unit.pathIndex + 1 >= unit.path.length) {
+      console.log("unit is at end of path");
+      removeUnit(unit.key);
+      return;
+    }
 
-      // if (node) {
-        const speed = unit.speed * delta * 100;
-        const angle = getAngle(unit.position, nextPosition)
-        const nextX = unit.position[0] + Math.cos(angle) * speed;
-        const nextZ = unit.position[2] + Math.sin(angle) * speed;
-        // const nextState = positionEquals([nextX, nextZ], grid.end)
+    const arrived = positionEquals(
+      unit.position,
+      unit.path[unit.pathIndex + 1]
+    );
+    const nextPosition = unit.path[unit.pathIndex + 1];
 
-        // if (nextNodeIndex >= getPathPositions().length) {
-          // remove the unit dies
-          // removeUnit(unit.key);
-        // } else {
-          // move
-          updateUnit({
-            ...unit,
-            position: [nextX, unit.position[1], nextZ],
-            modifiedTick: getTick(),
-            pathIndex: arrived ? unit.pathIndex + 1 : unit.pathIndex,
-            // lastPathIndex: currentNodeIndex,
-          });
-        }
-      // }
+    const speed = unit.speed * delta * 100;
+    const angle = getAngle(unit.position, nextPosition);
+    const nextX = unit.position[0] + Math.cos(angle) * speed;
+    const nextZ = unit.position[2] + Math.sin(angle) * speed;
 
+    updateUnit({
+      ...unit,
+      position: [nextX, unit.position[1], nextZ],
+      modifiedTick: getTick(),
+      pathIndex: arrived ? unit.pathIndex + 1 : unit.pathIndex,
+      // lastPathIndex: currentNodeIndex,
+    });
+  }
 
   useFrame((_state, delta) => {
     units.forEach((unit) => {
