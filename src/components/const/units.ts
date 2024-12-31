@@ -14,7 +14,8 @@ export const UNITS: IUnit[] = [
     modifiedTick: 0,
     speed: 0.01,
     pathIndex: 0,
-    live: 100
+    health: 100,
+    maxHealth: 100
   },
   {
     key: "unit2",
@@ -27,7 +28,8 @@ export const UNITS: IUnit[] = [
     modifiedTick: 0,
     speed: 10,
     pathIndex: 0,
-    live: 10
+    health: 10,
+    maxHealth: 100
 
   },
   {
@@ -41,7 +43,8 @@ export const UNITS: IUnit[] = [
     modifiedTick: 0,
     speed: 10,
     pathIndex: 0,
-    live: 10
+    health: 10,
+    maxHealth: 100
 
   },
   {
@@ -55,7 +58,8 @@ export const UNITS: IUnit[] = [
     modifiedTick: 0,
     speed: 10,
     pathIndex: 0,
-    live: 10
+    health: 10,
+    maxHealth: 100
 
   }
 ]

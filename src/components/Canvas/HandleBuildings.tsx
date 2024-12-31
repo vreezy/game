@@ -1,10 +1,11 @@
 import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
-import { Tile } from "./Tile";
+
 import { IBuilding } from "../../interfaces/IBuilding";
 import React from "react";
 import { modulo } from "../../utils/modulo";
 import { hasEnoughResources } from "../../utils/hasEnoughResources";
+import { Tower } from "./Tower";
 
 export default function HandleBuildings() {
   const [buildings, tick, getResources, increaseResources, decreaseResources] =
@@ -78,11 +79,12 @@ export default function HandleBuildings() {
   const renderBuildings = React.useMemo(() => {
     console.log("render Buildings");
     return buildings.map((building) => (
-      <Tile
+      <Tower
         key={building.key}
         position={building.position}
         boxArgs={[0.9, 0.9, 1]}
-        mesh={{ color: getColor(building) }}
+        mesh={{ color: getColor(building) }} 
+        building={building} 
       />
     ));
   }, [buildings]);

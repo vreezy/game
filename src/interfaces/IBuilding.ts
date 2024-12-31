@@ -16,6 +16,7 @@ interface IWeapons {
   damage: number;
   range: number;
   targets: number;
+  speed: number;
 }
 
 export interface IBuilding extends IStructure {

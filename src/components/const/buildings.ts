@@ -10,7 +10,8 @@ export const BUILDINGS: IBuilding[] = [
     cost: {},
     createdTick: -1,
 
-    age: 0
+    age: 0,
+    
   },
   {
     key: "31231",
@@ -71,6 +72,7 @@ export const BUILDINGS: IBuilding[] = [
     createdTick: -1,
     age: 0,
     weapons: {
+      speed: 1,
       damage: 5,
       targets: 2,
       range: 2

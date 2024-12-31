@@ -50,11 +50,11 @@ export function FightTick(): React.ReactElement {
                 )
               ) {
                 console.log("Unit in range", unit.key);
-                const newLive = unit.live - (building.weapons?.damage ?? 1);
+                const newLive = unit.health - (building.weapons?.damage ?? 1);
                 if (newLive > 0) {
                   updateUnit({
                     ...unit,
-                    live: newLive,
+                    health: newLive,
                   });
                 } else {
                   removeUnit(unit.key);

@@ -25,7 +25,7 @@ export function Unit(props: IUnitProps): React.ReactElement {
   };
   return (
     <Box sx={container}>
-      <Box sx={item}>{props.unit.displayName} <br/> {props.unit.live} <br/> {props.unit.modifiedTick} X {props.unit.createdTick}</Box>
+      <Box sx={item}>{props.unit.displayName} <br/> {props.unit.health} <br/> {props.unit.modifiedTick} X {props.unit.createdTick}</Box>
     </Box>
   );
 }

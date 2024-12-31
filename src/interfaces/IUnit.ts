@@ -9,5 +9,6 @@ export interface IUnit extends IGameObject {
   path: IPosition[];
   pathIndex: number;
   modifiedTick: number;
-  live: number;
+  maxHealth: number;
+  health: number;
 }

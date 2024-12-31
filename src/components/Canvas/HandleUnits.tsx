@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useBoundStore } from "../../stores/boundStore";
 import { useShallow } from "zustand/shallow";
 
@@ -10,15 +10,12 @@ import { IUnit } from "../../interfaces/IUnit";
 import { useInterval } from "react-use";
 import { Tile } from "./Tile";
 import { IPosition } from "../../interfaces/IPosition";
-import { position2node } from "../../utils/postion2node";
-import { getNodeKey } from "../../utils/getNodeKey";
-import { UNIT_EXIT_POSITION } from "../const/graph";
-import { node2Position } from "../../utils/node2Position";
-import { INode } from "../../interfaces/INode";
-
-// function positionToNodeKey(position: IPosition) {
-//   return `${position[0].toFixed(0)}${position[2].toFixed(0)}`;
-// }
+// import { position2node } from "../../utils/postion2node";
+// import { getNodeKey } from "../../utils/getNodeKey";
+// import { UNIT_EXIT_POSITION } from "../const/graph";
+// import { node2Position } from "../../utils/node2Position";
+// import { INode } from "../../interfaces/INode";
+// import React from "react";
 
 export default function HandleUnits() {
   const [
@@ -28,8 +25,8 @@ export default function HandleUnits() {
     spawnUnit,
     removeUnit,
     getPathPositions,
-    calcPath,
-    getNodeByKey,
+    // calcPath,
+    // getNodeByKey,
   ] = useBoundStore(
     useShallow((state) => [
       state.units,
@@ -41,8 +38,8 @@ export default function HandleUnits() {
       state.removeUnit,
 
       state.getPathPositions,
-      state.calcPath,
-      state.getNodeByKey,
+      // state.calcPath,
+      // state.getNodeByKey,
     ])
   );
 
@@ -136,12 +133,20 @@ export default function HandleUnits() {
     });
   });
 
+  function getOpacity(unit: IUnit): number {
+    const percent = (100 / unit.maxHealth) * unit.health
+    const opacity = 0.01 * percent;
+    console.log("opacity", unit.health, opacity);
+    return opacity
+  }
+
   return units.map((unit) => (
     <Tile
       key={unit.key}
       position={unit.position}
       boxArgs={[1.1, 1.1, 1]}
-      mesh={{ color: "Magenta" }}
+      mesh={{ color: "Magenta", transparent: true, opacity: getOpacity(unit) }}
+      
     />
   ));
 }
